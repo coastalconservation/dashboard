@@ -47,3 +47,9 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+# Ignore "raw-data" folder
+/raw-data/
+
+# Ignore "data" folder
+/shinydashboard/data/
