@@ -5,26 +5,21 @@ The interactive web application is a comprehensive assessment of rocky intertida
 
 ## Repository Structure
 ```bash
-
+dashboard
 ├── README.md
 ├── .gitignore
-├── blog.ipynb
-├── data
-│   ├── daily_aqi
-│   │   ├── daily_aqi_by_county_2017.zip
-│   │   └── daily_aqi_by_county_2018.zip
-│   ├── landsat
-│   │   └── landsat8-2018-01-26-sb-simplified.nc
-│   └── thomas_fire
-│       ├── thomas_fire.cpg
-│       ├── thomas_fire.dbf
-│       ├── thomas_fire.prj
-│       ├── thomas_fire.shp
-│       └── thomas_fire.shx
-└── images
-    ├── ax_map.jpg
-    ├── ax_plot.jpg
-    └── thomas_fire.jpeg
+└── shinydashboard
+    ├── global.R
+    ├── server.R
+    ├── ui.R
+    ├── data
+    │   ├── biodiversity_data_processed.csv
+    │   ├── range_list.csv
+    │   └── dangermond.shp
+    ├── text
+    │   └── text.md files
+    └── www
+        └── carousel_images
 ```
 
 
