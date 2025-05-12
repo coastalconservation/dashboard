@@ -1,30 +1,38 @@
 server <- function(input, output) {
   
-  # image path ----
-  image_list <- reactive({
+  # carousel images file path ----
+  file_path <- reactive({
     
-    list.files("www/images", full.names = TRUE, pattern = "jpg")
+    list.files("www/carousel_images", full.names = TRUE, pattern = "jpg")
     
   })
   
-  # build slickR carousel ----
+  # image captions ----
+  captions <- reactive({
+    
+    c("Jordan", "Amanda", "Ian", "Matteo", "Bruce", "Erica", "Max")
+    
+  })
+  
+  # slickR carousel ----
   output$carousel_images_output <- renderSlickR({
     
-    # slickR carousel ----
-    slickR(
-      image_list(),  
-      height = 300,  
-      width = "100%",  
-      slideId = "Carousel"
-    ) + 
-      settings(
-        slidesToShow = 1,
-        slidesToScroll = 1,
-        arrows = FALSE,
-        dots = TRUE,
-        autoplay = TRUE,
-        autoplaySpeed = 3000
-      )
+    # slickR carousel
+    slickR(file_path(),
+           slideType = "img", 
+           slideId = "Carousel",
+           height = 300,
+           width = "100%") %synch%
+      (slickR(captions(), 
+              slideType = "p",
+              height = 50,
+              width = "100%") + 
+         settings(arrows = FALSE)) +
+      settings(slidesToShow = 1,
+               slidesToScroll = 1,
+               arrows = TRUE,
+               autoplay = TRUE,
+               autoplaySpeed = 3000)
     
   })
   
@@ -95,5 +103,206 @@ server <- function(input, output) {
                 title = "Species Presence")
     
   })
+  
+  # filter range list ----
+  range_list_df <- reactive({
+    
+    range_list %>%
+      filter(range_edge_category %in% c("Northern Range Edge", "Southern Range Edge")) %>%
+      filter(segment_name == input$segment_input)
+      
+  })
+  
+  # DT ----
+  output$DT_output <- renderDT({
+    
+    if (input$DT_input == "Northern") {
+      
+      range_list_df() %>%
+        filter(range_edge_category %in% c("Northern Range Edge")) %>%
+        select(species_lump, range_lat) %>%
+        datatable(colnames = c("Scientific Name", "Latitude Range"),
+                  class = "hover",
+                  options = list(dom = "ft", scrollY = 400, paging = FALSE))
+      
+    } else if (input$DT_input == "Southern") {
+      
+      range_list_df() %>%
+        filter(range_edge_category %in% c("Southern Range Edge")) %>%
+        select(species_lump, range_lat) %>%
+        datatable(colnames = c("Scientific Name", "Latitude Range"),
+                  class = "hover",
+                  options = list(dom = "ft", scrollY = 400, paging = FALSE))
+      
+    }
+    
+  })
+  
+  # filter range list ----
+  value_box_df <- reactive({
+    
+    range_list %>%
+      filter(segment_name %in% c("Northern Dangermond", "Southern Dangermond"))
+    
+  })
+  
+  # value boxes ----
+  output$northern_output <- renderValueBox({
+    
+    valueBox(value_box_df() %>%
+               filter(range_edge_category %in% c("Northern Range Edge")) %>%
+               summarize(total = n()),
+             subtitle = "Northern Range Edge",
+             color = "black",
+             icon = icon("arrows-up-to-line", style = "color: #49A842;"))
+    
+  })
+  
+  output$southern_output <- renderValueBox({
+    
+    valueBox(value_box_df() %>%
+               filter(range_edge_category %in% c("Southern Range Edge")) %>%
+               summarize(total = n()),
+             subtitle = "Southern Range Edge",
+             color = "black",
+             icon = icon("arrows-down-to-line", style = "color: #49A842;"))
+    
+  })
+  
+  output$image_a <- renderUI({
+    
+    req(input$artist_input)
+    tags$img(src = file.path("a", input$artist_input), height = 400, width = "100%")
+    
+  })
+  
+  output$image_b <- renderUI({
+    
+    req(input$artist_input)
+    tags$img(src = file.path("b", input$artist_input), height = 400, width = "100%")
+    
+  })
+  
+  # filter northern extent data ----
+  northern_range_edges <- reactive({
+    
+    # refresh button
+    input$refresh_northern_map
+    
+    isolate({
+      
+      species_extent %>%
+        filter(!northern_extent_id %in% c(NA, 1, 18)) %>%
+        group_by(northern_extent_id, northern_extent_name) %>%
+        summarize(num_species = length(species_lump)) %>%
+        arrange(desc(northern_extent_id)) %>%
+        cbind(ca_segments, .)
+      
+    })
+    
+  })
+  
+  # northern range edge map ----
+  output$northern_range_output <- renderLeaflet({
+    
+    # define bins
+    bins <- c(0, 5, 10, 15)
+    
+    # color palette
+    pal <- colorBin(palette = "GnBu", 
+                    domain = northern_range_edges()$num_species, 
+                    bins = bins, 
+                    right = FALSE)
+    
+    # leaflet map
+    leaflet() %>%
+      addProviderTiles(provider = "Esri.WorldStreetMap") %>%
+      setView(lng = -120, lat = 36.7, zoom = 5) %>%
+      addMiniMap(toggleDisplay = TRUE, minimized = FALSE) %>%
+      addPolygons(data = northern_range_edges(),
+                  label = northern_range_edges()$northern_extent_name,
+                  fillColor = ~pal(num_species),
+                  color = "black",
+                  weight = 1,
+                  fillOpacity = 0.7) %>%
+      addPolygons(data = dangermond,
+                  color = "black",
+                  fillColor = "black",
+                  fillOpacity = 1,
+                  weight = 2) %>%
+      addMarkers(data = dangermond,
+                 lng = -120.45,
+                 lat = 34.5,
+                 popup = "Jack and Lara Dangermond Preserve") %>%
+      addLegend(pal = pal, 
+                values = northern_range_edges()$num_species, 
+                title = "Number of Species",
+                labFormat = labelFormat(digits = 0),
+                opacity = 1)
+    
+  })
+  
+  # filter southern extent data ----
+  southern_range_edges <- reactive({
+    
+    # refresh button
+    input$refresh_southern_map
+    
+    isolate({
+      
+      species_extent %>%
+        filter(!southern_extent_id %in% c(NA, 1, 18)) %>%
+        group_by(southern_extent_id, southern_extent_name) %>%
+        summarize(num_species = length(species_lump)) %>%
+        rbind(data.frame(southern_extent_id = 16,
+                         southern_extent_name = "Eureka",
+                         num_species = 0)) %>%
+        arrange(desc(southern_extent_id)) %>%
+        cbind(ca_segments, .)
+      
+    })
+    
+  })
+  
+  # southern range edge map ----
+  output$southern_range_output <- renderLeaflet({
+    
+    # define bins
+    bins <- c(0, 6, 11, 16, 21, 100)
+    
+    # color palette
+    pal <- colorBin(palette = "GnBu", 
+                    domain = southern_range_edges()$num_species, 
+                    bins = bins, 
+                    right = FALSE)
+    
+    # leaflet map
+    leaflet() %>%
+      addProviderTiles(provider = "Esri.WorldStreetMap") %>%
+      setView(lng = -120, lat = 36.7, zoom = 5) %>%
+      addMiniMap(toggleDisplay = TRUE, minimized = FALSE) %>%
+      addPolygons(data = southern_range_edges(),
+                  label = southern_range_edges()$southern_extent_name,
+                  fillColor = ~pal(num_species),
+                  color = "black",
+                  weight = 1,
+                  fillOpacity = 0.7) %>%
+      addPolygons(data = dangermond,
+                  color = "black",
+                  fillColor = "black",
+                  fillOpacity = 1,
+                  weight = 2) %>%
+      addMarkers(data = dangermond,
+                 lng = -120.45,
+                 lat = 34.5,
+                 popup = "Jack and Lara Dangermond Preserve") %>%
+      addLegend(pal = pal, 
+                values = southern_range_edges()$num_species, 
+                title = "Number of Species",
+                labFormat = labelFormat(digits = 0),
+                opacity = 1)
+    
+  })
+  
   
 }
