@@ -304,5 +304,39 @@ server <- function(input, output) {
     
   })
   
+  # Selecting species for change map
+  selected_raster <- reactive({
+    req(input$selected_species)
+    
+    # Select correct file path
+    file_path <- file.path(
+      "/capstone/coastalconservation/data/processed/species_model_rasters/change_species_rasters",
+      paste0("ESDM_", gsub(" ", "_", input$selected_species), "_change.tif")
+    )
+    
+    raster(file_path)
+  })
+  
+  # Range change map
+  change_habitat_pal <- colorNumeric(
+    palette = change_habitat,
+    domain = c(-1, 1),  # forces correct legend range
+    na.color = "transparent"
+  )
+  
+  output$change_raster_output <- renderLeaflet({
+    change_rast <- selected_raster()
+    leaflet() |>
+      addProviderTiles(provider = "Esri.WorldStreetMap") |>
+      addRasterImage(change_rast, colors = change_habitat_pal) |>
+      addLegend(
+        pal = change_habitat_pal,
+        values = c(-1, 1),  # force legend to show full color scale range
+        title = ("Change in Habitat Suitability for", input$selected_species)
+        position = "bottomright"
+      ) |>
+      setView(lng = -120, lat = 36.7, zoom = 5) |>
+      addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
+  })
   
 }

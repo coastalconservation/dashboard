@@ -425,7 +425,48 @@ body <- dashboardBody(
     ), # END trends tabItem
     
     # model tabItem ----
-    tabItem(tabName = "model"), # END model tabItem
+    tabItem(tabName = "model",
+            
+            # First fluid row
+            fluidRow(
+              
+              # Left buffer column
+              
+              # Info box
+              box(width = 8,
+                  includeMarkdown("text/range_change_maps.md")), # End species rasters info box
+      
+            
+            ), # End first fluid row
+            
+            # Second fluid row 
+            fluidRow(
+              
+              # First column
+              # Column 1
+              column(width = 2,
+                     
+                     pickerInput(inputId = "selected_species", 
+                                 label = "Choose a Species:",
+                                 choices = species_choices,
+                                 multiple = FALSE,
+                                 options = pickerOptions(dropupAuto = FALSE,
+                                                         size = 3)
+                     )
+              ), # end of column 1
+              
+              # Leaflet box
+              box( width = 8,
+                   # Leaflet output
+                   leafletOutput(outputId = "change_raster_output")
+              ) # End leaflet box
+              
+              
+              
+            ) # End second fluid row
+            
+            
+            ), # END model tabItem
     
     # assessment tabItem ----
     tabItem(tabName = "assessment"), # END assessment tabItem
