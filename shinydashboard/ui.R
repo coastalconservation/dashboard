@@ -446,12 +446,13 @@ body <- dashboardBody(
               # Column 1
               column(width = 2,
                      
-                     pickerInput(inputId = "selected_species", 
+                     # Species change map selector
+                     pickerInput(inputId = "change_selected_species", 
                                  label = "Choose a Species:",
-                                 choices = species_choices,
+                                 choices = change_species_choices,
                                  multiple = FALSE,
                                  options = pickerOptions(dropupAuto = FALSE,
-                                                         size = 3)
+                                                         size = 7)
                      )
               ), # end of column 1
               
@@ -463,8 +464,49 @@ body <- dashboardBody(
               
               
               
-            ) # End second fluid row
+            ), # End second fluid row
             
+            # Third fluid row
+            fluidRow(
+             
+               # Column 1: current species habitats
+              column(width = 2,
+                     
+                     # present habitat map selector
+                     pickerInput(inputId = "current_selected_species", 
+                                 label = "Choose a Species:",
+                                 choices = current_species_choices,
+                                 multiple = FALSE,
+                                 options = pickerOptions(dropupAuto = FALSE,
+                                                         size = 7)
+                     ) 
+              ), # end of column 1
+              
+              box(width = 8,
+                   # Leaflet output
+                   leafletOutput(outputId = "current_raster_output"))
+              
+            ), # End third fluid row
+            
+            # fourth fluid row
+            fluidRow(
+              
+              # Column 1: projected habitat selector
+              column(width = 2,
+                     pickerInput(
+                       inputId = "projected_selected_species", 
+                       label = "Choose a Species:",
+                       choices = projected_species_choices,
+                       multiple = FALSE,
+                       options = pickerOptions(dropupAuto = FALSE, size = 7)
+                     )
+              ), # end of column 1
+              
+              # Column 2: projected habitat map
+              box(width = 8,
+                  leafletOutput(outputId = "projected_raster_output"))
+              
+            ) # End fourthfluid row
             
             ), # END model tabItem
     

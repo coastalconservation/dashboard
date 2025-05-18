@@ -28,29 +28,73 @@ ca_segments <- st_read(here("california_coast_segments_polygons.shp"))
 # Rasters for expect species shifts
 
 # List all change raster files
-raster_files <- list.files(
+change_raster_files <- list.files(
   "/capstone/coastalconservation/data/processed/species_model_rasters/change_species_rasters",
   pattern = "^ESDM_.*_change\\.tif$",
   full.names = TRUE
 )
 
-# Extract species names from filenames
-species_choices <- basename(raster_files) %>%
+# Extract change species names from filenames
+change_species_choices <- basename(change_raster_files) %>%
   str_remove("^ESDM_") %>%
   str_remove("_change\\.tif$") %>%
   sort()
 
+# Colors for raster change species
 
-# Species change map models
-Fucus_spp_change <- raster("/capstone/coastalconservation/data/processed/species_model_rasters/change_species_rasters/ESDM_Fucus_spp_change.tif")
-
-# Get raster vals 
-Fucus_spp_change_vals <- getValues(Fucus_spp_change)
+breaks <- c(-1, -0.6, -0.3, -0.1, 0.1, 0.3, 0.6, 1)
 
 # Color palettes
-change_habitat <- c( "#381300","#49a842")
+change_habitat <- c( "#00205B", "#003E29", "#E4E2F5", "#49A842", "#038C45")
 
-change_habitat_pal <- colorNumeric(palette = change_habitat,
-             domain = values(Fucus_spp_change),
-             na = "transparent")
+change_habitat_pal <- colorBin(
+  palette = c("#00205B",  # strong loss
+              "#00C2CB",  # moderate loss
+              "#FF0049",  # weak loss
+              "#E4E2F5",  # no change
+              "#FFC700",  # weak gain
+              "#038C45",  # moderate gain
+              "#49A842"), 
+  domain = c(-1, 1),
+  bins = breaks,
+  na.color = "transparent",
+  right = FALSE
+)
 
+# List all current habitat raster files
+current_raster_files <- list.files(
+  "/capstone/coastalconservation/data/processed/species_model_rasters/current_species_rasters",
+  pattern = "^current_.*\\.tif$",
+  full.names = TRUE
+)
+
+# Extract species names from file names
+current_species_choices <- basename(current_raster_files) %>%
+  str_remove("^current_") %>%
+  str_remove("\\.tif$") %>%
+  sort()
+
+stable_habitat_pal <- colorBin(
+  palette = c("#E4E2F5", 
+                       "#FFC700",
+                       "#49A842",
+                       "#00205B"), 
+                       domain = c(0, 1),
+  na.color = "transparent",
+  right = FALSE
+)
+
+
+# Projected species in 2050
+
+# List available rasters and extract species names
+projected_raster_files <- list.files(
+  "/capstone/coastalconservation/data/processed/species_model_rasters/projected_species_rasters",
+  pattern = "^projected_.*\\.tif$",
+  full.names = TRUE
+)
+
+projected_species_choices <- basename(projected_raster_files) %>%
+  str_remove("^projected_") %>%
+  str_remove("\\.tif$") %>%
+  sort()

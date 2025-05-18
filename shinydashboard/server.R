@@ -304,39 +304,104 @@ server <- function(input, output) {
     
   })
   
-  # Selecting species for change map
-  selected_raster <- reactive({
-    req(input$selected_species)
+  # Selecting species for change map ----
+  change_selected_raster <- reactive({
+    req(input$change_selected_species)
     
-    # Select correct file path
-    file_path <- file.path(
+    # Build file path to species-specific raster
+    change_file_path <- file.path(
       "/capstone/coastalconservation/data/processed/species_model_rasters/change_species_rasters",
-      paste0("ESDM_", gsub(" ", "_", input$selected_species), "_change.tif")
+      paste0("ESDM_", gsub(" ", "_", input$change_selected_species), "_change.tif")
     )
     
-    raster(file_path)
+    # Load raster
+    raster(change_file_path)
   })
   
-  # Range change map
-  change_habitat_pal <- colorNumeric(
-    palette = change_habitat,
-    domain = c(-1, 1),  # forces correct legend range
-    na.color = "transparent"
-  )
-  
+  # Render change raster leaflet map ----
   output$change_raster_output <- renderLeaflet({
-    change_rast <- selected_raster()
+    
+    # Get selected species' change raster
+    change_rast <- change_selected_raster()
+    
+    # Build leaflet map
     leaflet() |>
       addProviderTiles(provider = "Esri.WorldStreetMap") |>
       addRasterImage(change_rast, colors = change_habitat_pal) |>
       addLegend(
         pal = change_habitat_pal,
-        values = c(-1, 1),  # force legend to show full color scale range
-        title = ("Change in Habitat Suitability for", input$selected_species)
+        values = c(-1, 1),  # full range for legend
+        title = paste0("Change in Habitat Suitability for ", input$change_selected_species),
+        position = "bottomright"
+      ) |>
+      setView(lng = -120, lat = 36.7, zoom = 5) |>
+      addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
+  }) # End of select change in species
+  
+  # Present species habitat
+  
+  current_selected_raster <- reactive({
+    req(input$current_selected_species)
+    
+    # Build file path to species-specific current habitat raster
+    current_file_path <- file.path(
+      "/capstone/coastalconservation/data/processed/species_model_rasters/current_species_rasters",
+      paste0("current_", gsub(" ", "_", input$current_selected_species), ".tif")
+    )
+    
+    # Load raster
+    raster(current_file_path)
+  })
+  
+  # Render current habitat raster leaflet map ----
+  output$current_raster_output <- renderLeaflet({
+    
+    # Get selected species' current habitat raster
+    current_rast <- current_selected_raster()
+    
+    # Build leaflet map
+    leaflet() |>
+      addProviderTiles(provider = "Esri.WorldStreetMap") |>
+      addRasterImage(current_rast, colors = stable_habitat_pal) |>
+      addLegend(
+        pal = stable_habitat_pal,
+        values = c(-1, 1),  # full domain (adjust if needed for current rasters)
+        title = paste0("Current Habitat Suitability for ", input$current_selected_species),
+        position = "bottomright"
+      ) |>
+      setView(lng = -120, lat = 36.7, zoom = 5) |>
+      addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
+  }) # End of select current habitat in species
+  
+  
+  # Selecting species for projected habitat map ----
+  projected_selected_raster <- reactive({
+    req(input$projected_selected_species)
+    
+    # Build file path
+    projected_file_path <- file.path(
+      "/capstone/coastalconservation/data/processed/species_model_rasters/projected_species_rasters",
+      paste0("projected_", gsub(" ", "_", input$projected_selected_species), ".tif")
+    )
+    
+    # Load raster
+    raster(projected_file_path)
+  })
+  
+  # Render projected habitat raster leaflet map ----
+  output$projected_raster_output <- renderLeaflet({
+    projected_rast <- projected_selected_raster()
+    
+    leaflet() |>
+      addProviderTiles(provider = "Esri.WorldStreetMap") |>
+      addRasterImage(projected_rast, colors = stable_habitat_pal, opacity = 0.85) |>
+      addLegend(
+        pal = stable_habitat_pal,
+        values = values(projected_rast),
+        title = paste0("Projected Habitat for ", input$projected_selected_species),
         position = "bottomright"
       ) |>
       setView(lng = -120, lat = 36.7, zoom = 5) |>
       addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
   })
-  
 }
