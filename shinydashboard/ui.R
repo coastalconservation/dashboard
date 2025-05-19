@@ -44,7 +44,7 @@ sidebar <- dashboardSidebar(
 # dashboardBody ----
 body <- dashboardBody(
   
-  tags$style(".content-wrapper, .right-side {padding-top: 50px;}"),
+  tags$style(".content-wrapper, .right-side {padding-top: 25px;}"),
   
   # tabItems ----
   tabItems(
@@ -77,19 +77,20 @@ body <- dashboardBody(
               column(width = 1),
               
               # dangermond box
-              box(width = 6,
+              box(width = 5,
                   
                   includeMarkdown("text/wild-coast.md")
                   
               ), # END dangermond box
               
               # carousel images box ----
-              box(width = 4,
+              box(width = 5,
                   
                   # slickR carousel ----
                   slickROutput(outputId = "carousel_images_output",
                                width = "100%",
-                               height = "400px")
+                               height = "450px") %>%
+                    withSpinner(color = "#05641C", type = 1, size = 1)
                   
               ), # END carousel images box
               
@@ -110,20 +111,19 @@ body <- dashboardBody(
               column(width = 1),
               
               # biogeographic box ----
-              box(width = 6,
+              box(width = 5,
                   
                   includeMarkdown("text/biogeographic.md")
                   
               ), # END biogeographic box
               
               # image box ----
-              box(width = 4,
+              box(width = 5,
                   
-                  img(src = "cal-currents.jpg",
-                      width = "375px",
-                      height = "375px"),
+                  imageOutput("cal_currents") %>%
+                    withSpinner(color = "#05641C", type = 1, size = 1),
                   
-                  "Figure 1. The eddy..."
+                  "Figure 1. Insert Caption"
                   
               ), # END image box
               
@@ -139,18 +139,17 @@ body <- dashboardBody(
               column(width = 1),
               
               # image box ----
-              box(width = 4,
+              box(width = 5,
                   
-                  img(src = "dangermond.png",
-                      width = "100%",
-                      height = "300px"),
+                  imageOutput("range_shift") %>%
+                    withSpinner(color = "#05641C", type = 1, size = 1),
                   
-                  "Figure 2. Image that will be referred to for range shifts"
+                  "Figure 2. Insert Caption"
                   
               ), # END text box
               
               # text box ----
-              box(width = 6,
+              box(width = 5,
                   
                   includeMarkdown("text/range-shift.md")
                   
@@ -209,15 +208,10 @@ body <- dashboardBody(
               # southern box ----
               box(width = 5,
                   
-                  tags$h4("Southern Range Edges of Rocky Intertidal Species in CA",
+                  tags$h5(textOutput("table_header_north"),
                           style = "text-align: center; font-weight: bold"),
                   
-                  actionButton(inputId = "refresh_southern_map", 
-                               label = "Refresh Map",
-                               icon = icon("rotate")),
-                  
-                  leafletOutput(outputId = "southern_range_output",
-                                width = "100%") %>%
+                  DTOutput("northern_edge_table") %>%
                     withSpinner(color = "#05641C", type = 1, size = 1)
                   
               ), # END southern box
@@ -233,42 +227,32 @@ body <- dashboardBody(
               # left buffer column ----
               column(width = 1),
               
-              # DT box ----
-              box(width = 10,
+              # Northern DT box ----
+              box(width = 5,
                   
-                  # fluidRow ----
-                  fluidRow(
-                    
-                    # left-hand column ----
-                    column(width = 3,
-                           
-                           radioGroupButtons(inputId = "DT_input",
-                                             label = "Choose a range edge option:",
-                                             choices = c("Northern", "Southern"),
-                                             selected = "Northern",
-                                             size = "normal"),
-                           
-                           pickerInput(inputId = "segment_input",
-                                       label = "Select a coastal segment:",
-                                       choices = unique(range_list$segment_name),
-                                       selected = unique(range_list$segment_name)[7],
-                                       multiple = FALSE,
-                                       options = pickerOptions(dropupAuto = FALSE,
-                                                               size = 10))
-                           
-                    ), # END left-hand column
-                    
-                    # right-hand column ----
-                    column(width = 9,
-                           
-                           DTOutput(outputId = "DT_output") %>%
-                             withSpinner(color = "black", type = 1, size = 1)
-                           
-                    ) # END right-hand column
-                    
-                  ) # END fluidRow
+                  tags$h4("Southern Range Edges of Rocky Intertidal Species in CA",
+                          style = "text-align: center; font-weight: bold"),
                   
-              ), # END DT box
+                  actionButton(inputId = "refresh_southern_map", 
+                               label = "Refresh Map",
+                               icon = icon("rotate")),
+                  
+                  leafletOutput(outputId = "southern_range_output",
+                                width = "100%") %>%
+                    withSpinner(color = "#05641C", type = 1, size = 1)
+                  
+              ), # END Northern DT box
+              
+              # Southern DT box ----
+              box(width = 5,
+                  
+                  tags$h5(textOutput("table_header_south"),
+                          style = "text-align: center; font-weight: bold"),
+                  
+                  DTOutput("southern_edge_table") %>%
+                    withSpinner(color = "#05641C", type = 1, size = 1)
+                  
+              ), # END Southern DT box
               
               # right buffer column ----
               column(width = 1)
@@ -330,9 +314,8 @@ body <- dashboardBody(
                     # right-hand column ---
                     column(width = 6,
                            
-                           img(src = "bob.jpeg",
-                               width = "100%",
-                               height = "400px")
+                           imageOutput("cal_ranges") %>%
+                             withSpinner(color = "#05641C", type = 1, size = 1)
                            
                     ) # END right-hand column
                     
@@ -357,9 +340,17 @@ body <- dashboardBody(
               column(width = 1),
               
               # info box ----
-              box(width = 10,
+              box(width = 5,
                   
                   includeMarkdown("text/range-edges.md")
+                  
+              ), # END info box
+              
+              # info box ----
+              box(width = 5,
+                  
+                  imageOutput("bob") %>%
+                    withSpinner(color = "#05641C", type = 1, size = 1)
                   
               ), # END info box
               

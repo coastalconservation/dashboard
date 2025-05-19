@@ -19,7 +19,6 @@ library(here)
 # Several files that were called in from the "processed" cyberduck  folder were actually in the "raw" folder
 dangermond <- read_sf("/capstone/coastalconservation/data/raw/spatial_data/dangermond_shapefile/jldp_boundary.shp") %>%
   st_transform(crs = 4326)
-range_list <- read_csv("/capstone/coastalconservation/data/processed/range_list.csv")
 species_extent <- read_csv("/capstone/coastalconservation/data/processed/species_extent.csv") #%>%
   #select(! ...1) Could not find `select` function, when loading dyplr it threw a new error, is this supposed to be selectInput()?
 ca_segments <- st_read(here("california_coast_segments_polygons.shp"))
