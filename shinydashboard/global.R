@@ -15,13 +15,12 @@ library(here)
 
 # Read Data
 # Changing it so it calls in from the duck server -A
-# Notes: The range_list csv was not on cyberduck, it has now been moved to cyberduck
-# Several files that were called in from the "processed" cyberduck  folder were actually in the "raw" folder
 dangermond <- read_sf("/capstone/coastalconservation/data/raw/spatial_data/dangermond_shapefile/jldp_boundary.shp") %>%
   st_transform(crs = 4326)
-species_extent <- read_csv("/capstone/coastalconservation/data/processed/species_extent.csv") #%>%
-  #select(! ...1) Could not find `select` function, when loading dyplr it threw a new error, is this supposed to be selectInput()?
-ca_segments <- st_read(here("california_coast_segments_polygons.shp"))
+species_extent <- read_csv("/capstone/coastalconservation/data/processed/species_extent.csv")
+ca_segments <- st_read("/capstone/coastalconservation/data/processed/segments_shapefile/CA_segments.shp")
+# Cumulative change raster
+cumulative_change <- raster("/capstone/coastalconservation/data/processed/species_model_rasters/cumulative_species_rasters/cumulative_change.tif")
 
 
 # Rasters for expect species shifts
@@ -43,15 +42,28 @@ change_species_choices <- basename(change_raster_files) %>%
 
 breaks <- c(-1, -0.6, -0.3, -0.1, 0.1, 0.3, 0.6, 1)
 
+breaks_total <- c(-10, -7, -3, 0, 3, 7, 10)
+
 # Color palettes
-change_habitat <- c( "#00205B", "#003E29", "#E4E2F5", "#49A842", "#038C45")
+change_habitat <- colorBin(
+  palette = c("#00205B", # strong loss
+                       "#FF0049", # moderate loss 
+                       "#FFC700", # weak lost
+                       "#E4E2F5", # no change 
+                       "#00C2CB",  # weak gain 
+                       "#038C45",  # moderate gain
+                       "#49A842"),
+  domain = c(-14, 14),
+  bins = breaks_total,
+  na.color = "transparent",
+  right = FALSE)
 
 change_habitat_pal <- colorBin(
-  palette = c("#00205B",  # strong loss
-              "#00C2CB",  # moderate loss
-              "#FF0049",  # weak loss
-              "#E4E2F5",  # no change
-              "#FFC700",  # weak gain
+  palette = c("#00205B", # strong loss
+              "#FF0049", # moderate loss 
+              "#FFC700", # weak lost
+              "#E4E2F5", # no change 
+              "#00C2CB",  # weak gain 
               "#038C45",  # moderate gain
               "#49A842"), 
   domain = c(-1, 1),
@@ -66,6 +78,7 @@ current_raster_files <- list.files(
   pattern = "^current_.*\\.tif$",
   full.names = TRUE
 )
+
 
 # Extract species names from file names
 current_species_choices <- basename(current_raster_files) %>%
@@ -83,7 +96,6 @@ stable_habitat_pal <- colorBin(
   right = FALSE
 )
 
-
 # Projected species in 2050
 
 # List available rasters and extract species names
@@ -97,3 +109,6 @@ projected_species_choices <- basename(projected_raster_files) %>%
   str_remove("^projected_") %>%
   str_remove("\\.tif$") %>%
   sort()
+
+# Cumulative raster
+

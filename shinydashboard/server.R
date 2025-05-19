@@ -36,37 +36,6 @@ server <- function(input, output) {
     
   })
   
-  # filter range list ----
-  value_box_df <- reactive({
-    
-    range_list %>%
-      filter(segment_name %in% c("Northern Dangermond", "Southern Dangermond"))
-    
-  })
-  
-  # value boxes ----
-  output$northern_output <- renderValueBox({
-    
-    valueBox(value_box_df() %>%
-               filter(range_edge_category %in% c("Northern Range Edge")) %>%
-               summarize(total = n()),
-             subtitle = "Northern Range Edge",
-             color = "black",
-             icon = icon("arrows-up-to-line", style = "color: #49A842;"))
-    
-  })
-  
-  output$southern_output <- renderValueBox({
-    
-    valueBox(value_box_df() %>%
-               filter(range_edge_category %in% c("Southern Range Edge")) %>%
-               summarize(total = n()),
-             subtitle = "Southern Range Edge",
-             color = "black",
-             icon = icon("arrows-down-to-line", style = "color: #49A842;"))
-    
-  })
-  
   output$image_a <- renderUI({
     
     req(input$artist_input)
@@ -136,7 +105,7 @@ server <- function(input, output) {
       addPolygons(data = northern_range_edges() %>%
                     filter(northern_extent_name == default_seg_north),
                   layerId  = "highlight_north",
-                  fill     = FALSE, color = "#ffc700", weight = 4, dashArray = "3") %>%
+                  fill = FALSE, color = "#ffc700", weight = 4, dashArray = "3") %>%
       addLegend(pal = pal, 
                 values = northern_range_edges()$num_species, 
                 title = "Number of Species",
@@ -146,7 +115,7 @@ server <- function(input, output) {
   })
   
   # default segment
-  default_seg_north   <- sort(unique(species_extent$northern_extent_name))[2]
+  default_seg_north <- sort(unique(species_extent$northern_extent_name))[2]
   clicked_seg_north <- reactiveVal(default_seg_north)
   
   # highlight default segment
@@ -186,7 +155,7 @@ server <- function(input, output) {
     
     species_extent %>%
       filter(northern_extent_name == clicked_seg_north()) %>%
-      select("Scientific Name" = species_lump, "Latitude" = northern_extent_lat) %>%
+      dplyr::select("Scientific Name" = species_lump, "Latitude" = northern_extent_lat) %>%
       arrange(desc(Latitude))
     
   })
@@ -277,75 +246,6 @@ server <- function(input, output) {
                 opacity = 1)
     
   })
-
-  # Selecting species for change map ----
-  change_selected_raster <- reactive({
-    req(input$change_selected_species)
-    
-    # Build file path to species-specific raster
-    change_file_path <- file.path(
-      "/capstone/coastalconservation/data/processed/species_model_rasters/change_species_rasters",
-      paste0("ESDM_", gsub(" ", "_", input$change_selected_species), "_change.tif")
-    )
-    
-    # Load raster
-    raster(change_file_path)
-  })
-  
-  # Render change raster leaflet map ----
-  output$change_raster_output <- renderLeaflet({
-    
-    # Get selected species' change raster
-    change_rast <- change_selected_raster()
-    
-    # Build leaflet map
-    leaflet() |>
-      addProviderTiles(provider = "Esri.WorldStreetMap") |>
-      addRasterImage(change_rast, colors = change_habitat_pal) |>
-      addLegend(
-        pal = change_habitat_pal,
-        values = c(-1, 1),  # full range for legend
-        title = paste0("Change in Habitat Suitability for ", input$change_selected_species),
-        position = "bottomright"
-      ) |>
-      setView(lng = -120, lat = 36.7, zoom = 5) |>
-      addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
-  }) # End of select change in species
-  
-  # Present species habitat
-  
-  current_selected_raster <- reactive({
-    req(input$current_selected_species)
-    
-    # Build file path to species-specific current habitat raster
-    current_file_path <- file.path(
-      "/capstone/coastalconservation/data/processed/species_model_rasters/current_species_rasters",
-      paste0("current_", gsub(" ", "_", input$current_selected_species), ".tif")
-    )
-    
-    # Load raster
-    raster(current_file_path)
-  })
-  
-  # Render current habitat raster leaflet map ----
-  output$current_raster_output <- renderLeaflet({
-    
-    # Get selected species' current habitat raster
-    current_rast <- current_selected_raster()
-    
-    # Build leaflet map
-    leaflet() |>
-      addProviderTiles(provider = "Esri.WorldStreetMap") |>
-      addRasterImage(current_rast, colors = stable_habitat_pal) |>
-      addLegend(
-        pal = stable_habitat_pal,
-        values = c(-1, 1),  # full domain (adjust if needed for current rasters)
-        title = paste0("Current Habitat Suitability for ", input$current_selected_species),
-        position = "bottomright"
-      ) |>
-      setView(lng = -120, lat = 36.7, zoom = 5) |>
-      addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
-  }) # End of select current habitat in species
   
   observeEvent(input$southern_range_output_shape_click, {
     
@@ -365,7 +265,7 @@ server <- function(input, output) {
     
     species_extent %>%
       filter(southern_extent_name == clicked_seg_south()) %>%
-      select("Scientific Name" = species_lump, "Latitude" = southern_extent_lat) %>%
+      dplyr::select("Scientific Name" = species_lump, "Latitude" = southern_extent_lat) %>%
       arrange(Latitude)
     
   })
@@ -423,22 +323,72 @@ server <- function(input, output) {
   deleteFile = FALSE 
   
   )
-
-  # Selecting species for projected habitat map ----
-  projected_selected_raster <- reactive({
-    req(input$projected_selected_species)
+  
+    # Selecting species for change map ----
+  change_selected_raster <- reactive({
+    req(input$change_selected_species)
     
-    # Build file path
+    change_file_path <- file.path(
+      "/capstone/coastalconservation/data/processed/species_model_rasters/change_species_rasters",
+      paste0("ESDM_", gsub(" ", "_", input$change_selected_species), "_change.tif")
+    )
+    raster(change_file_path)
+  })
+  
+  output$change_raster_output <- renderLeaflet({
+    change_rast <- change_selected_raster()
+    
+    leaflet() |>
+      addProviderTiles(provider = "Esri.WorldStreetMap") |>
+      addRasterImage(change_rast, colors = change_habitat_pal) |>
+      addLegend(
+        pal = change_habitat_pal,
+        values = c(-1, 1),
+        title = paste0("Change in Habitat Suitability for ", input$change_selected_species),
+        position = "bottomright"
+      ) |>
+      setView(lng = -120, lat = 36.7, zoom = 5) |>
+      addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
+  })
+  
+  # Current habitat map ----
+  current_selected_raster <- reactive({
+    req(input$change_selected_species)
+    
+    current_file_path <- file.path(
+      "/capstone/coastalconservation/data/processed/species_model_rasters/current_species_rasters",
+      paste0("current_", gsub(" ", "_", input$change_selected_species), ".tif")
+    )
+    raster(current_file_path)
+  })
+  
+  output$current_raster_output <- renderLeaflet({
+    current_rast <- current_selected_raster()
+    
+    leaflet() |>
+      addProviderTiles(provider = "Esri.WorldStreetMap") |>
+      addRasterImage(current_rast, colors = stable_habitat_pal) |>
+      addLegend(
+        pal = stable_habitat_pal,
+        values = c(-1, 1),
+        title = paste0("Current Habitat Suitability for ", input$change_selected_species),
+        position = "bottomright"
+      ) |>
+      setView(lng = -120, lat = 36.7, zoom = 5) |>
+      addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
+  })
+  
+  # Projected habitat map ----
+  projected_selected_raster <- reactive({
+    req(input$change_selected_species)
+    
     projected_file_path <- file.path(
       "/capstone/coastalconservation/data/processed/species_model_rasters/projected_species_rasters",
-      paste0("projected_", gsub(" ", "_", input$projected_selected_species), ".tif")
+      paste0("projected_", gsub(" ", "_", input$change_selected_species), ".tif")
     )
-    
-    # Load raster
     raster(projected_file_path)
   })
   
-  # Render projected habitat raster leaflet map ----
   output$projected_raster_output <- renderLeaflet({
     projected_rast <- projected_selected_raster()
     
@@ -448,7 +398,22 @@ server <- function(input, output) {
       addLegend(
         pal = stable_habitat_pal,
         values = values(projected_rast),
-        title = paste0("Projected Habitat for ", input$projected_selected_species),
+        title = paste0("Projected Habitat for ", input$change_selected_species),
+        position = "bottomright"
+      ) |>
+      setView(lng = -120, lat = 36.7, zoom = 5) |>
+      addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
+  })
+  
+  # Cumulative change map ----
+  output$cumulative_change_output <- renderLeaflet({
+    leaflet() |>
+      addProviderTiles(provider = "Esri.WorldStreetMap") |>
+      addRasterImage(cumulative_change, colors = change_habitat) |>
+      addLegend(
+        pal = change_habitat,
+        values = values(cumulative_change),
+        title = "Cumulative Habitat Change Across All Species",
         position = "bottomright"
       ) |>
       setView(lng = -120, lat = 36.7, zoom = 5) |>
