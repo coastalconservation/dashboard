@@ -341,12 +341,12 @@ server <- function(input, output) {
   # Present species habitat
   
   current_selected_raster <- reactive({
-    req(input$current_selected_species)
+    req(input$change_selected_species)
     
     # Build file path to species-specific current habitat raster
     current_file_path <- file.path(
       "/capstone/coastalconservation/data/processed/species_model_rasters/current_species_rasters",
-      paste0("current_", gsub(" ", "_", input$current_selected_species), ".tif")
+      paste0("current_", gsub(" ", "_", input$change_selected_species), ".tif")
     )
     
     # Load raster
@@ -366,7 +366,7 @@ server <- function(input, output) {
       addLegend(
         pal = stable_habitat_pal,
         values = c(-1, 1),  # full domain (adjust if needed for current rasters)
-        title = paste0("Current Habitat Suitability for ", input$current_selected_species),
+        title = paste0("Current Habitat Suitability for ", input$change_selected_species),
         position = "bottomright"
       ) |>
       setView(lng = -120, lat = 36.7, zoom = 5) |>
@@ -381,7 +381,7 @@ server <- function(input, output) {
     # Build file path
     projected_file_path <- file.path(
       "/capstone/coastalconservation/data/processed/species_model_rasters/projected_species_rasters",
-      paste0("projected_", gsub(" ", "_", input$projected_selected_species), ".tif")
+      paste0("projected_", gsub(" ", "_", input$change_selected_species), ".tif")
     )
     
     # Load raster
@@ -398,10 +398,27 @@ server <- function(input, output) {
       addLegend(
         pal = stable_habitat_pal,
         values = values(projected_rast),
-        title = paste0("Projected Habitat for ", input$projected_selected_species),
+        title = paste0("Projected Habitat for ", input$change_selected_species),
         position = "bottomright"
       ) |>
       setView(lng = -120, lat = 36.7, zoom = 5) |>
       addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
-  })
+  }) # End habitat raster leafletmap
+  
+  # Cumulative habitat maps
+  output$cumulative_change_output <- renderLeaflet({
+    
+    leaflet() |>
+      addProviderTiles(provider = "Esri.WorldStreetMap") |>
+      addRasterImage(cumulative_change, colors = change_habitat) |>
+      addLegend(
+        pal = change_habitat,
+        values = values(cumulative_change),
+        title = paste0("Cumulative Habitat Change Across All Species"),
+        position = "bottomright"
+      ) |>
+      setView(lng = -120, lat = 36.7, zoom = 5) |>
+      addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
+    
+  }) # End cumulative habitat map
 }

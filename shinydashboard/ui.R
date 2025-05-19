@@ -470,37 +470,19 @@ body <- dashboardBody(
             fluidRow(
              
                # Column 1: current species habitats
-              column(width = 2,
-                     
-                     # present habitat map selector
-                     pickerInput(inputId = "current_selected_species", 
-                                 label = "Choose a Species:",
-                                 choices = current_species_choices,
-                                 multiple = FALSE,
-                                 options = pickerOptions(dropupAuto = FALSE,
-                                                         size = 7)
-                     ) 
-              ), # end of column 1
+              column(width = 2),
               
               box(width = 8,
                    # Leaflet output
-                   leafletOutput(outputId = "current_raster_output"))
-              
+                   leafletOutput(outputId = "current_raster_output")) # End of box
+            
             ), # End third fluid row
             
             # fourth fluid row
             fluidRow(
               
               # Column 1: projected habitat selector
-              column(width = 2,
-                     pickerInput(
-                       inputId = "projected_selected_species", 
-                       label = "Choose a Species:",
-                       choices = projected_species_choices,
-                       multiple = FALSE,
-                       options = pickerOptions(dropupAuto = FALSE, size = 7)
-                     )
-              ), # end of column 1
+              column(width = 2), # end of column 1
               
               # Column 2: projected habitat map
               box(width = 8,
@@ -511,7 +493,21 @@ body <- dashboardBody(
             ), # END model tabItem
     
     # assessment tabItem ----
-    tabItem(tabName = "assessment"), # END assessment tabItem
+    tabItem(tabName = "assessment",
+            
+            # First fluid row
+            fluidRow(
+              
+              # Left buffer column
+              
+              # Info box
+              box(width = 8,
+                  leafletOutput(outputId = "cumulative_change_output")
+                  ), # End species rasters info box
+              
+              
+            ) # End first fluid row
+            ), # END assessment tabItem
     
     # data tabItem ----
     tabItem(tabName = "data") # END data tabItem
