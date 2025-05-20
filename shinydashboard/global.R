@@ -53,20 +53,20 @@ change_habitat <- colorBin(
                        "#00C2CB",  # weak gain 
                        "#038C45",  # moderate gain
                        "#49A842"),
-  domain = c(-14, 14),
+                       domain = c(-14, 14),
   bins = breaks_total,
   na.color = "transparent",
   right = FALSE)
 
 change_habitat_pal <- colorBin(
   palette = c("#00205B", # strong loss
-              "#FF0049", # moderate loss 
-              "#FFC700", # weak lost
-              "#E4E2F5", # no change 
-              "#00C2CB",  # weak gain 
-              "#038C45",  # moderate gain
-              "#49A842"), 
-  domain = c(-1, 1),
+                       "#FF0049", # moderate loss 
+                       "#FFC700", # weak lost
+                       "#E4E2F5", # no change 
+                       "#00C2CB",  # weak gain 
+                       "#038C45",  # moderate gain
+                       "#49A842"), 
+                       domain = c(-1, 1),
   bins = breaks,
   na.color = "transparent",
   right = FALSE

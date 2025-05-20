@@ -420,24 +420,14 @@ body <- dashboardBody(
             
             # First fluid row
             fluidRow(
-              
-              # Left buffer column
-              
               # Info box
-              box(width = 8,
+              box(width = 12,
                   includeMarkdown("text/range_change_maps.md")), # End species rasters info box
-      
-            
+              
             ), # End first fluid row
             
             # Second fluid row 
             fluidRow(
-              
-              # Title for change map
-              tags$h4("Map of Habitat Change From now to 2050",
-                      style = "text-align: center; font-weight: bold"), 
-              
-              # First column
               # Column 1
               column(width = 2,
                      
@@ -451,58 +441,71 @@ body <- dashboardBody(
                      )
               ), # end of column 1
               
-              # Leaflet box
-              box( width = 8,
+              # Leaflet box for change raster
+              box(width = 9,
+                  
+                  # Title for change map
+                  tags$h4("Map of Habitat Change From Now to 2050",
+                          style = "text-align: center; font-weight: bold"),
+                  
                    # Leaflet output
                    leafletOutput(outputId = "change_raster_output")
-              ) # End leaflet box
-              
-              
+              ) # End leaflet box for change raster
               
             ), # End second fluid row
             
             # Third fluid row
             fluidRow(
-             
-               # Column 1: current species habitats
-              column(width = 2),
               
-              box(width = 8,
-                   # Leaflet output
-                   leafletOutput(outputId = "current_raster_output")) # End of box
-            
+              # Column 1 with current raster map
+              box(width = 6,
+                  
+                  # Title for current species map
+                  tags$h4("Map of Current Species Habitat",
+                          style = "text-align: center; font-weight: bold"),
+                  # Leaflet output
+                  leafletOutput(outputId = "current_raster_output")
+                  ), # End of column 1 with current raster habitat
+              
+              
+              # Column 2: projected habitat map
+              box(width = 6,
+                  
+                  # Title for Project Species map
+                  tags$h4("Map of Forecasted Species Habitat For 2050",
+                          style = "text-align: center; font-weight: bold"),
+                  
+                  leafletOutput(outputId = "projected_raster_output")
+                  ) # End of column 2: projected habitat raster
+              
             ), # End third fluid row
             
             # fourth fluid row
             fluidRow(
               
-              # Column 1: projected habitat selector
-              column(width = 2), # end of column 1
-              
-              # Column 2: projected habitat map
-              box(width = 8,
-                  leafletOutput(outputId = "projected_raster_output"))
-              
-            ) # End fourthfluid row
+              # Column 1
+              box(width = 12,
+                  includeMarkdown("text/cumulative_difference_intro.md")) # end column 1
+            ), # End fourth fluid row
             
-            ), # END model tabItem
-    
-    # assessment tabItem ----
-    tabItem(tabName = "assessment",
-            
-            # First fluid row
+            # Fifth fluid row
             fluidRow(
               
-              # Left buffer column
+              # Column 1: buffer column
+              column(width = 2), # end column 1
               
-              # Info box
+              # Column 2: Cumulative map
               box(width = 8,
-                  leafletOutput(outputId = "cumulative_change_output")
-                  ), # End species rasters info box
+                  leafletOutput(outputId = "cumulative_change_output")),
               
-              
-            ) # End first fluid row
-            ), # END assessment tabItem
+              # Column 
+              column(width = 2),
+            ) # End fifth fluid row
+            
+    ), # END model tabItem
+    
+    # assessment tabItem ----
+    tabItem(tabName = "assessment"), # END assessment tabItem
     
     # data tabItem ----
     tabItem(tabName = "data") # END data tabItem

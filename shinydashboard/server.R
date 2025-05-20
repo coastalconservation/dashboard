@@ -418,5 +418,5 @@ server <- function(input, output) {
       ) |>
       setView(lng = -120, lat = 36.7, zoom = 5) |>
       addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
-  })
+  }) # End cumulative change map
 }
