@@ -429,7 +429,7 @@ body <- dashboardBody(
             # Second fluid row 
             fluidRow(
               # Column 1
-              column(width = 2,
+              column(width = 3,
                      
                      # Species change map selector
                      pickerInput(inputId = "change_selected_species", 

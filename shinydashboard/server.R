@@ -344,7 +344,7 @@ server <- function(input, output) {
       addLegend(
         pal = change_habitat_pal,
         values = c(-1, 1),
-        title = paste0("Change in Habitat Suitability for ", input$change_selected_species),
+        title = paste0("Change in Habitat Suitability <br> for ", input$change_selected_species),
         position = "bottomright"
       ) |>
       setView(lng = -120, lat = 36.7, zoom = 5) |>
