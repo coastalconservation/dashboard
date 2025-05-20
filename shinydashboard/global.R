@@ -79,7 +79,6 @@ current_raster_files <- list.files(
   full.names = TRUE
 )
 
-
 # Extract species names from file names
 current_species_choices <- basename(current_raster_files) %>%
   str_remove("^current_") %>%

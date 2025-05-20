@@ -433,6 +433,10 @@ body <- dashboardBody(
             # Second fluid row 
             fluidRow(
               
+              # Title for change map
+              tags$h4("Map of Habitat Change From now to 2050",
+                      style = "text-align: center; font-weight: bold"), 
+              
               # First column
               # Column 1
               column(width = 2,
