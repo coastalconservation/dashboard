@@ -1,3 +1,0 @@
-# Biogeographic Barrier
-
-Within California, Point Conception serves as a prominent biogeographic break for many marine species. The unique coastal topography and prevailing ocean currents around this headland create a barrier to northward larval dispersal (Figure 2). As climate change drives species poleward, such biogeographic breaks may hinder range expansions by limiting dispersal opportunities. This makes ecological hotspots like Point Conception particularly vulnerable, as species restricted to the south of this break may face range contractions rather than expansions.
