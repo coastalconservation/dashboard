@@ -1,4 +1,16 @@
+
+
 server <- function(input, output) {
+  
+  # Read Data
+  # Changing it so it calls in from the duck server -A
+  dangermond <- read_sf("/capstone/coastalconservation/data/raw/spatial_data/dangermond_shapefile/jldp_boundary.shp") %>%
+    st_transform(crs = 4326)
+  species_extent <- read_csv("/capstone/coastalconservation/data/processed/species_extent.csv")
+  ca_segments <- st_read("/capstone/coastalconservation/data/processed/segments_shapefile/CA_segments.shp")
+  # Cumulative change raster
+  cumulative_change <- raster("/capstone/coastalconservation/data/processed/species_model_rasters/cumulative_species_rasters/cumulative_change.tif")
+  
   
   # carousel images file path ----
   file_path <- reactive({
