@@ -1,19 +1,8 @@
 server <- function(input, output) {
   
-  # read data ----
-  ca_segments <- st_read("data/processed/spatial_data/segments_shapefile/CA_segments.shp")
-  
-  dangermond <- read_sf("data/raw/spatial_data/dangermond_shapefile/jldp_boundary.shp") %>%
-    st_transform(crs = 4326)
-  
-  species_extent <- read_csv("data/processed/species_extent.csv")
-
   # home tab ----
   
   # slickR file path
-
-  # carousel images file path ----
-#refs/remotes/origin/amandas_branch:shinydashboard/server.R
   file_path <- reactive({
     
     list.files("www/carousel_images", full.names = TRUE, pattern = "jpg")
@@ -362,25 +351,7 @@ server <- function(input, output) {
   
   # projected shifts tab ----
   
-  # current suitability map ----
-
-  output$change_raster_output <- renderLeaflet({
-    change_rast <- change_selected_raster()
-    
-    leaflet() |>
-      addProviderTiles(provider = "Esri.WorldStreetMap") |>
-      addRasterImage(change_rast, colors = change_habitat_pal) |>
-      addLegend(
-        pal = change_habitat_pal,
-        values = c(-1, 1),
-        title = paste0("Change in Habitat Suitability <br> for ", input$change_selected_species),
-        position = "bottomright"
-      ) |>
-      setView(lng = -120, lat = 36.7, zoom = 5) |>
-      addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
-  })
-  
-  # Current habitat map ----
+  # current suitability habitat map ----
 
   current_selected_raster <- reactive({
     
@@ -482,20 +453,19 @@ server <- function(input, output) {
     
   })
   
-  # Cumulative change map ----
+  # cumulative change suitability map ----
   output$cumulative_change_output <- renderLeaflet({
     
     leaflet() |>
       addProviderTiles(provider = "Esri.WorldStreetMap") |>
       addRasterImage(cumulative_change, colors = change_habitat) |>
-      addLegend(
-        pal = change_habitat,
-        values = values(cumulative_change),
-        title = "Cumulative Habitat Change Across All Species",
-        position = "bottomright"
-      ) |>
+      addLegend(pal = change_habitat,
+                values = values(cumulative_change),
+                title = "Cumulative Habitat Change Across All Species",
+                position = "bottomright") |>
       setView(lng = -120, lat = 36.7, zoom = 5) |>
       addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
+    
   })
   
 }

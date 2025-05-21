@@ -12,21 +12,15 @@ library(shinyWidgets)
 library(shinydashboard)
 library(shinycssloaders)
 
-breaks_total <- c(-10, -7, -3, 0, 3, 7, 10)
+# read data ----
+ca_segments <- st_read("data/processed/spatial_data/segments_shapefile/CA_segments.shp")
 
-# Color palettes
-change_habitat <- colorBin(
-  palette = c("#00205B", # strong loss
-                       "#FF0049", # moderate loss 
-                       "#FFC700", # weak lost
-                       "#E4E2F5", # no change 
-                       "#00C2CB",  # weak gain 
-                       "#038C45",  # moderate gain
-                       "#49A842"),
-                       domain = c(-14, 14),
-  bins = breaks_total,
-  na.color = "transparent",
-  right = FALSE)
+dangermond <- read_sf("data/raw/spatial_data/dangermond_shapefile/jldp_boundary.shp") %>%
+  st_transform(crs = 4326)
+
+species_extent <- read_csv("data/processed/species_extent.csv")
+
+cumulative_change <- raster("data/processed/species_model_rasters/cumulative_species_rasters/cumulative_change.tif")
 
 
 change_raster_files <- list.files("data/processed/species_model_rasters/change_species_rasters",
@@ -37,6 +31,3 @@ change_species_choices <- basename(change_raster_files) %>%
   str_remove("^ESDM_") %>%
   str_remove("_change\\.tif$") %>%
   sort()
-
-cumulative_change <- raster("data/processed/species_model_rasters/cumulative_species_rasters/cumulative_change.tif")
-
