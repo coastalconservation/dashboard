@@ -376,7 +376,7 @@ server <- function(input, output) {
       addLegend(
         pal = change_habitat_pal,
         values = c(-1, 1),
-        title = paste0("Change in Habitat Suitability <br> for ", input$change_selected_species),
+        title = paste0("Change in Habitat Suitability<br> for ", input$change_selected_species),
         position = "bottomright"
       ) |>
       setView(lng = -120, lat = 36.7, zoom = 5) |>
@@ -409,7 +409,7 @@ server <- function(input, output) {
       addRasterImage(current_rast, colors = stable_habitat_pal) |>
       addLegend(pal = stable_habitat_pal,
                 values = c(-1, 1),
-                title = paste0("Current Habitat Suitability for ", input$change_selected_species),
+                title = paste0("Current Habitat Suitability<br> for ", input$change_selected_species),
                 position = "bottomright") |>
       setView(lng = -120, lat = 36.7, zoom = 5) |>
       addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
@@ -442,7 +442,7 @@ server <- function(input, output) {
       addRasterImage(projected_rast, colors = stable_habitat_pal, opacity = 0.85) |>
       addLegend(pal = stable_habitat_pal,
                 values = values(projected_rast),
-                title = paste0("Projected Habitat for ", input$change_selected_species),
+                title = paste0("Projected Habitat Suitability <br>for ", input$change_selected_species),
                 position = "bottomright") |>
       setView(lng = -120, lat = 36.7, zoom = 5) |>
       addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
@@ -478,7 +478,7 @@ server <- function(input, output) {
       addRasterImage(change_rast, colors = change_habitat_pal) |>
       addLegend(pal = change_habitat_pal,
                 values = c(-1, 1),
-                title = paste0("Change in Habitat Suitability for ", input$change_selected_species),
+                title = paste0("Change in Habitat Suitability<br> for ", input$change_selected_species),
                 position = "bottomright") |>
       setView(lng = -120, lat = 36.7, zoom = 5) |>
       addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
@@ -494,7 +494,7 @@ server <- function(input, output) {
       addLegend(
         pal = change_habitat,
         values = values(cumulative_change),
-        title = "Cumulative Habitat Change Across All Species",
+        title = "Cumulative Habitat Change<br> Across All Species",
         position = "bottomright"
       ) |>
       setView(lng = -120, lat = 36.7, zoom = 5) |>
