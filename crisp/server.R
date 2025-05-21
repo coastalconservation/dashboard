@@ -1,5 +1,3 @@
-
-
 server <- function(input, output) {
   
   # read data ----
@@ -364,7 +362,6 @@ server <- function(input, output) {
   
   # projected shifts tab ----
   
-# HEAD:crisp/server.R
   # current suitability map ----
 
   output$change_raster_output <- renderLeaflet({
@@ -384,7 +381,7 @@ server <- function(input, output) {
   })
   
   # Current habitat map ----
-#refs/remotes/origin/amandas_branch:shinydashboard/server.R
+
   current_selected_raster <- reactive({
     
     req(input$change_selected_species)

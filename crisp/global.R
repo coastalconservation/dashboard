@@ -1,7 +1,6 @@
 # load packages ----
 library(sf)
 library(DT)
-library(here)
 library(shiny)
 library(fresh)
 library(raster)
@@ -39,12 +38,5 @@ change_species_choices <- basename(change_raster_files) %>%
   str_remove("_change\\.tif$") %>%
   sort()
 
-#current_raster_files <- list.files("data/processed/species_model_rasters/current_species_rasters",
-                                   #pattern = "^current_.*\\.tif$",
-                                   #full.names = TRUE)
-
-#projected_raster_files <- list.files("data/processed/species_model_rasters/projected_species_rasters",
-                                     #pattern = "^projected_.*\\.tif$",
-                                     #full.names = TRUE)
-
 cumulative_change <- raster("data/processed/species_model_rasters/cumulative_species_rasters/cumulative_change.tif")
+
