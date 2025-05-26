@@ -26,18 +26,13 @@ species_names <- read_csv("data/processed/species_names.csv") %>%
 species_extent <- read_csv("data/processed/species_extent.csv") %>%
   inner_join(species_names, by = "species_lump")
 
-cumulative_change <- raster("data/processed/species_model_rasters/cumulative_species_rasters/cumulative_change.tif")
-
-
 change_raster_files <- list.files("data/processed/species_model_rasters/change_species_rasters",
                                   pattern = "^ESDM_.*_change\\.tif$",
                                   full.names = TRUE)
 
 change_species_choices <- basename(change_raster_files) %>%
   str_remove("^ESDM_") %>%
-  str_remove("_change\\.tif$") %>%
-
-  sort()
+  str_remove("_change\\.tif$")
 
 # Create a display-friendly version with spaces
 nice_names <- str_replace_all(change_species_choices, "_", " ")
@@ -45,15 +40,5 @@ nice_names <- str_replace_all(change_species_choices, "_", " ")
 # Set names to display, values to keep original
 named_choices <- setNames(change_species_choices, nice_names)
 
-#current_raster_files <- list.files("data/processed/species_model_rasters/current_species_rasters",
-                                   #pattern = "^current_.*\\.tif$",
-                                   #full.names = TRUE)
-
-#projected_raster_files <- list.files("data/processed/species_model_rasters/projected_species_rasters",
-                                     #pattern = "^projected_.*\\.tif$",
-                                     #full.names = TRUE)
-
 cumulative_change <- raster("data/processed/species_model_rasters/cumulative_species_rasters/cumulative_change.tif")
-
-  sort()
 
