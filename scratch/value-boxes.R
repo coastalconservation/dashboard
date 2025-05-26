@@ -1,8 +1,19 @@
 # load packages
 library(shinydashboard)
+library(bslib)
 
 # read data
-range_list <- read_csv("shinydashboard/data/range_list.csv")
+species_extent <- read_csv("crisp/data/processed/species_extent.csv")
+
+# value boxes (bslib)
+value_box(title = "Northern Range Edge",
+          value = "23 species")
+
+value_box(title = "Southern Range Edge",
+          value = "37 species")
+
+value_box(title = "Sites",
+          value = )
 
 
 # value boxes
