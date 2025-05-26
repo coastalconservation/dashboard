@@ -350,6 +350,29 @@ server <- function(input, output) {
   )
   
   # projected shifts tab ----
+
+
+  # current suitability map ----
+
+  output$change_raster_output <- renderLeaflet({
+    
+    change_rast <- change_selected_raster()
+    
+    leaflet() |>
+      addProviderTiles(provider = "Esri.WorldStreetMap") |>
+      addRasterImage(change_rast, colors = change_habitat_pal) |>
+      addLegend(
+        pal = change_habitat_pal,
+        values = c(-1, 1),
+        title = paste0("Change in Habitat Suitability"),
+        position = "bottomright"
+      ) |>
+      setView(lng = -120, lat = 36.7, zoom = 5) |>
+      addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
+  })
+  
+  # Current habitat map ----
+  
   
   # current suitability habitat map ----
 
@@ -377,7 +400,7 @@ server <- function(input, output) {
       addRasterImage(current_rast, colors = stable_habitat_pal) |>
       addLegend(pal = stable_habitat_pal,
                 values = c(-1, 1),
-                title = paste0("Current Habitat Suitability for ", input$change_selected_species),
+                title = paste0("Current Habitat Suitability"),
                 position = "bottomright") |>
       setView(lng = -120, lat = 36.7, zoom = 5) |>
       addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
@@ -410,7 +433,7 @@ server <- function(input, output) {
       addRasterImage(projected_rast, colors = stable_habitat_pal, opacity = 0.85) |>
       addLegend(pal = stable_habitat_pal,
                 values = values(projected_rast),
-                title = paste0("Projected Habitat for ", input$change_selected_species),
+                title = paste0("Projected Habitat Suitability"),
                 position = "bottomright") |>
       setView(lng = -120, lat = 36.7, zoom = 5) |>
       addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
@@ -435,7 +458,7 @@ server <- function(input, output) {
     
     breaks <- c(-1, -0.6, -0.3, -0.1, 0.1, 0.3, 0.6, 1)
     
-    change_habitat_pal <- colorBin(palette = c("#00205B", "#FF0049", "#FFC700", "#E4E2F5","#00C2CB", "#038C45",  "#49A842"),
+    change_habitat_pal <- colorBin(palette = c("#00205B", "#FF0049", "#FFC700", "#E4E2F5","#00C2CB","#49A842","#038C45"),
                                    domain = c(-1, 1),
                                    bins = breaks,
                                    na.color = "transparent",
@@ -446,7 +469,7 @@ server <- function(input, output) {
       addRasterImage(change_rast, colors = change_habitat_pal) |>
       addLegend(pal = change_habitat_pal,
                 values = c(-1, 1),
-                title = paste0("Change in Habitat Suitability for ", input$change_selected_species),
+                title = paste0("Change in Habitat Suitability"),
                 position = "bottomright") |>
       setView(lng = -120, lat = 36.7, zoom = 5) |>
       addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
@@ -459,10 +482,19 @@ server <- function(input, output) {
     leaflet() |>
       addProviderTiles(provider = "Esri.WorldStreetMap") |>
       addRasterImage(cumulative_change, colors = change_habitat) |>
+
+      addLegend(
+        pal = change_habitat,
+        values = values(cumulative_change),
+        title = "Cumulative Habitat Change<br> Across All Species",
+        position = "bottomright"
+      ) |>
+
       addLegend(pal = change_habitat,
                 values = values(cumulative_change),
                 title = "Cumulative Habitat Change Across All Species",
                 position = "bottomright") |>
+
       setView(lng = -120, lat = 36.7, zoom = 5) |>
       addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
     
