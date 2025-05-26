@@ -418,7 +418,7 @@ body <- dashboardBody(
             fluidRow(
               # Info box
               box(width = 12,
-                  includeMarkdown("text/range_change_maps.md")), # End species rasters info box
+                  includeMarkdown("text/model-info.md")), # End species rasters info box
               
             ), # End first fluid row
             
@@ -430,7 +430,7 @@ body <- dashboardBody(
                      # Species change map selector
                      pickerInput(inputId = "change_selected_species", 
                                  label = "Choose a Species:",
-                                 choices = change_species_choices,
+                                 choices = named_choices,
                                  multiple = FALSE,
                                  options = pickerOptions(dropupAuto = FALSE,
                                                          size = 7)
