@@ -493,7 +493,8 @@ body <- dashboardBody(
                           style = "text-align: center; font-weight: bold"),
                   
                   # Leaflet output
-                  leafletOutput(outputId = "change_raster_output")
+                  leafletOutput(outputId = "change_raster_output") %>% 
+                    withSpinner(color = "#05641C", type = 1, size = 1)
               ) # End leaflet box for change raster
               
             ), # End second fluid row
@@ -508,7 +509,8 @@ body <- dashboardBody(
                   tags$h4("Map of Current Species Habitat",
                           style = "text-align: center; font-weight: bold"),
                   # Leaflet output
-                  leafletOutput(outputId = "current_raster_output")
+                  leafletOutput(outputId = "current_raster_output") %>% 
+                    withSpinner(color = "#05641C", type = 1, size = 1)
               ), # End of column 1 with current raster habitat
               
               
@@ -519,7 +521,8 @@ body <- dashboardBody(
                   tags$h4("Map of Forecasted Species Habitat For 2050",
                           style = "text-align: center; font-weight: bold"),
                   
-                  leafletOutput(outputId = "projected_raster_output")
+                  leafletOutput(outputId = "projected_raster_output") %>% 
+                    withSpinner(color = "#05641C", type = 1, size = 1)
               ) # End of column 2: projected habitat raster
               
             ), # End third fluid row
@@ -540,7 +543,8 @@ body <- dashboardBody(
               
               # Column 2: Cumulative map
               box(width = 8,
-                  leafletOutput(outputId = "cumulative_change_output")),
+                  leafletOutput(outputId = "cumulative_change_output") %>% 
+                    withSpinner(color = "#05641C", type = 1, size = 1)),
               
               # Column 
               column(width = 2),
