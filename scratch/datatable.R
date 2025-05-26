@@ -1,21 +1,27 @@
 # load packages
 library(DT)
 library(tidyverse)
+library(readxl)
 
 # read data
-species_extent <- read_csv("shinydashboard/data/processed/species_extent.csv")
+species_extent <- read_csv("crisp/data/processed/species_extent.csv")
+species_names <- read_csv("crisp/data/processed/species_names.csv") %>%
+  select(! image)
 
 # DT
-species_extent %>%
+species_extent <- species_extent %>%
+  inner_join(species_names, by = "species_lump")
   
 
 species_extent %>%
   filter(!northern_extent_id %in% c(1, 18)) %>%
   select(! c(southern_extent_lat, southern_extent_id, southern_extent_m, southern_extent_name)) %>%
-  select(species_lump, northern_extent_lat, northern_extent_name) %>%
-  mutate(northern_extent_lat = formatC(northern_extent_lat, format = "f", digits = 2)) %>%
-  datatable(colnames = c("Scientific Name", "Northern Extent Latitude"),
+  select(common_name, species_lump, northern_extent_lat, northern_extent_name, image_url) %>%
+  mutate(northern_extent_lat = formatC(northern_extent_lat, format = "f", digits = 2),
+         image_url = paste0('<img src="', image_url, '" height="60"/>')) %>%
+  datatable(colnames = c("Common Name", "Scientific Name", "Northern Extent Latitude", "Segment Name", "Image"),
             class = "hover",
+            escape = FALSE,
             options = list(dom = "ft", scrollY = 400, paging = FALSE))
 
 species_extent %>%
