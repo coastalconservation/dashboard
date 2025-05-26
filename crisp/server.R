@@ -549,12 +549,6 @@ server <- function(input, output) {
         title = "Cumulative Habitat Change<br> Across All Species",
         position = "bottomright"
       ) |>
-
-      addLegend(pal = change_habitat,
-                values = values(cumulative_change),
-                title = "Cumulative Habitat Change Across All Species",
-                position = "bottomright") |>
-
       setView(lng = -120, lat = 36.7, zoom = 5) |>
       addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
     
