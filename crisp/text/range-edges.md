@@ -1,25 +1,7 @@
-## Information
+### **Historic Range Edges**
 
-[Verse]
-Ah lapo da talachi matol lina
-Ah, labadi hochi la nocha
-Wu planachi leh ji
-Fuh pa pu seh lamani
+This analysis maps the distribution of intertidal species whose range edges fall within each 100 km coastline segment. A range edge is defined as the northernmost or southernmost point where a species has been recorded. Identifying these edges is important for tracking how species distributions may shift over time, especially in response to climate change.
 
-[Chorus]
-Anda wei
-Lakareh lireywi gih leh bya
-Mah ke reh
-Anda wei
-Lapahkreh lehguari teh lah keh
-Lah peh reh
-Anda wei
-Lahcheh pe libeda ee leh gua
-Lah gua reh
-Ley show lee leh du
-Lah keh rey dee zu
-Bleh ah boh dee zu re kah zoh reh kah la
-Anda wei
+The two interactive maps below show the northern and southern range edges of rocky intertidal species. Each map is paired with a data table displaying species that reach their range limits within the selected segment. **Click on a segment to explore which species are present at those boundaries!**
 
-[Outro]
-Lah du, leh ah mo de underwear
+Notably, Northern Point Conception and Southern Point Conception emerge as biodiversity hotspots: key locations where many species reach their distributional limits. These areas mark an important biogeographic break, making them especially valuable for studying how species respond to environmental changes.

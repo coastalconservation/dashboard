@@ -42,7 +42,7 @@ server <- function(input, output) {
   # currents image
   output$cal_currents <- renderImage({ 
     
-    list(src = "www/cal-currents.jpg", width = "100%", height = "95%") 
+    list(src = "www/cal-currents.jpg", contentType = "image/.jpg", width = "100%", height = "95%") 
     
   }, 
   
@@ -50,16 +50,36 @@ server <- function(input, output) {
   
   )
   
+  output$zoom_currents <- renderUI({
+    
+    req(input$currents_click)
+    
+    showModal(modalDialog(tags$img(src = "cal-currents.jpg", style = "width: 100%"),
+                          easyClose = TRUE,
+                          size = "m"))
+    
+  })
+  
   # range shift image
   output$range_shift <- renderImage({ 
     
-    list(src = "www/range-shift.jpg", width = "100%", height = "95%") 
+    list(src = "www/range-shift.jpg", contentType = "image/.jpg", width = "100%", height = "95%") 
     
   }, 
   
   deleteFile = FALSE 
   
   )
+  
+  output$zoom_shift <- renderUI({
+    
+    req(input$shift_click)
+    
+    showModal(modalDialog(tags$img(src = "range-shift.jpg", style = "width: 100%"),
+                          easyClose = TRUE,
+                          size = "m"))
+    
+  })
   
   # range edges tab ----
   
@@ -93,25 +113,22 @@ server <- function(input, output) {
                     right = FALSE)
     
     leaflet() %>%
-      addProviderTiles(provider = "Esri.WorldStreetMap") %>%
-      setView(lng = -120, lat = 36.7, zoom = 5) %>%
+      addProviderTiles(provider = "Esri.NatGeoWorldMap") %>%
+      setView(lng = -120, lat = 36.7, zoom = 6) %>%
       addMiniMap(toggleDisplay = TRUE, minimized = FALSE) %>%
       addPolygons(data = northern_range_edges(),
                   layerId = ~northern_extent_name,
-                  label = ~paste0(northern_extent_name, ": ", num_species, " sp."),
+                  label = ~paste0(northern_extent_name, ": ", num_species, " species"),
                   fillColor = ~pal(num_species),
                   color = "black",
-                  weight = 1,
-                  fillOpacity = 0.7) %>%
+                  weight = 1.5,
+                  fillOpacity = 0.8) %>%
       addPolygons(data = dangermond,
-                  color = "black",
-                  fillColor = "black",
+                  label = "The Jack and Laura Dangermond Preserve",
+                  color = "#ff004d",
+                  fillColor = "#ff004d",
                   fillOpacity = 1,
                   weight = 2) %>%
-      addMarkers(data = dangermond,
-                 lng = -120.45,
-                 lat = 34.5,
-                 popup = "Jack and Lara Dangermond Preserve") %>%
       addPolygons(data = northern_range_edges() %>%
                     filter(northern_extent_name == default_seg_north),
                   layerId  = "highlight_north",
@@ -125,7 +142,7 @@ server <- function(input, output) {
   })
   
   # default segment
-  default_seg_north <- sort(unique(species_extent$northern_extent_name))[2]
+  default_seg_north <- sort(unique(species_extent$northern_extent_name))[13]
   clicked_seg_north <- reactiveVal(default_seg_north)
   
   # highlight default segment
@@ -165,7 +182,12 @@ server <- function(input, output) {
     
     species_extent %>%
       filter(northern_extent_name == clicked_seg_north()) %>%
-      dplyr::select("Scientific Name" = species_lump, "Latitude" = northern_extent_lat) %>%
+      mutate(Latitude = signif(northern_extent_lat, digits = 4),
+             image_url = paste0('<div style="text-align: center;">',
+                                '<img src="', image_url, '" height="80" width="80" ',
+                                'style="object-fit: cover; display: block; margin: auto;" />',
+                                '</div>')) %>%
+      dplyr::select("Common Name" = common_name, "Scientific Name" = species_lump, Latitude, "Image" = image_url) %>%
       arrange(desc(Latitude))
     
   })
@@ -173,7 +195,7 @@ server <- function(input, output) {
   # dynamic title
   output$table_header_north <- renderText({
     
-    paste("Species with Northern Range Edges in", clicked_seg_north())
+    paste("Species in", clicked_seg_north())
     
   })
   
@@ -182,7 +204,12 @@ server <- function(input, output) {
     
     datatable(north_dt(),
               rownames = TRUE,
-              class = "hover", options = list(dom = "t", scrollY = 400, paging = FALSE))
+              escape = FALSE,
+              class = "row-border",
+              options = list(dom = "t", 
+                             scrollY = 375, 
+                             paging = FALSE, 
+                             columnDefs = list(list(className = "dt-center", targets = "_all"))))
     
   })
   
@@ -211,7 +238,7 @@ server <- function(input, output) {
   # southern range edge map ----
   output$southern_range_output <- renderLeaflet({
     
-    bins <- c(0, 6, 11, 16, 21, 100)
+    bins <- c(0, 5, 10, 15, 20, 75)
     
     pal <- colorBin(palette = c("#eae8f5", "#787799", "#06063d", "#046490", "#01c1e3"), 
                     domain = southern_range_edges()$num_species, 
@@ -219,25 +246,22 @@ server <- function(input, output) {
                     right = FALSE)
     
     leaflet() %>%
-      addProviderTiles(provider = "Esri.WorldStreetMap") %>%
-      setView(lng = -120, lat = 36.7, zoom = 5) %>%
+      addProviderTiles(provider = "Esri.NatGeoWorldMap") %>%
+      setView(lng = -120, lat = 36.7, zoom = 6) %>%
       addMiniMap(toggleDisplay = TRUE, minimized = FALSE) %>%
       addPolygons(data = southern_range_edges(),
                   layerId = ~southern_extent_name,
-                  label = ~paste0(southern_extent_name, ": ", num_species, " sp."),
+                  label = ~paste0(southern_extent_name, ": ", num_species, " species"),
                   fillColor = ~pal(num_species),
                   color = "black",
-                  weight = 1,
-                  fillOpacity = 0.7) %>%
+                  weight = 1.5,
+                  fillOpacity = 0.8) %>%
       addPolygons(data = dangermond,
-                  color = "black",
-                  fillColor = "black",
+                  label = "The Jack and Laura Dangermond Preserve",
+                  color = "#ff004d",
+                  fillColor = "#ff004d",
                   fillOpacity = 1,
                   weight = 2) %>%
-      addMarkers(data = dangermond,
-                 lng = -120.45,
-                 lat = 34.5,
-                 popup = "Jack and Lara Dangermond Preserve") %>%
       addPolygons(data = southern_range_edges() %>%
                     filter(southern_extent_name == default_seg_south),
                   layerId = "highlight_south",
@@ -251,7 +275,7 @@ server <- function(input, output) {
   })
   
   # default segment
-  default_seg_south <- sort(unique(species_extent$southern_extent_name))[2]
+  default_seg_south <- sort(unique(species_extent$southern_extent_name))[12]
   clicked_seg_south <- reactiveVal(default_seg_south)
   
   # highlight default segment
@@ -289,7 +313,12 @@ server <- function(input, output) {
     
     species_extent %>%
       filter(southern_extent_name == clicked_seg_south()) %>%
-      dplyr::select("Scientific Name" = species_lump, "Latitude" = southern_extent_lat) %>%
+      mutate(Latitude = signif(southern_extent_lat, digits = 4),
+             image_url = paste0('<div style="text-align: center;">',
+                                '<img src="', image_url, '" height="80" width="80" ',
+                                'style="object-fit: cover; display: block; margin: auto;" />',
+                                '</div>')) %>%
+      dplyr::select("Common Name" = common_name, "Scientific Name" = species_lump, Latitude, "Image" = image_url) %>%
       arrange(Latitude)
     
   })
@@ -297,7 +326,7 @@ server <- function(input, output) {
   # dynamic title
   output$table_header_south <- renderText({
     
-    paste("Species with Southern Range Edges in", clicked_seg_south())
+    paste("Species in", clicked_seg_south())
     
   })
   
@@ -306,20 +335,35 @@ server <- function(input, output) {
     
     datatable(south_dt(),
               rownames = TRUE,
-              class = "hover",
-              options = list(dom = "t", scrollY = 400, paging = FALSE))
+              escape = FALSE,
+              class = "row-border",
+              options = list(dom = "t", 
+                             scrollY = 375, 
+                             paging = FALSE, 
+                             columnDefs = list(list(className = "dt-center", targets = "_all"))))
   })
   
   # dangermond range edges image
   output$cal_ranges <- renderImage({ 
     
-    list(src = "www/cal-ranges.jpg", width = "100%", height = "95%") 
+    list(src = "www/cal-ranges.jpg", contentType = "image/.jpg", width = "100%", height = "95%") 
     
   }, 
   
   deleteFile = FALSE 
   
   )
+  
+  output$zoom_modal <- renderUI({
+    
+    req(input$image_click)
+    
+    showModal(modalDialog(tags$img(src = "cal-ranges.jpg", style = "width: 100%"),
+                          easyClose = TRUE,
+                          size = "m"))
+    
+  })
+  
   
   # historic range shift tab ----
   

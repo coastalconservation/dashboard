@@ -32,7 +32,7 @@ sidebar <- dashboardSidebar(
     menuItem(text = "Home", tabName = "home", icon = icon("house")),
     menuItem(text = "Background", tabName = "background", icon = icon("circle-info")),
     menuItem(text = "Range Edges", tabName = "ranges", icon = icon("location-dot")),
-    menuItem(text = "Historic Range Shifts", tabName = "trends", icon = icon("arrow-trend-up")),
+    menuItem(text = "Contemporary Range Shifts", tabName = "trends", icon = icon("arrow-trend-up")),
     menuItem(text = "Projected Shifts", tabName = "model", icon = icon("project-diagram")),
     menuItem(text = "Priority Monitoring Assessment", tabName = "assessment", icon = icon("list-check")),
     menuItem(text = "Data and Limitations", tabName = "data", icon = icon("database"))
@@ -53,7 +53,7 @@ body <- dashboardBody(
     # home tabItem ----
     tabItem(tabName = "home",
             
-            # fluidRow
+            # first fluidRow
             fluidRow(
               
               # left buffer column
@@ -80,7 +80,24 @@ body <- dashboardBody(
               # right buffer column
               column(width = 1)
               
-            ), # END fluidRow
+            ), # END first fluidRow
+            
+            # second fluidRow
+            fluidRow(
+              
+              # left buffer column
+              column(width = 1),
+              
+              # dangermond box
+              box(width = 5), # END dangermond box
+              
+              # image box
+              box(width = 5), # END image box
+              
+              # right buffer column
+              column(width = 1)
+              
+            ), # END second fluidRow
             
     ), # END home tabItem
     
@@ -103,8 +120,10 @@ body <- dashboardBody(
               # currents image box
               box(width = 5,
                   
-                  imageOutput("cal_currents") %>%
+                  imageOutput("cal_currents", click = "currents_click") %>%
                     withSpinner(color = "#05641C", type = 1, size = 1),
+                  
+                  uiOutput("zoom_currents"),
                   
                   "Figure 1. Insert Caption"
                   
@@ -124,8 +143,10 @@ body <- dashboardBody(
               # range shift image box
               box(width = 5,
                   
-                  imageOutput("range_shift") %>%
+                  imageOutput("range_shift", click = "shift_click") %>%
                     withSpinner(color = "#05641C", type = 1, size = 1),
+                  
+                  uiOutput("zoom_shift"),
                   
                   "Figure 2. Insert Caption"
                   
@@ -176,7 +197,7 @@ body <- dashboardBody(
               box(width = 5,
                   
                   tags$h4("Northern Range Edges of Rocky Intertidal Species in CA",
-                          style = "text-align: center; font-weight: bold"),
+                          style = "text-align: center; font-weight: bold; padding-bottom: 15px;"),
                   
                   actionButton(inputId = "refresh_northern_map", 
                                label = "Refresh Map",
@@ -191,8 +212,8 @@ body <- dashboardBody(
               # northern range edge DT box
               box(width = 5,
                   
-                  tags$h5(textOutput("table_header_north"),
-                          style = "text-align: center; font-weight: bold"),
+                  tags$h4(textOutput("table_header_north"),
+                          style = "text-align: center; font-weight: bold; padding-bottom: 15px;"),
                   
                   DTOutput("northern_edge_table") %>%
                     withSpinner(color = "#05641C", type = 1, size = 1)
@@ -214,7 +235,7 @@ body <- dashboardBody(
               box(width = 5,
                   
                   tags$h4("Southern Range Edges of Rocky Intertidal Species in CA",
-                          style = "text-align: center; font-weight: bold"),
+                          style = "text-align: center; font-weight: bold; padding-bottom: 15px;"),
                   
                   actionButton(inputId = "refresh_southern_map", 
                                label = "Refresh Map",
@@ -229,8 +250,8 @@ body <- dashboardBody(
               # southern range edge DT box
               box(width = 5,
                   
-                  tags$h5(textOutput("table_header_south"),
-                          style = "text-align: center; font-weight: bold"),
+                  tags$h4(textOutput("table_header_south"),
+                          style = "text-align: center; font-weight: bold; padding-bottom: 15px;"),
                   
                   DTOutput("southern_edge_table") %>%
                     withSpinner(color = "#05641C", type = 1, size = 1)
@@ -254,8 +275,8 @@ body <- dashboardBody(
                   # fluidRow
                   fluidRow(
                     
-                    tags$h4("Rocky Intertidal Species with Range Edges Near Point Conception",
-                            style = "text-align: center; font-weight: bold"),
+                    tags$h3("Rocky Intertidal Species with Range Edges Near Point Conception",
+                            style = "text-align: center; font-weight: bold; padding-bottom: 25px;"),
                     
                     # left-hand column
                     column(width = 6,
@@ -263,45 +284,70 @@ body <- dashboardBody(
                            # first fluidRow
                            fluidRow(
                              
-                             column(width = 2),
+                             column(width = 1),
                              
-                             column(width = 8,
+                             column(width = 10,
                                     
-                                    "*insert value box*" 
+                                    value_box(title = span("Northern Range Edges",
+                                                           style = "font-size: 22px; font-weight: bold;"),
+                                              value = span("23 species",
+                                                           style = "font-size: 20px;"),
+                                              showcase = span(bs_icon("arrow-up"),
+                                                              style = "color: black;"),
+                                              p("11 in Northern Point Conception", style = "font-size: 15px;"),
+                                              p("12 in Southern Point Conception", style = "font-size: 15px;"),
+                                              style = "background-color: #49a842; border-radius: 15px;",
+                                              height = "125px")
                                     
                              ),
                              
-                             column(width = 2)
+                             column(width = 1)
                              
                            ), # END first fluidRow
                            
                            # second fluidRow
                            fluidRow(
                              
-                             column(width = 2),
+                             column(width = 1),
                              
-                             column(width = 8,
+                             column(width = 10,
                                     
-                                    "*insert value box*"
+                                    value_box(title = span("Southern Range Edges",
+                                                           style = "font-size: 22px; font-weight: bold;"),
+                                              value = span("37 species",
+                                                           style = "font-size: 20px;"),
+                                              showcase = span(bs_icon("arrow-down"),
+                                                              style = "color: black;"),
+                                              p("17 in Northern Point Conception", style = "font-size: 15px;"),
+                                              p("20 in Southern Point Conception", style = "font-size: 15px;"),
+                                              style = "background-color: #01c1e3; border-radius: 15px;",
+                                              height = "125px")  
                                     
                              ),
                              
-                             column(width = 2)
+                             column(width = 1)
                              
                            ), # END second fluidRow
                            
                            # third fluidRow
                            fluidRow(
                              
-                             column(width = 2),
+                             column(width = 1),
                              
-                             column(width = 8,
+                             column(width = 10,
                                     
-                                    "*insert value box*"
+                                    value_box(title = span("MARINe Survey Sites",
+                                                           style = "font-size: 22px; font-weight: bold;"),
+                                              value = span("16",
+                                                           style = "font-size: 20px;"),
+                                              showcase = span(bs_icon("geo-alt"),
+                                                              style = "color: black;"),
+                                              style = "background-color: #ffc700; border-radius: 15px;",
+                                              height = "125px") 
                                     
                              ),
                              
-                             column(width = 2)
+                             column(width = 1)
                              
                            ), # END third fluidRow
                            
@@ -310,8 +356,10 @@ body <- dashboardBody(
                     # right-hand column
                     column(width = 6,
                            
-                           imageOutput("cal_ranges") %>%
-                             withSpinner(color = "#05641C", type = 1, size = 1)
+                             imageOutput("cal_ranges", click = "image_click") %>%
+                               withSpinner(color = "#05641C", type = 1, size = 1),
+                             
+                             uiOutput("zoom_modal")
                            
                     ) # END right-hand column
                     
