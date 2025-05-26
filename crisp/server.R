@@ -487,6 +487,22 @@ server <- function(input, output) {
   # Cumulative change map ----
   output$cumulative_change_output <- renderLeaflet({
     
+    breaks_total <- c(-10, -7, -3, 0, 3, 7, 10)
+    
+    # Color palettes
+    change_habitat <- colorBin(
+      palette = c("#00205B", # strong loss
+                           "#FF0049", # moderate loss 
+                           "#FFC700", # weak lost
+                           "#E4E2F5", # no change 
+                           "#00C2CB",  # weak gain 
+                           "#038C45",  # moderate gain
+                           "#49A842"),
+                           domain = c(-14, 14),
+      bins = breaks_total,
+      na.color = "transparent",
+      right = FALSE)
+    
     leaflet() |>
       addProviderTiles(provider = "Esri.WorldStreetMap") |>
       addRasterImage(cumulative_change, colors = change_habitat) |>
