@@ -4,6 +4,7 @@ library(DT)
 library(bslib)
 library(shiny)
 library(fresh)
+library(plotly)
 library(raster)
 library(slickR)
 library(bsicons)
@@ -44,4 +45,6 @@ nice_names <- str_replace_all(change_species_choices, "_", " ")
 named_choices <- setNames(change_species_choices, nice_names)
 
 cumulative_change <- raster("data/processed/species_model_rasters/cumulative_species_rasters/cumulative_change.tif")
+
+target_boundaries <- read_rds("data/processed/target_boundaries.rds")
 
