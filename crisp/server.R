@@ -441,7 +441,29 @@ server <- function(input, output) {
   })
   
   # projected shifts tab ----
-
+  
+  # Species information box ----
+  
+  output$species_info_box <- renderUI({
+    req(input$change_selected_species)
+    
+    # Convert dash-format back to species name format
+    species_lump_input <- input$change_selected_species %>% 
+      gsub("_", " ", .)
+    
+    info <- species_names %>%
+      filter(species_lump == species_lump_input)
+      
+    
+    # Build box content
+    common_name <- info$common_name
+    image_url <- info$image_url
+    
+    tagList(
+      tags$h4(info$common_name),
+      tags$img(src = info$image_url, width = "300px", style = "border-radius: 8px; margin-bottom: 10px;")
+    )
+  })
 
   # current suitability map ----
 
@@ -482,7 +504,7 @@ server <- function(input, output) {
     current_rast <- current_selected_raster()
     
     stable_habitat_pal <- colorBin(palette = c("#E4E2F5", "#FFC700", "#49A842", "#00205B"),
-                                   domain = c(0, 1),
+                                   bins = seq(0, 1, length.out = 7),
                                    na.color = "transparent",
                                    right = FALSE)
     
@@ -515,7 +537,7 @@ server <- function(input, output) {
     projected_rast <- projected_selected_raster()
     
     stable_habitat_pal <- colorBin(palette = c("#E4E2F5", "#FFC700", "#49A842", "#00205B"),
-                                   domain = c(0, 1),
+                                   bins = seq(0, 1, length.out = 5),
                                    na.color = "transparent",
                                    right = FALSE)
     
@@ -547,7 +569,9 @@ server <- function(input, output) {
     
     change_rast <- change_selected_raster()
     
-    breaks <- c(-1, -0.6, -0.3, -0.1, 0.1, 0.3, 0.6, 1)
+    # Editing this to check something
+    
+    breaks <- c(-1, -0.6, -0.3, -.1, .1, 0.3, 0.6, 1)
     
     change_habitat_pal <- colorBin(palette = c("#00205B", "#FF0049", "#FFC700", "#E4E2F5","#00C2CB","#49A842","#038C45"),
                                    domain = c(-1, 1),
@@ -570,7 +594,7 @@ server <- function(input, output) {
   # cumulative change suitability map ----
   output$cumulative_change_output <- renderLeaflet({
     
-    breaks_total <- c(-10, -7, -3, 0, 3, 7, 10)
+    breaks_total <- c(-10, -7, -3, -1, 1, 3, 7, 10)
     
     # Color palettes
     change_habitat <- colorBin(
@@ -579,8 +603,8 @@ server <- function(input, output) {
                            "#FFC700", # weak lost
                            "#E4E2F5", # no change 
                            "#00C2CB",  # weak gain 
-                           "#038C45",  # moderate gain
-                           "#49A842"),
+                           "#49A842",
+                           "#038C45"),
                            domain = c(-14, 14),
       bins = breaks_total,
       na.color = "transparent",
