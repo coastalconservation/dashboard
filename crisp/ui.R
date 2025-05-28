@@ -35,7 +35,8 @@ sidebar <- dashboardSidebar(
     menuItem(text = "Contemporary Range Shifts", tabName = "trends", icon = icon("arrow-trend-up")),
     menuItem(text = "Projected Shifts", tabName = "model", icon = icon("project-diagram")),
     menuItem(text = "Priority Monitoring Assessment", tabName = "assessment", icon = icon("list-check")),
-    menuItem(text = "Data and Limitations", tabName = "data", icon = icon("database"))
+    menuItem(text = "Data and Limitations", tabName = "data", icon = icon("database")),
+    menuItem(text = "Acknowledgements", tabName = "acknowledgments", icon = icon("star"))
     
   ) # END sidebarMenu
   
@@ -296,7 +297,7 @@ body <- dashboardBody(
                                                               style = "color: black;"),
                                               p("11 in Northern Point Conception", style = "font-size: 15px;"),
                                               p("12 in Southern Point Conception", style = "font-size: 15px;"),
-                                              style = "background-color: #49a842; border-radius: 15px;",
+                                              style = "background-color: #01c1e3; border-radius: 15px;",
                                               height = "125px")
                                     
                              ),
@@ -320,7 +321,7 @@ body <- dashboardBody(
                                                               style = "color: black;"),
                                               p("17 in Northern Point Conception", style = "font-size: 15px;"),
                                               p("20 in Southern Point Conception", style = "font-size: 15px;"),
-                                              style = "background-color: #01c1e3; border-radius: 15px;",
+                                              style = "background-color: #49a842; border-radius: 15px;",
                                               height = "125px")  
                                     
                              ),
@@ -374,7 +375,7 @@ body <- dashboardBody(
             
     ), # END range edges tabItem
     
-    # historic range shifts tabItem ----
+    # contemporary range shifts tabItem ----
     tabItem(tabName = "trends",
             
             # first fluidRow
@@ -384,19 +385,11 @@ body <- dashboardBody(
               column(width = 1),
               
               # info box
-              box(width = 5,
+              box(width = 10,
                   
-                  includeMarkdown("text/range-edges.md")
+                  includeMarkdown("text/contemp-range.md")
                   
               ), # END info box
-              
-              # survey sites image box
-              box(width = 5,
-                  
-                  imageOutput("bob") %>%
-                    withSpinner(color = "#05641C", type = 1, size = 1)
-                  
-              ), # END survey sites image box
               
               # right buffer column
               column(width = 1)
@@ -412,13 +405,10 @@ body <- dashboardBody(
               # picker column
               column(width = 3,
                      
-                     pickerInput(inputId = "artist_input", 
-                                 label = "Choose an artist image:",
-                                 choices = c("addison.jpeg", "badbunny.jpeg", "billie.jpeg", "britney.jpeg", 
-                                             "camila.jpeg", "caroline.jpeg", "charlixcx.jpeg", "clairo.jpeg", 
-                                             "fka.jpeg", "haim.jpeg", "isoxo.jpeg", "lana.jpeg", 
-                                             "le sserafim.jpeg", "lorde.jpeg", "rebecca.jpeg", 
-                                             "sophie.jpeg", "troye.jpeg", "yeji.jpeg"),
+                     pickerInput(inputId = "species", 
+                                 label = "Choose an intertidal species:",
+                                 choices = unique(target_boundaries$species),
+                                 selected = unique(target_boundaries$species)[1],
                                  multiple = FALSE,
                                  options = pickerOptions(dropupAuto = FALSE,
                                                          size = 3))
@@ -439,16 +429,21 @@ body <- dashboardBody(
               # plot box
               box(width = 5,
                   
-                  uiOutput("image_a") %>%
-                    withSpinner(color = "black", type = 1, size = 1)
+                  tags$h4(textOutput("plotly_header"),
+                          style = "text-align: center; font-weight: bold; padding-bottom: 15px;"),
+                  
+                  plotlyOutput("species_plot") %>%
+                    withSpinner(color = "#05641C", type = 1, size = 1)
                   
               ), # END plot box
               
               # plot box
               box(width = 5,
                   
-                  uiOutput("image_b") %>%
-                    withSpinner(color = "black", type = 1, size = 1)
+                  imageOutput("coastline_distance", click = "distance_click") %>%
+                    withSpinner(color = "#05641C", type = 1, size = 1),
+                  
+                  uiOutput("zoom_coastline")
                   
               ), # END plot box
               
@@ -596,7 +591,25 @@ body <- dashboardBody(
               
             ) # END first fluidRow
             
-    ) # END data and limitations tabItem
+    ), # END data and limitations tabItem
+    
+    # acknowledgements tabItem ----
+    tabItem(tabName = "acknowledgments",
+            
+            # left buffer column
+            column(width = 1),
+            
+            # acknowledgements
+            column(width = 10,
+                   
+                   includeMarkdown("text/acknowledgements.md")
+                   
+                   ), # END acknowledgements
+            
+            # right buffer column
+            column(width = 1)
+            
+            ) # END acknowledgements tabItem
     
   ) # END tabItems
   

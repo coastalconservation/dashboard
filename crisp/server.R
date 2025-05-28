@@ -63,7 +63,7 @@ server <- function(input, output) {
   # range shift image
   output$range_shift <- renderImage({ 
     
-    list(src = "www/range-shift.jpg", contentType = "image/.jpg", width = "100%", height = "95%") 
+    list(src = "www/RANGESHIFT.png", contentType = "image/.jpg", width = "100%", height = "95%") 
     
   }, 
   
@@ -75,7 +75,7 @@ server <- function(input, output) {
     
     req(input$shift_click)
     
-    showModal(modalDialog(tags$img(src = "range-shift.jpg", style = "width: 100%"),
+    showModal(modalDialog(tags$img(src = "RANGESHIFT.png", style = "width: 100%"),
                           easyClose = TRUE,
                           size = "m"))
     
@@ -365,33 +365,80 @@ server <- function(input, output) {
   })
   
   
-  # historic range shift tab ----
+  # contemporary range shift tab ----
+  
+  # 
+  range_shift <- reactive({
+    
+    target_boundaries %>%
+      mutate(north_boundary = north_boundary/1000,
+             south_boundary = south_boundary/1000) %>%
+      filter(species == input$species)
+    
+  })
+  
+  # dynamic title
+  output$plotly_header <- renderText({
+    
+    paste(input$species, "Range Distribution Every 5 Years")
+    
+  })
   
   # plots
-  output$image_a <- renderUI({
-    
-    req(input$artist_input)
-    tags$img(src = file.path("a", input$artist_input), height = 400, width = "100%")
+  output$species_plot <- renderPlotly({
+  
+    ggplotly(width = 500, height = 500,
+      ggplot(range_shift()) +
+        geom_segment(aes(x = year_bin, xend = year_bin, 
+                         y = south_boundary, yend = north_boundary), na.rm = TRUE) +
+        geom_point(aes(x = year_bin, y = north_boundary), color = "#49A842", na.rm = TRUE) +
+        geom_point(aes(x = year_bin, y = south_boundary), color = "#01c1e3", na.rm = TRUE) +
+        geom_hline(yintercept = 520.8593, linetype = "dashed", color = "#ff004d") +
+        geom_point(aes(x = 0, y = 520.8593, text = "Point Conception"), color = "#ff004d", alpha = 0) +
+        geom_point(aes(x = 0, y = 0, text = "CA/MX Border"), color = "#ff004d", alpha = 0) +
+        geom_point(aes(x = 0, y = 200, text = "Orange County"), color = "#ff004d", alpha = 0) +
+        geom_point(aes(x = 0, y = 400, text = "Ventura"), color = "#ff004d", alpha = 0) +
+        geom_point(aes(x = 0, y = 600, text = "Pismo Beach"), color = "#ff004d", alpha = 0) +
+        geom_point(aes(x = 0, y = 800, text = "Big Sur"), color = "#ff004d", alpha = 0) +
+        geom_point(aes(x = 0, y = 1000, text = "Half Moon Bay"), color = "#ff004d", alpha = 0) +
+        geom_point(aes(x = 0, y = 1200, text = "Point Reyes"), color = "#ff004d", alpha = 0) +
+        geom_point(aes(x = 0, y = 1400, text = "Mendocino"), color = "#ff004d", alpha = 0) +
+        geom_point(aes(x = 0, y = 1600, text = "Eureka"), color = "#ff004d", alpha = 0) +
+        geom_point(aes(x = 0, y = 1800, text = "US/CA Border"), color = "#ff004d", alpha = 0) +
+        scale_y_continuous(expand = c(0.02, 0), limits = c(0, 1800), breaks = seq(0, 1800, by = 200)) +
+        labs(y = "Distance Along the CA Coastline (km)") +
+        theme_bw() +
+        theme(axis.title.x = element_blank(),
+              axis.ticks = element_blank(),
+              panel.grid = element_line(color = "#eae8f5"),
+              panel.grid.major.x = element_blank(),
+              panel.grid.minor.y = element_blank(),
+              panel.border = element_blank()),
+      tooltip = "text") %>%
+      config(displayModeBar = FALSE)
     
   })
-  
-  output$image_b <- renderUI({
+ 
+  # coastline distance image
+  output$coastline_distance <- renderImage({ 
     
-    req(input$artist_input)
-    tags$img(src = file.path("b", input$artist_input), height = 400, width = "100%")
-    
-  })
-  
-  # survey sites image
-  output$bob <- renderImage({ 
-    
-    list(src = "www/bob.jpeg", width = "100%", height = "95%") 
+    list(src = "www/unnamed.png", contentType = "image/.jpg", width = 500, height = 500) 
     
   }, 
   
   deleteFile = FALSE 
   
   )
+  
+  output$zoom_coastline <- renderUI({
+    
+    req(input$distance_click)
+    
+    showModal(modalDialog(tags$img(src = "unnamed.png", style = "width: 100%"),
+                          easyClose = TRUE,
+                          size = "m"))
+    
+  })
   
   # projected shifts tab ----
 
@@ -553,5 +600,7 @@ server <- function(input, output) {
       addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
     
   })
+  
+  # acknowledgements tab ----
   
 }

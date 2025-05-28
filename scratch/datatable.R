@@ -6,7 +6,7 @@ library(readxl)
 # read data
 species_extent <- read_csv("crisp/data/processed/species_extent.csv")
 species_names <- read_csv("crisp/data/processed/species_names.csv") %>%
-  select(! image)
+  select(! c(image, ...5))
 
 # DT
 species_extent <- species_extent %>%
