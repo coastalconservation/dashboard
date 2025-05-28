@@ -484,7 +484,7 @@ body <- dashboardBody(
               box(width = 9,
                   
                   # Title for change map
-                  tags$h4("Map of Habitat Change From Now to 2050",
+                  tags$h4("Map of Habitat Change From 2025 to 2050",
                           style = "text-align: center; font-weight: bold"),
                   
                   # Leaflet output
@@ -501,7 +501,7 @@ body <- dashboardBody(
               box(width = 6,
                   
                   # Title for current species map
-                  tags$h4("Map of Current Species Habitat",
+                  tags$h4("Map of Species Habitat In 2025",
                           style = "text-align: center; font-weight: bold"),
                   # Leaflet output
                   leafletOutput(outputId = "current_raster_output") %>% 
