@@ -394,7 +394,29 @@ server <- function(input, output) {
   )
   
   # projected shifts tab ----
-
+  
+  # Species information box ----
+  
+  output$species_info_box <- renderUI({
+    req(input$change_selected_species)
+    
+    # Convert dash-format back to species name format
+    species_lump_input <- input$change_selected_species %>% 
+      gsub("_", " ", .)
+    
+    info <- species_names %>%
+      filter(species_lump == species_lump_input)
+      
+    
+    # Build box content
+    common_name <- info$common_name
+    image_url <- info$image_url
+    
+    tagList(
+      tags$h4(info$common_name),
+      tags$img(src = info$image_url, width = "300px", style = "border-radius: 8px; margin-bottom: 10px;")
+    )
+  })
 
   # current suitability map ----
 
@@ -523,7 +545,7 @@ server <- function(input, output) {
   # cumulative change suitability map ----
   output$cumulative_change_output <- renderLeaflet({
     
-    breaks_total <- c(-10, -7, -3, 0, 3, 7, 10)
+    breaks_total <- c(-10, -7, -3, -1, 1, 3, 7, 10)
     
     # Color palettes
     change_habitat <- colorBin(
@@ -532,8 +554,8 @@ server <- function(input, output) {
                            "#FFC700", # weak lost
                            "#E4E2F5", # no change 
                            "#00C2CB",  # weak gain 
-                           "#038C45",  # moderate gain
-                           "#49A842"),
+                           "#49A842",
+                           "#038C45"),
                            domain = c(-14, 14),
       bins = breaks_total,
       na.color = "transparent",

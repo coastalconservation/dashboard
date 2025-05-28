@@ -482,7 +482,11 @@ body <- dashboardBody(
                                  multiple = FALSE,
                                  options = pickerOptions(dropupAuto = FALSE,
                                                          size = 7)
-                     )
+                     ),
+                     
+                     # Species image and common name
+                     uiOutput("species_info_box")
+                     
               ), # end of column 1
               
               # Leaflet box for change raster
