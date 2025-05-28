@@ -457,7 +457,7 @@ server <- function(input, output) {
     current_rast <- current_selected_raster()
     
     stable_habitat_pal <- colorBin(palette = c("#E4E2F5", "#FFC700", "#49A842", "#00205B"),
-                                   domain = c(0, 1),
+                                   bins = seq(0, 1, length.out = 7),
                                    na.color = "transparent",
                                    right = FALSE)
     
@@ -490,7 +490,7 @@ server <- function(input, output) {
     projected_rast <- projected_selected_raster()
     
     stable_habitat_pal <- colorBin(palette = c("#E4E2F5", "#FFC700", "#49A842", "#00205B"),
-                                   domain = c(0, 1),
+                                   bins = seq(0, 1, length.out = 5),
                                    na.color = "transparent",
                                    right = FALSE)
     
@@ -522,7 +522,9 @@ server <- function(input, output) {
     
     change_rast <- change_selected_raster()
     
-    breaks <- c(-1, -0.6, -0.3, -0.1, 0.1, 0.3, 0.6, 1)
+    # Editing this to check something
+    
+    breaks <- c(-1, -0.6, -0.3, -.1, .1, 0.3, 0.6, 1)
     
     change_habitat_pal <- colorBin(palette = c("#00205B", "#FF0049", "#FFC700", "#E4E2F5","#00C2CB","#49A842","#038C45"),
                                    domain = c(-1, 1),

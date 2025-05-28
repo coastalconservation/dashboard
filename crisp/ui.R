@@ -289,14 +289,14 @@ body <- dashboardBody(
                              column(width = 10,
                                     
                                     value_box(title = span("Northern Range Edges",
-                                                           style = "font-size: 22px; font-weight: bold;"),
+                                                           style = "font-size: 22px; font-weight: bold; color: #eae8f5;"),
                                               value = span("23 species",
                                                            style = "font-size: 20px;"),
                                               showcase = span(bs_icon("arrow-up"),
                                                               style = "color: black;"),
                                               p("11 in Northern Point Conception", style = "font-size: 15px;"),
                                               p("12 in Southern Point Conception", style = "font-size: 15px;"),
-                                              style = "background-color: #49a842; border-radius: 15px;",
+                                              style = "background-color: #05641c; border-radius: 15px;",
                                               height = "125px")
                                     
                              ),
@@ -320,7 +320,7 @@ body <- dashboardBody(
                                                               style = "color: black;"),
                                               p("17 in Northern Point Conception", style = "font-size: 15px;"),
                                               p("20 in Southern Point Conception", style = "font-size: 15px;"),
-                                              style = "background-color: #01c1e3; border-radius: 15px;",
+                                              style = "background-color: #eae8f5; border-radius: 15px;",
                                               height = "125px")  
                                     
                              ),
@@ -337,12 +337,12 @@ body <- dashboardBody(
                              column(width = 10,
                                     
                                     value_box(title = span("MARINe Survey Sites",
-                                                           style = "font-size: 22px; font-weight: bold;"),
+                                                           style = "font-size: 22px; font-weight: bold; color: #eae8f5"),
                                               value = span("16",
                                                            style = "font-size: 20px;"),
                                               showcase = span(bs_icon("geo-alt"),
                                                               style = "color: black;"),
-                                              style = "background-color: #ffc700; border-radius: 15px;",
+                                              style = "background-color: #06063d; border-radius: 15px;",
                                               height = "125px") 
                                     
                              ),
@@ -464,9 +464,16 @@ body <- dashboardBody(
             
             # First fluid row
             fluidRow(
+              
+              # Buffer column one
+              column(width = 1), # end column one
+              
               # Info box
-              box(width = 12,
+              box(width = 10,
                   includeMarkdown("text/model-info.md")), # End species rasters info box
+              
+              # Buffer column two
+              column(width = 1) # End buffer column two
               
             ), # End first fluid row
             
@@ -542,16 +549,58 @@ body <- dashboardBody(
             # Fifth fluid row
             fluidRow(
               
-              # Column 1: buffer column
-              column(width = 2), # end column 1
+              column(width = 1),
+               # Column 1: buffer column
+              column(width = 3,
+                     
+                     fluidRow(   # end column 1
+              
+              value_box(title = span("Northern Range Edges",
+                                     style = "font-size: 22px; font-weight: bold;"),
+                        value = span("23 species",
+                                     style = "font-size: 20px;"),
+                        showcase = span(bs_icon("arrow-up"),
+                                        style = "color: black;"),
+                        p("11 in Northern Point Conception", style = "font-size: 15px;"),
+                        p("12 in Southern Point Conception", style = "font-size: 15px;"),
+                        style = "background-color: #49a842; border-radius: 10px; width: 300px; padding: 20px;",
+                        height = "140px")
+              ), # end first fluid row
+              fluidRow(
+                value_box(title = span("Northern Range Edges", style = "font-size: 22px; font-weight: bold;"),
+                                 value = span("23 species",
+                                              style = "font-size: 20px;"),
+                                 showcase = span(bs_icon("arrow-up"),
+                                                 style = "color: black;"),
+                                 p("11 in Northern Point Conception", style = "font-size: 15px;"),
+                                 p("12 in Southern Point Conception", style = "font-size: 15px;"),
+                                 style = "background-color: #49a842; border-radius: 10px; width: 300px; padding: 20px;",
+                                 height = "140px")
+                
+              ), # end second fluid row
+              
+              fluidRow(
+                value_box(title = span("Northern Range Edges", style = "font-size: 22px; font-weight: bold;"),
+                                 value = span("23 species", 
+                                              style = "font-size: 20px;"),
+                                 showcase = span(bs_icon("arrow-up"),
+                                                 style = "color: black;"),
+                                 p("11 in Northern Point Conception", style = "font-size: 15px;"),
+                                 p("12 in Southern Point Conception", style = "font-size: 15px;"),
+                                 style = "background-color: #49a842; border-radius: 10px; width: 300px; padding: 20px;",
+                                 height = "140px"),
+                column(width = 1)) # end third fluid row
+              
+              ),
+              
+              # Start of column
+              column(width = 1), # End of column
               
               # Column 2: Cumulative map
               box(width = 8,
                   leafletOutput(outputId = "cumulative_change_output") %>% 
                     withSpinner(color = "#05641C", type = 1, size = 1)),
-              
-              # Column 
-              column(width = 2),
+    
             ) # End fifth fluid row
             
     ), # END model tabItem
