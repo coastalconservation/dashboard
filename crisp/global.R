@@ -22,7 +22,7 @@ dangermond <- read_sf("data/raw/spatial_data/dangermond_shapefile/jldp_boundary.
   st_transform(crs = 4326)
 
 species_names <- read_csv("data/processed/species_names.csv") %>%
-  select(species_lump, common_name, image_url)
+  dplyr::select(species_lump, common_name, image_url)
 
 
 species_extent <- read_csv("data/processed/species_extent.csv") %>%
