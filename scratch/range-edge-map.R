@@ -5,8 +5,7 @@ library(sf)
 library(leaflet)
 
 ##############
-species_extent <- read_csv("shinydashboard/data/processed/species_extent.csv") %>%
-  select(! ...1)
+species_extent <- read_csv("crisp/data/processed/species_extent.csv")
 ca_segments <- st_read("raw-data/raw/spatial_data/segments/CA_segments.shp")
 dangermond <- st_read("raw-data/raw/spatial_data/dangermond_shapefile/jldp_boundary.shp") %>%
   st_transform(crs = 4326)

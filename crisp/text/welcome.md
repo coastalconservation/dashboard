@@ -1,5 +1,3 @@
-# Welcome
-
 Welcome to the California Ranges of Intertidal Species Portal (CRISP).
 
 CRISP is an interactive tool designed to explore the distribution of rocky intertidal species along the California coast.

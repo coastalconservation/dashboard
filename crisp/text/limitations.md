@@ -1,0 +1,7 @@
+Issues with data temporally and spatially. The Coastal Biodiversity Survey Data is only conducted at each site every 5 to 7 years. Additionally, the sites are not evenly distributed throughout the coast. Additionally, some species are rare or difficult to identify, which can lead to underreporting or inconsistent observations.
+
+The habitat suitability and species distribution models used here are based solely on a set of five environmental variables. These models do not include biological factors like how a species disperses, interacts with others, or encounters physical barriers that might prevent it from shifting its range. As a result, the models are best understood as estimates of suitable habitat based on where a species has been observed and the surrounding environmental conditions.
+
+This study could be strengthened by incorporating more species observation data, modeling under different climate emission scenarios, and accounting for additional factors that influence where species’ distributions.
+
+

@@ -2,7 +2,7 @@
 header <- dashboardHeader(
   
   # title ----
-  title = span(img(src = "TNCLogoPrimary_RGB_PNG.png", height = 70, style = "padding-top: 20px;")),
+  title = span(img(src = "TNCLogoPrimary_RGB_PNG.png", height = 80, style = "padding-top: 20px;")),
   titleWidth = 300,
   
   # navbar adjustments ----
@@ -11,7 +11,7 @@ header <- dashboardHeader(
           tags$style(".sidebar-toggle {color: #05641C; font-size: 30px; padding-top: 10px !important;}"),
           tags$style(".skin-blue .main-header .navbar .sidebar-toggle {color: #05641C !important;}"),
           tags$div("California Ranges of Intertidal Species Portal (CRISP)",
-                   style = "padding-top: 20px; padding-right: 300px; font-weight: normal; color: black; font-size: 30px;"))
+                   style = "padding-top: 20px; padding-right: 225px; font-weight: bold; color: black; font-size: 32px; font-family: Merriweather;"))
   
 ) # END dashboardHeader
 
@@ -22,7 +22,7 @@ sidebar <- dashboardSidebar(
   use_theme("dashboard-fresh-theme.css"),
   
   # sidebar adjustments ----
-  tags$style(".left-side, .main-sidebar {padding-top: 100px; font-size: 14px;}"),
+  tags$style(".left-side, .main-sidebar {padding-top: 100px; font-size: 14px; font-family: Barlow;}"),
   width = 300,
   
   # sidebarMenu ----
@@ -47,6 +47,10 @@ body <- dashboardBody(
   
   # body adjustments ----
   tags$style(".content-wrapper, .right-side {padding-top: 25px;}"),
+  tags$head(tags$link(rel = "stylesheet", 
+                      href = "https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"),
+            tags$link(rel = "stylesheet", 
+                      href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap")),
   
   # tabItems
   tabItems(
@@ -63,7 +67,10 @@ body <- dashboardBody(
               # welcome box
               box(width = 5,
                   
-                  div(style = "font-size: 16px;", includeMarkdown("text/welcome.md"))
+                  tags$h1("Welcome",
+                          style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;"),
+                  
+                  div(style = "font-size: 18px; font-family: Merriweather", includeMarkdown("text/welcome.md"))
                   
               ), # END welcomed box
               
@@ -89,11 +96,27 @@ body <- dashboardBody(
               # left buffer column
               column(width = 1),
               
-              # dangermond box
-              box(width = 5), # END dangermond box
+              # image box
+              box(width = 5,
+                  
+                  imageOutput("dangermond", click = "dangermond_click") %>%
+                    withSpinner(color = "#05641C", type = 1, size = 1),
+                  
+                  uiOutput("zoom_dangermond"),
+                  
+                  div(style = "font-size: 18px; font-family: Merriweather;", "Figure 1. Insert Caption")
+                  
+                  ), # END kelley's box
               
               # image box
-              box(width = 5), # END image box
+              box(width = 5,
+                  
+                  tags$h1("The Last Wild Coast",
+                          style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;"),
+                  
+                  div(style = "font-size: 18px; font-family: Merriweather", includeMarkdown("text/dangermond.md"))
+                  
+                  ), # END dangermond box
               
               # right buffer column
               column(width = 1)
@@ -111,24 +134,33 @@ body <- dashboardBody(
               # left buffer column
               column(width = 1),
               
-              # biogeographic box
-              box(width = 5,
+              # box
+              box(width = 10,
                   
-                  div(style = "font-size: 16px;", includeMarkdown("text/biogeographic.md"))
+                  tags$h1("Kelly the Kellet's Whelk",
+                          style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;"),
                   
-              ), # END biogeographic box
-              
-              # currents image box
-              box(width = 5,
+                  # fluidRow
+                  fluidRow(
+                    
+                    # left-hand column
+                    column(width = 8,
+                           
+                           div(style = "font-size: 18px; font-family: Merriweather", includeMarkdown("text/kelley.md"))
+                           
+                           ), # END left-hand column
+                    
+                    # right-hand column
+                    column(width = 4,
+                           
+                           div(style = "text-align: center;",
+                               img(src = "Whelk.webp", width = 300, height = 300))
+                           
+                           ) # END right-hand column
+                    
+                  ) # END fluidRow
                   
-                  imageOutput("cal_currents", click = "currents_click") %>%
-                    withSpinner(color = "#05641C", type = 1, size = 1),
-                  
-                  uiOutput("zoom_currents"),
-                  
-                  "Figure 1. Insert Caption"
-                  
-              ), # END currents image box
+                  ), # END box
               
               # right buffer column
               column(width = 1)
@@ -141,7 +173,50 @@ body <- dashboardBody(
               # left buffer column
               column(width = 1),
               
+              # biogeographic box
+              box(width = 5,
+                  
+                  imageOutput("cal_currents", click = "currents_click") %>%
+                    withSpinner(color = "#05641C", type = 1, size = 1),
+                  
+                  uiOutput("zoom_currents"),
+                  
+                  div(style = "font-size: 18px; font-family: Merriweather;", "Figure 2. Insert Caption")
+                  
+              ), # END biogeographic box
+              
+              # currents image box
+              box(width = 5,
+                  
+                  tags$h1("Biogeographic Barrier",
+                          style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;"),
+                  
+                  div(style = "font-size: 18px; font-family: Merriweather;", includeMarkdown("text/biogeographic.md"))
+                  
+              ), # END currents image box
+              
+              # right buffer column
+              column(width = 1)
+              
+            ), # END second fluidRow
+            
+            # third fluidRow
+            fluidRow(
+              
+              # left buffer column
+              column(width = 1),
+              
               # range shift image box
+              box(width = 5,
+                  
+                  tags$h1("Range Shift",
+                          style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;"),
+                  
+                  div(style = "font-size: 18px; font-family: Merriweather;", includeMarkdown("text/range-shift.md"))
+                  
+              ), # END range shift image box
+              
+              # range shift box
               box(width = 5,
                   
                   imageOutput("range_shift", click = "shift_click") %>%
@@ -149,21 +224,14 @@ body <- dashboardBody(
                   
                   uiOutput("zoom_shift"),
                   
-                  "Figure 2. Insert Caption"
-                  
-              ), # END range shift image box
-              
-              # range shift box
-              box(width = 5,
-                  
-                  div(style = "font-size: 16px;", includeMarkdown("text/range-shift.md"))
+                  div(style = "font-size: 18px; font-family: Merriweather;", "Figure 3. Insert Caption")
                   
               ), # END range shift box
               
               # right buffer column
               column(width = 1)
               
-            ) # END second fluidRow
+            ) # END third fluidRow
             
     ), # END background tabItem
     
@@ -179,7 +247,10 @@ body <- dashboardBody(
               # info box
               box(width = 10,
                   
-                  includeMarkdown("text/range-edges.md")
+                  tags$h1("Range Edges",
+                          style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;"),
+                  
+                  div(style = "font-size: 18px; font-family: Merriweather;", includeMarkdown("text/range-edges.md"))
                   
               ), # END info box
               
@@ -198,7 +269,7 @@ body <- dashboardBody(
               box(width = 5,
                   
                   tags$h4("Northern Range Edges of Rocky Intertidal Species in CA",
-                          style = "text-align: center; font-weight: bold; padding-bottom: 15px;"),
+                          style = "text-align: center; font-weight: bold; font-family: Barlow; padding-bottom: 10px;"),
                   
                   actionButton(inputId = "refresh_northern_map", 
                                label = "Refresh Map",
@@ -213,11 +284,14 @@ body <- dashboardBody(
               # northern range edge DT box
               box(width = 5,
                   
-                  tags$h4(textOutput("table_header_north"),
-                          style = "text-align: center; font-weight: bold; padding-bottom: 15px;"),
+                  tags$h4("Rocky Intertidal Species with Northern Range Edges at",
+                          style = "text-align: center; font-weight: bold; font-family: Barlow;"),
                   
-                  DTOutput("northern_edge_table") %>%
-                    withSpinner(color = "#05641C", type = 1, size = 1)
+                  tags$h4(textOutput("table_header_north"),
+                          style = "text-align: center; font-weight: bold; font-family: Barlow; color:#05641c;"),
+                  
+                  div(style = "font-family: Merriweather;", DTOutput("northern_edge_table") %>%
+                    withSpinner(color = "#05641C", type = 1, size = 1))
                   
               ), # END northern range edge DT box
               
@@ -236,7 +310,7 @@ body <- dashboardBody(
               box(width = 5,
                   
                   tags$h4("Southern Range Edges of Rocky Intertidal Species in CA",
-                          style = "text-align: center; font-weight: bold; padding-bottom: 15px;"),
+                          style = "text-align: center; font-weight: bold; font-family: Barlow; padding-bottom: 15px;"),
                   
                   actionButton(inputId = "refresh_southern_map", 
                                label = "Refresh Map",
@@ -251,11 +325,14 @@ body <- dashboardBody(
               # southern range edge DT box
               box(width = 5,
                   
-                  tags$h4(textOutput("table_header_south"),
-                          style = "text-align: center; font-weight: bold; padding-bottom: 15px;"),
+                  tags$h4("Rocky Intertidal Species with Southern Range Edges at",
+                          style = "text-align: center; font-weight: bold; font-family: Barlow;"),
                   
-                  DTOutput("southern_edge_table") %>%
-                    withSpinner(color = "#05641C", type = 1, size = 1)
+                  tags$h4(textOutput("table_header_south"),
+                          style = "text-align: center; font-weight: bold; color:#05641c; font-family: Barlow;"),
+                  
+                  div(style = "font-family: Merriweather;", DTOutput("southern_edge_table") %>%
+                    withSpinner(color = "#05641C", type = 1, size = 1))
                   
               ), # END southern range edge DT box
               
@@ -639,25 +716,186 @@ body <- dashboardBody(
               # left buffer column
               column(width = 1),
               
-              # info box
-              box(width = 10,
-                  
-                  div(style = "font-size: 16px;", includeMarkdown("text/data-limitations.md"))
-                  
-              ), # END info box
+               # title column
+              column(width = 10,
+                     
+                     tags$h1("Data",
+                             style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;")
+                     
+                     ), # END title column
               
               # right buffer column
               column(width = 1)
               
-            ) # END first fluidRow
+            ), # END first fluidRow
+            
+            # second fluidRow
+            fluidRow(
+              
+              # left buffer column
+              column(width = 1),
+              
+              # MARINE info
+              column(width = 10,
+                     
+                     # fluidRow
+                     fluidRow(
+                       
+                       # left-hand column
+                       column(width = 8,
+                              
+                              div(style = "font-family: Merriweather; font-size: 18px;  padding-bottom: 25px;", includeMarkdown("text/MARINe.md"))
+                              
+                       ), # END left-hand column
+                       
+                       # right-hand column
+                       column(width = 4,
+                              
+                              div(style = "text-align: center; padding-bottom: 25px;",
+                                  img(src = "logos/MARINe.png", width = 300, height = 325))
+                              
+                       ) # END right-hand column
+                       
+                     ) # END fluidRow
+                     
+              ), # END MARINe info
+              
+              # right buffer column
+              column(width = 1)
+              
+            ), # END second fluidRow
+            
+            # third fluidRow
+            fluidRow(
+              
+              # left buffer column
+              column(width = 1),
+              
+              # line column
+              column(width = 10,
+                     
+                     tags$hr(style = "border-top: 3px solid; color: #eae8f5; padding-bottom: 25px;")
+                     
+                     ), # END line column
+              
+              # right buffer column
+              column(width = 1)
+              
+              ), # END third fluidRow
+            
+            # fourth fluidRow
+            fluidRow(
+              
+              # left buffer column
+              column(width = 1),
+              
+              # Bio-ORACLE info
+              column(width = 10,
+                     
+                     # fluidRow
+                     fluidRow(
+                       
+                       # left-hand column
+                       column(width = 8,
+                              
+                              div(style = "font-family: Merriweather; font-size: 18px; padding-bottom: 25px;",  includeMarkdown("text/Bio-ORACLE.md"))
+                              
+                       ), # END left-hand column
+                       
+                       # right-hand column
+                       column(width = 4,
+                              
+                              div(style = "text-align: center; padding-bottom: 25px;",
+                                  img(src = "logos/Bio-ORACLE.png", width = 300, height = 325))
+                              
+                       ) # END right-hand column
+                       
+                     ) # END fluidRow
+                     
+              ), # END Bio-ORACLE info
+              
+              # right buffer column
+              column(width = 1)
+              
+            ), # END fourth fluidRow
+            
+            # fifth fluidRow
+            fluidRow(
+              
+              # left buffer column
+              column(width = 1),
+              
+              # line column
+              column(width = 10,
+                     
+                     tags$hr(style = "border-top: 3px solid; color: #eae8f5; padding-bottom: 25px;")
+                     
+              ), # END line column
+              
+              # right buffer column
+              column(width = 1)
+              
+            ), # END fifth fluidRow
+            
+            # sixth fluidRow
+            fluidRow(
+              
+              # left buffer column
+              column(width = 1),
+              
+              # title column
+              column(width = 10,
+                     
+                     tags$h1("Limitations",
+                             style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;")
+                     
+              ), # END title column
+              
+              # right buffer column
+              column(width = 1)
+              
+            ), # END sixth fluidRow
+            
+            # seventh fluidRow
+            fluidRow(
+              
+              # left buffer column
+              column(width = 1),
+              
+              # limitations info
+              column(width = 10,
+                     
+                     div(style = "font-family: Merriweather; font-size: 18px; padding-bottom: 25px;", includeMarkdown("text/limitations.md"))
+                     
+                     ), # END limitations info
+              
+              # right buffer column
+              column(width = 1)
+              
+            ) # END seventh fluidRow
             
     ), # END data and limitations tabItem
     
     # acknowledgements tabItem ----
     tabItem(tabName = "acknowledgments",
             
-            # left buffer column
-            column(width = 1),
+            # first fluidRow
+            fluidRow(
+              
+              # left buffer column
+              column(width = 1),
+              
+              column(width = 10,
+                     
+                     tags$h1("Acknowledgements",
+                             style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;")
+                     
+                     ),
+              
+              # right buffer column
+              column(width = 1)
+              
+            ), # END first fluidRow
             
             # acknowledgements
             column(width = 10,
