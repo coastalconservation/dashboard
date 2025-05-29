@@ -2,10 +2,14 @@
 library(readr)
 library(tidyverse)
 
+species_names <- read_csv("crisp/data/processed/species_names.csv") %>%
+  select(! c(image, ...5))
+
 # read data
 target_boundaries <- read_rds("crisp/data/processed/target_boundaries.rds") %>%
   mutate(north_boundary = north_boundary/1000,
-         south_boundary = south_boundary/1000)
+         south_boundary = south_boundary/1000) %>%
+  inner_join(species_names, join_by = (species_lump == species), multiple = "all")
 
 # create plot
 target_boundaries %>%

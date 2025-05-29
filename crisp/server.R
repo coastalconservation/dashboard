@@ -37,6 +37,27 @@ server <- function(input, output) {
     
   })
   
+  # dangermond image
+  output$dangermond <- renderImage({ 
+    
+    list(src = "www/dangermond.jpg", contentType = "image/.jpg", width = "100%", height = "95%") 
+    
+  }, 
+  
+  deleteFile = FALSE
+  
+  )
+  
+  output$zoom_dangermond <- renderUI({
+    
+    req(input$dangermond_click)
+    
+    showModal(modalDialog(tags$img(src = "dangermond.jpg", style = "width: 100%"),
+                          easyClose = TRUE,
+                          size = "m"))
+    
+  })
+  
   # background tab ----
   
   # currents image
@@ -107,7 +128,7 @@ server <- function(input, output) {
     
     bins <- c(0, 5, 10, 15)
     
-    pal <- colorBin(palette = c("#eae8f5", "#06063d", "#01c1e3"), 
+    pal <- colorBin(palette = c("#e1e7f5", "#6993c6", "#027782"), 
                     domain = northern_range_edges()$num_species, 
                     bins = bins, 
                     right = FALSE)
@@ -122,17 +143,17 @@ server <- function(input, output) {
                   fillColor = ~pal(num_species),
                   color = "black",
                   weight = 1.5,
-                  fillOpacity = 0.8) %>%
+                  fillOpacity = 1) %>%
       addPolygons(data = dangermond,
                   label = "The Jack and Laura Dangermond Preserve",
-                  color = "#ff004d",
-                  fillColor = "#ff004d",
+                  color = "#90214A",
+                  fillColor = "#90214A",
                   fillOpacity = 1,
                   weight = 2) %>%
       addPolygons(data = northern_range_edges() %>%
                     filter(northern_extent_name == default_seg_north),
                   layerId  = "highlight_north",
-                  fill = FALSE, color = "#ffc700", weight = 4, dashArray = "3") %>%
+                  fill = FALSE, color = "#90214A", weight = 4, dashArray = "3") %>%
       addLegend(pal = pal, 
                 values = northern_range_edges()$num_species, 
                 title = "Number of Species",
@@ -153,7 +174,7 @@ server <- function(input, output) {
                     filter(northern_extent_name == clicked_seg_north()),
                   layerId = "highlight_north",
                   fill = FALSE, 
-                  color = "#ffc700",
+                  color = "#90214A",
                   weight = 4, 
                   dashArray = "3")
     
@@ -172,7 +193,7 @@ server <- function(input, output) {
                     filter(northern_extent_name == seg_north),
                   layerId = "highlight_north",
                   fill = FALSE, 
-                  color = "#ffc700", 
+                  color = "#90214A", 
                   weight = 4, 
                   dashArray = "3")
   })
@@ -195,7 +216,7 @@ server <- function(input, output) {
   # dynamic title
   output$table_header_north <- renderText({
     
-    paste("Species in", clicked_seg_north())
+    paste(clicked_seg_north())
     
   })
   
@@ -203,12 +224,12 @@ server <- function(input, output) {
   output$northern_edge_table <- renderDT({
     
     datatable(north_dt(),
-              rownames = TRUE,
+              rownames = FALSE,
               escape = FALSE,
               class = "row-border",
               options = list(dom = "t", 
                              scrollY = 375, 
-                             paging = FALSE, 
+                             paging = FALSE,
                              columnDefs = list(list(className = "dt-center", targets = "_all"))))
     
   })
@@ -240,7 +261,7 @@ server <- function(input, output) {
     
     bins <- c(0, 5, 10, 15, 20, 75)
     
-    pal <- colorBin(palette = c("#eae8f5", "#787799", "#06063d", "#046490", "#01c1e3"), 
+    pal <- colorBin(palette = c("#e1e7f5", "#a6bae0", "#6993c6", "#2aa5b0", "#027782"), 
                     domain = southern_range_edges()$num_species, 
                     bins = bins, 
                     right = FALSE)
@@ -255,17 +276,17 @@ server <- function(input, output) {
                   fillColor = ~pal(num_species),
                   color = "black",
                   weight = 1.5,
-                  fillOpacity = 0.8) %>%
+                  fillOpacity = 1) %>%
       addPolygons(data = dangermond,
                   label = "The Jack and Laura Dangermond Preserve",
-                  color = "#ff004d",
-                  fillColor = "#ff004d",
+                  color = "#90214A",
+                  fillColor = "#90214A",
                   fillOpacity = 1,
                   weight = 2) %>%
       addPolygons(data = southern_range_edges() %>%
                     filter(southern_extent_name == default_seg_south),
                   layerId = "highlight_south",
-                  fill = FALSE, color = "#ffc700", weight = 4, dashArray = "3") %>%
+                  fill = FALSE, color = "#90214A", weight = 4, dashArray = "3") %>%
       addLegend(pal = pal, 
                 values = southern_range_edges()$num_species, 
                 title = "Number of Species",
@@ -286,7 +307,7 @@ server <- function(input, output) {
                     filter(southern_extent_name == clicked_seg_south()),
                   layerId = "highlight_south",
                   fill = FALSE, 
-                  color = "#ffc700",
+                  color = "#90214A",
                   weight = 4, 
                   dashArray = "3")
     
@@ -304,7 +325,7 @@ server <- function(input, output) {
       addPolygons(data = southern_range_edges() %>%
                     filter(southern_extent_name == seg_south),
                   layerId = "highlight_south",
-                  fill = FALSE, color = "#ffc700", weight = 4, dashArray = "3")
+                  fill = FALSE, color = "#90214A", weight = 4, dashArray = "3")
     
   })
   
@@ -326,7 +347,7 @@ server <- function(input, output) {
   # dynamic title
   output$table_header_south <- renderText({
     
-    paste("Species in", clicked_seg_south())
+    paste(clicked_seg_south())
     
   })
   
@@ -334,7 +355,7 @@ server <- function(input, output) {
   output$southern_edge_table <- renderDT({
     
     datatable(south_dt(),
-              rownames = TRUE,
+              rownames = FALSE,
               escape = FALSE,
               class = "row-border",
               options = list(dom = "t", 
@@ -442,7 +463,7 @@ server <- function(input, output) {
   
   # projected shifts tab ----
   
-  # Species information box ----
+  # species information box ----
   
   output$species_info_box <- renderUI({
     req(input$change_selected_species)
@@ -484,7 +505,7 @@ server <- function(input, output) {
       addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
   })
   
-  # Current habitat map ----
+  # current habitat map ----
   
   
   # current suitability habitat map ----
@@ -625,6 +646,7 @@ server <- function(input, output) {
     
   })
   
+
   output$species_priority_output <- renderDT({
     req(input$species_priority_input)
     
@@ -655,5 +677,4 @@ server <- function(input, output) {
   
   
   # acknowledgements tab ----
-  
 }

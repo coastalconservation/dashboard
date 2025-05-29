@@ -1,5 +1,3 @@
-# A Biogeographic Barrier
-
 Point Conception in California is a significant biogeographic barrier for many marine species.
 
 [biogeographic barrier](https://www.sciencedirect.com/science/article/pii/S0278434317300365): a boundary where many species reach the limit of their geographic range

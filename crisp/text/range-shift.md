@@ -1,5 +1,3 @@
-# Range Shifts
-
 Organisms that live within the [intertidal zone](https://oceanservice.noaa.gov/facts/intertidal-zone.html) face the growing risk of habitat loss as climate change continues to reshape coastal environments. These species already occupy a narrow and highly specialized range within the rocky intertidal zone — a space that's tightly constrained by tides, wave exposure, and varying temperatures. 
 
 Climate-driven impacts such as stronger storms, sea level rise, and warming oceans are altering this zone, displacing many organisms from their natural habitats. As conditions shift, intertidal species must adapt, move, or face population decline.
