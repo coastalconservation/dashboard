@@ -481,6 +481,9 @@ body <- dashboardBody(
             
             # Second fluid row 
             fluidRow(
+              
+              column(width = 1),
+              
               # Column 1
               column(width = 3,
                      
@@ -499,7 +502,7 @@ body <- dashboardBody(
               ), # end of column 1
               
               # Leaflet box for change raster
-              box(width = 9,
+              box(width = 7,
                   
                   # Title for change map
                   tags$h4("Map of Habitat Change From 2025 to 2050",
@@ -508,15 +511,19 @@ body <- dashboardBody(
                   # Leaflet output
                   leafletOutput(outputId = "change_raster_output") %>% 
                     withSpinner(color = "#05641C", type = 1, size = 1)
-              ) # End leaflet box for change raster
+              ), # End leaflet box for change raster
+              
+              column(width = 1)
               
             ), # End second fluid row
             
             # Third fluid row
             fluidRow(
               
+              column(width = 1),
+              
               # Column 1 with current raster map
-              box(width = 6,
+              box(width = 5,
                   
                   # Title for current species map
                   tags$h4("Map of Species Habitat In 2025",
@@ -528,7 +535,7 @@ body <- dashboardBody(
               
               
               # Column 2: projected habitat map
-              box(width = 6,
+              box(width = 5,
                   
                   # Title for Project Species map
                   tags$h4("Map of Forecasted Species Habitat For 2050",
@@ -536,16 +543,24 @@ body <- dashboardBody(
                   
                   leafletOutput(outputId = "projected_raster_output") %>% 
                     withSpinner(color = "#05641C", type = 1, size = 1)
-              ) # End of column 2: projected habitat raster
+                  
+              ), # End of column 2: projected habitat raster
+              
+              column(width = 1)
               
             ), # End third fluid row
             
             # fourth fluid row
             fluidRow(
               
+              column(width = 1),
+              
               # Column 1
-              box(width = 12,
-                  includeMarkdown("text/cumulative_difference_intro.md")) # end column 1
+              box(width = 10,
+                  includeMarkdown("text/cumulative_difference_intro.md")), # end column 1
+              
+              column(width = 1)
+              
             ), # End fourth fluid row
             
             # Fifth fluid row
@@ -553,7 +568,7 @@ body <- dashboardBody(
               
               column(width = 1),
               # Column 1: buffer column
-              column(width = 3,
+              column(width = 2,
                      
                      fluidRow(   # end column 1
                        
@@ -576,10 +591,10 @@ body <- dashboardBody(
                      ), # end second fluid row
                      
                      fluidRow(
-                       value_box(title = span("34 species", style = "font-size: 22px; font-weight: bold;"),
+                       value_box(title = span("34 species", style = "font-size: 24px; font-weight: bold; color: #eae8f5;"),
                                  value = span("projected to lose habitat", 
-                                              style = "font-size: 20px;"),
-                                 p("within California", style = "font-size: 15px;"),
+                                              style = "font-size: 20px; color: #eae8f5;"),
+                                 p("within California", style = "font-size: 15px; color: #eae8f5;"),
                                  style = "background-color: #49a842; border-radius: 10px; width: 300px; padding: 20px;",
                                  height = "140px"),
                        column(width = 1)) # end third fluid row
@@ -590,9 +605,11 @@ body <- dashboardBody(
               column(width = 1), # End of column
               
               # Column 2: Cumulative map
-              box(width = 8,
+              box(width = 7,
                   leafletOutput(outputId = "cumulative_change_output") %>% 
                     withSpinner(color = "#05641C", type = 1, size = 1)),
+              
+              column(width = 1)
               
             ) # End fifth fluid row
             

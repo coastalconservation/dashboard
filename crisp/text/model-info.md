@@ -12,4 +12,6 @@ On this page, you can explore maps showing where along the coastline certain int
 
 Together, these variables help predict where along the coast a species is most likely to exist. While many other environmental, ecological, and physical factors also shape where a species can live, this model offers a useful starting point for understanding potential habitat patterns.
 
-Below, you can select a species and view its habitat suitability map for both the historical period (2000--2024) and a future prediction for the year 2050. Underneath those maps, you'll find a change detection map, which highlights areas where suitable habitat is expected to expand or shrink by 2050. This helps visualize how species' habitats may shift over time as environmental conditions change.
+Below, you can select a species and view its habitat suitability maps. You'll find a change detection map, which highlights areas where suitable habitat is expected to expand or shrink by 2050. This helps visualize how species' habitats may shift over time as environmental conditions change. Underneath that map, you'll see maps for both the current period (2000--2024) and a future prediction for the year 2050.
+
+ 
