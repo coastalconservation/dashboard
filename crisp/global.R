@@ -48,3 +48,12 @@ cumulative_change <- raster("data/processed/species_model_rasters/cumulative_spe
 
 target_boundaries <- read_rds("data/processed/target_boundaries.rds")
 
+# Add in assessment information
+
+# Read priority and suitability results
+priority_scores <- read_csv("data/processed/analyses_results/priority_species_scores.csv")
+suitability_changes <- read_csv("data/processed/analyses_results/species_suitability_change.csv")
+
+priority_species_joined <- priority_scores %>%
+  left_join(suitability_changes, by = c("species_lump" = "species_name")) %>%
+  left_join(species_names, by = "species_lump")

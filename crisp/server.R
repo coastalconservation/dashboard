@@ -504,7 +504,7 @@ server <- function(input, output) {
     current_rast <- current_selected_raster()
     
     stable_habitat_pal <- colorBin(palette = c("#E4E2F5", "#FFC700", "#49A842", "#00205B"),
-                                   bins = seq(0, 1, length.out = 7),
+                                   bins = seq(0, 1, length.out = 5),
                                    na.color = "transparent",
                                    right = FALSE)
     
@@ -513,7 +513,7 @@ server <- function(input, output) {
       addRasterImage(current_rast, colors = stable_habitat_pal) |>
       addLegend(pal = stable_habitat_pal,
                 values = c(-1, 1),
-                title = paste0("Current Habitat Suitability"),
+                title = paste0("2025 Habitat <br>Suitability"),
                 position = "bottomright") |>
       setView(lng = -120, lat = 36.7, zoom = 5) |>
       addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
@@ -546,7 +546,7 @@ server <- function(input, output) {
       addRasterImage(projected_rast, colors = stable_habitat_pal, opacity = 0.85) |>
       addLegend(pal = stable_habitat_pal,
                 values = values(projected_rast),
-                title = paste0("Projected Habitat Suitability"),
+                title = paste0("Projected Habitat <br>Suitability"),
                 position = "bottomright") |>
       setView(lng = -120, lat = 36.7, zoom = 5) |>
       addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
@@ -624,6 +624,35 @@ server <- function(input, output) {
       addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
     
   })
+  
+  output$species_priority_output <- renderDT({
+    req(input$species_priority_input)
+    
+    priority_species_joined %>%
+      filter(priority == input$species_priority_input) %>%
+      mutate(
+        image_html = paste0(
+          '<div style="text-align: center;">',
+          '<img src="', image_url, '" height="80" width="80" ',
+          'style="object-fit: cover; display: block; margin: auto;" />',
+          '</div>'
+        )
+      ) %>%
+      dplyr::select(
+        "Common Name" = common_name,
+        "Scientific Name" = species_lump,
+        "Total Score" = total_score,
+        "Image" = image_html
+      ) %>%
+      arrange(desc(`Total Score`)) %>%
+      datatable(
+        escape = FALSE,
+        rownames = FALSE,
+        options = list(dom = 'tp', pageLength = 10)
+      )
+  })
+  
+  
   
   # acknowledgements tab ----
   
