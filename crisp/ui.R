@@ -374,11 +374,11 @@ body <- dashboardBody(
                                                               style = "color: black;"),
                                               p("11 in Northern Point Conception", style = "font-size: 15px;"),
                                               p("12 in Southern Point Conception", style = "font-size: 15px;"),
-
+                                              
                                               style = "background-color: #05641c; border-radius: 15px;",
-
+                                              
                                               style = "background-color: #01c1e3; border-radius: 15px;",
-
+                                              
                                               height = "125px")
                                     
                              ),
@@ -402,10 +402,10 @@ body <- dashboardBody(
                                                               style = "color: black;"),
                                               p("17 in Northern Point Conception", style = "font-size: 15px;"),
                                               p("20 in Southern Point Conception", style = "font-size: 15px;"),
-
+                                              
                                               style = "background-color: #eae8f5; border-radius: 15px;",
                                               style = "background-color: #49a842; border-radius: 15px;",
-
+                                              
                                               height = "125px")  
                                     
                              ),
@@ -441,10 +441,10 @@ body <- dashboardBody(
                     # right-hand column
                     column(width = 6,
                            
-                             imageOutput("cal_ranges", click = "image_click") %>%
-                               withSpinner(color = "#05641C", type = 1, size = 1),
-                             
-                             uiOutput("zoom_modal")
+                           imageOutput("cal_ranges", click = "image_click") %>%
+                             withSpinner(color = "#05641C", type = 1, size = 1),
+                           
+                           uiOutput("zoom_modal")
                            
                     ) # END right-hand column
                     
@@ -558,6 +558,9 @@ body <- dashboardBody(
             
             # Second fluid row 
             fluidRow(
+              
+              column(width = 1),
+              
               # Column 1
               column(width = 3,
                      
@@ -576,7 +579,7 @@ body <- dashboardBody(
               ), # end of column 1
               
               # Leaflet box for change raster
-              box(width = 9,
+              box(width = 7,
                   
                   # Title for change map
                   tags$h4("Map of Habitat Change From 2025 to 2050",
@@ -585,15 +588,19 @@ body <- dashboardBody(
                   # Leaflet output
                   leafletOutput(outputId = "change_raster_output") %>% 
                     withSpinner(color = "#05641C", type = 1, size = 1)
-              ) # End leaflet box for change raster
+              ), # End leaflet box for change raster
+              
+              column(width = 1)
               
             ), # End second fluid row
             
             # Third fluid row
             fluidRow(
               
+              column(width = 1),
+              
               # Column 1 with current raster map
-              box(width = 6,
+              box(width = 5,
                   
                   # Title for current species map
                   tags$h4("Map of Species Habitat In 2025",
@@ -605,7 +612,7 @@ body <- dashboardBody(
               
               
               # Column 2: projected habitat map
-              box(width = 6,
+              box(width = 5,
                   
                   # Title for Project Species map
                   tags$h4("Map of Forecasted Species Habitat For 2050",
@@ -613,73 +620,74 @@ body <- dashboardBody(
                   
                   leafletOutput(outputId = "projected_raster_output") %>% 
                     withSpinner(color = "#05641C", type = 1, size = 1)
-              ) # End of column 2: projected habitat raster
+                  
+              ), # End of column 2: projected habitat raster
+              
+              column(width = 1)
               
             ), # End third fluid row
             
             # fourth fluid row
             fluidRow(
               
+              column(width = 1),
+              
               # Column 1
-              box(width = 12,
-                  includeMarkdown("text/cumulative_difference_intro.md")) # end column 1
+              box(width = 10,
+                  includeMarkdown("text/cumulative_difference_intro.md")), # end column 1
+              
+              column(width = 1)
+              
             ), # End fourth fluid row
             
             # Fifth fluid row
             fluidRow(
               
               column(width = 1),
-               # Column 1: buffer column
-              column(width = 3,
+              # Column 1: buffer column
+              column(width = 2,
                      
                      fluidRow(   # end column 1
-              
-              value_box(title = span("Northern Range Edges",
-                                     style = "font-size: 22px; font-weight: bold;"),
-                        value = span("23 species",
-                                     style = "font-size: 20px;"),
-                        showcase = span(bs_icon("arrow-up"),
-                                        style = "color: black;"),
-                        p("11 in Northern Point Conception", style = "font-size: 15px;"),
-                        p("12 in Southern Point Conception", style = "font-size: 15px;"),
-                        style = "background-color: #49a842; border-radius: 10px; width: 300px; padding: 20px;",
-                        height = "140px")
-              ), # end first fluid row
-              fluidRow(
-                value_box(title = span("Northern Range Edges", style = "font-size: 22px; font-weight: bold;"),
-                                 value = span("23 species",
+                       
+                       value_box(title = span("53 species",
+                                              style = "font-size: 22px; font-weight: bold;"),
+                                 value = span("identified as having",
                                               style = "font-size: 20px;"),
-                                 showcase = span(bs_icon("arrow-up"),
-                                                 style = "color: black;"),
-                                 p("11 in Northern Point Conception", style = "font-size: 15px;"),
-                                 p("12 in Southern Point Conception", style = "font-size: 15px;"),
-                                 style = "background-color: #49a842; border-radius: 10px; width: 300px; padding: 20px;",
+                                 p("range edges within California", style = "font-size: 15px;"),
+                                 style = "background-color: #01c1e3; border-radius: 10px; width: 300px; padding: 20px;",
                                  height = "140px")
-                
-              ), # end second fluid row
-              
-              fluidRow(
-                value_box(title = span("Northern Range Edges", style = "font-size: 22px; font-weight: bold;"),
-                                 value = span("23 species", 
+                     ), # end first fluid row
+                     fluidRow(
+                       value_box(title = span("19 species", style = "font-size: 22px; font-weight: bold;"),
+                                 value = span("projected to gain habitat",
                                               style = "font-size: 20px;"),
-                                 showcase = span(bs_icon("arrow-up"),
-                                                 style = "color: black;"),
-                                 p("11 in Northern Point Conception", style = "font-size: 15px;"),
-                                 p("12 in Southern Point Conception", style = "font-size: 15px;"),
+                                 p("within California", style = "font-size: 15px;"),
+                                 style = "background-color: #eae8f5; border-radius: 10px; width: 300px; padding: 20px;",
+                                 height = "140px")
+                       
+                     ), # end second fluid row
+                     
+                     fluidRow(
+                       value_box(title = span("34 species", style = "font-size: 24px; font-weight: bold; color: #eae8f5;"),
+                                 value = span("projected to lose habitat", 
+                                              style = "font-size: 20px; color: #eae8f5;"),
+                                 p("within California", style = "font-size: 15px; color: #eae8f5;"),
                                  style = "background-color: #49a842; border-radius: 10px; width: 300px; padding: 20px;",
                                  height = "140px"),
-                column(width = 1)) # end third fluid row
-              
+                       column(width = 1)) # end third fluid row
+                     
               ),
               
               # Start of column
               column(width = 1), # End of column
               
               # Column 2: Cumulative map
-              box(width = 8,
+              box(width = 7,
                   leafletOutput(outputId = "cumulative_change_output") %>% 
                     withSpinner(color = "#05641C", type = 1, size = 1)),
-    
+              
+              column(width = 1)
+              
             ) # End fifth fluid row
             
     ), # END model tabItem
@@ -687,35 +695,33 @@ body <- dashboardBody(
     # priority monitoring assessment tabItem ----
     tabItem(tabName = "assessment",
             
-            # first fluidRow
             fluidRow(
-              
-              # left buffer column
               column(width = 1),
-              
-              # info box
               box(width = 10,
-                  
                   div(style = "font-size: 16px;", includeMarkdown("text/assessment.md"))
-                  
-              ), # END info box
-              
-              # right buffer column
+              ),
               column(width = 1)
-              
-            ) # END first fluidRow
+            ),
             
-    ), # END priority monitoring assessment tabItem
-    
-    # data and limitations tabItem ----
-    tabItem(tabName = "data",
-            
-            # first fluidRow
+            # second fluidRow: dropdown
             fluidRow(
+              column(width = 1),  # left buffer
               
-              # left buffer column
-              column(width = 1),
+              column(width = 10,
+                     pickerInput(
+                       inputId = "species_priority_input",
+                       label = "Select a Priority Level:",
+                       choices = c("high", "moderate", "minimal", "low"))
+              ),
               
+
+              column(width = 1)  # right buffer
+            ),
+            
+            # third fluidRow: species table
+            fluidRow(
+              column(width = 1),  # left buffer
+
                # title column
               column(width = 10,
                      
@@ -723,10 +729,17 @@ body <- dashboardBody(
                              style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;")
                      
                      ), # END title column
+
               
-              # right buffer column
-              column(width = 1)
+              column(width = 10,
+                     DTOutput("species_priority_output") %>%
+                       withSpinner(color = "#05641C", type = 1, size = 1)
+              ),
               
+
+              column(width = 1)  # right buffer
+            )
+
             ), # END first fluidRow
             
             # second fluidRow
@@ -873,11 +886,17 @@ body <- dashboardBody(
               column(width = 1)
               
             ) # END seventh fluidRow
+
             
-    ), # END data and limitations tabItem
+           
     
-    # acknowledgements tabItem ----
-    tabItem(tabName = "acknowledgments",
+  ), # END priority monitoring assessment tabItem
+  
+  # data and limitations tabItem ----
+  tabItem(tabName = "data",
+          
+          # first fluidRow
+          fluidRow(
             
             # first fluidRow
             fluidRow(
@@ -897,20 +916,40 @@ body <- dashboardBody(
               
             ), # END first fluidRow
             
-            # acknowledgements
-            column(width = 10,
-                   
-                   includeMarkdown("text/acknowledgements.md")
-                   
-                   ), # END acknowledgements
+            # info box
+            box(width = 10,
+                
+                div(style = "font-size: 16px;", includeMarkdown("text/data-limitations.md"))
+                
+            ), # END info box
             
             # right buffer column
             column(width = 1)
             
-            ) # END acknowledgements tabItem
-    
-  ) # END tabItems
+          ) # END first fluidRow
+          
+  ), # END data and limitations tabItem
   
+  # acknowledgements tabItem ----
+  tabItem(tabName = "acknowledgments",
+          
+          # left buffer column
+          column(width = 1),
+          
+          # acknowledgements
+          column(width = 10,
+                 
+                 includeMarkdown("text/acknowledgements.md")
+                 
+          ), # END acknowledgements
+          
+          # right buffer column
+          column(width = 1)
+          
+  ) # END acknowledgements tabItem
+  
+) # END tabItems
+
 ) # END dashboardBody
 
 # combine all into dashboardPage ----
