@@ -715,8 +715,7 @@ body <- dashboardBody(
               ),
               
 
-              column(width = 1)  # right buffer
-            ),
+              column(width = 1),  # right buffer
             
             # third fluidRow: species table
             fluidRow(
