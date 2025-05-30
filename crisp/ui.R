@@ -696,15 +696,21 @@ body <- dashboardBody(
     tabItem(tabName = "assessment",
             
             fluidRow(
+              
               column(width = 1),
+              
               box(width = 10,
                   div(style = "font-size: 16px;", includeMarkdown("text/assessment.md"))
+                  
               ),
+              
               column(width = 1)
+              
             ),
             
             # second fluidRow: dropdown
             fluidRow(
+              
               column(width = 1),  # left buffer
               
               column(width = 10,
@@ -713,181 +719,29 @@ body <- dashboardBody(
                        label = "Select a Priority Level:",
                        choices = c("high", "moderate", "minimal", "low"))
               ),
+                            column(width = 1),  # right buffer
+  
+              column(width = 1)  # right buffer
               
+            ),
 
-              column(width = 1),  # right buffer
             
             # third fluidRow: species table
             fluidRow(
+              
               column(width = 1),  # left buffer
 
-               # title column
-              column(width = 10,
-                     
-                     tags$h1("Data",
-                             style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;")
-                     
-                     ), # END title column
-
               
               column(width = 10,
+                     
                      DTOutput("species_priority_output") %>%
                        withSpinner(color = "#05641C", type = 1, size = 1)
-              ),
+                     
+              ), # END
               
-
               column(width = 1)  # right buffer
-            )
 
-            ), # END first fluidRow
-            
-            # second fluidRow
-            fluidRow(
-              
-              # left buffer column
-              column(width = 1),
-              
-              # MARINE info
-              column(width = 10,
-                     
-                     # fluidRow
-                     fluidRow(
-                       
-                       # left-hand column
-                       column(width = 8,
-                              
-                              div(style = "font-family: Merriweather; font-size: 18px;  padding-bottom: 25px;", includeMarkdown("text/MARINe.md"))
-                              
-                       ), # END left-hand column
-                       
-                       # right-hand column
-                       column(width = 4,
-                              
-                              div(style = "text-align: center; padding-bottom: 25px;",
-                                  img(src = "logos/MARINe.png", width = 300, height = 325))
-                              
-                       ) # END right-hand column
-                       
-                     ) # END fluidRow
-                     
-              ), # END MARINe info
-              
-              # right buffer column
-              column(width = 1)
-              
-            ), # END second fluidRow
-            
-            # third fluidRow
-            fluidRow(
-              
-              # left buffer column
-              column(width = 1),
-              
-              # line column
-              column(width = 10,
-                     
-                     tags$hr(style = "border-top: 3px solid; color: #eae8f5; padding-bottom: 25px;")
-                     
-                     ), # END line column
-              
-              # right buffer column
-              column(width = 1)
-              
-              ), # END third fluidRow
-            
-            # fourth fluidRow
-            fluidRow(
-              
-              # left buffer column
-              column(width = 1),
-              
-              # Bio-ORACLE info
-              column(width = 10,
-                     
-                     # fluidRow
-                     fluidRow(
-                       
-                       # left-hand column
-                       column(width = 8,
-                              
-                              div(style = "font-family: Merriweather; font-size: 18px; padding-bottom: 25px;",  includeMarkdown("text/Bio-ORACLE.md"))
-                              
-                       ), # END left-hand column
-                       
-                       # right-hand column
-                       column(width = 4,
-                              
-                              div(style = "text-align: center; padding-bottom: 25px;",
-                                  img(src = "logos/Bio-ORACLE.png", width = 300, height = 325))
-                              
-                       ) # END right-hand column
-                       
-                     ) # END fluidRow
-                     
-              ), # END Bio-ORACLE info
-              
-              # right buffer column
-              column(width = 1)
-              
-            ), # END fourth fluidRow
-            
-            # fifth fluidRow
-            fluidRow(
-              
-              # left buffer column
-              column(width = 1),
-              
-              # line column
-              column(width = 10,
-                     
-                     tags$hr(style = "border-top: 3px solid; color: #eae8f5; padding-bottom: 25px;")
-                     
-              ), # END line column
-              
-              # right buffer column
-              column(width = 1)
-              
-            ), # END fifth fluidRow
-            
-            # sixth fluidRow
-            fluidRow(
-              
-              # left buffer column
-              column(width = 1),
-              
-              # title column
-              column(width = 10,
-                     
-                     tags$h1("Limitations",
-                             style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;")
-                     
-              ), # END title column
-              
-              # right buffer column
-              column(width = 1)
-              
-            ), # END sixth fluidRow
-            
-            # seventh fluidRow
-            fluidRow(
-              
-              # left buffer column
-              column(width = 1),
-              
-              # limitations info
-              column(width = 10,
-                     
-                     div(style = "font-family: Merriweather; font-size: 18px; padding-bottom: 25px;", includeMarkdown("text/limitations.md"))
-                     
-                     ), # END limitations info
-              
-              # right buffer column
-              column(width = 1)
-              
-            ) # END seventh fluidRow
-
-            
-           
+            ), # END first fluidRow ----
     
   ), # END priority monitoring assessment tabItem
   
@@ -897,55 +751,171 @@ body <- dashboardBody(
           # first fluidRow
           fluidRow(
             
-            # first fluidRow
-            fluidRow(
-              
-              # left buffer column
-              column(width = 1),
-              
-              column(width = 10,
-                     
-                     tags$h1("Acknowledgements",
-                             style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;")
-                     
-                     ),
-              
-              # right buffer column
-              column(width = 1)
-              
-            ), # END first fluidRow
+            # left buffer column
+            column(width = 1),
             
-            # info box
-            box(width = 10,
-                
-                div(style = "font-size: 16px;", includeMarkdown("text/data-limitations.md"))
-                
-            ), # END info box
+            # title column
+            column(width = 10,
+                   
+                   tags$h1("Data",
+                           style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;")
+                   
+            ), # END title column
             
             # right buffer column
             column(width = 1)
             
-          ) # END first fluidRow
+          ), # END first fluidRow
+          
+          # second fluidRow
+          fluidRow(
+            
+            # left buffer column
+            column(width = 1),
+            
+            # MARINE info
+            column(width = 10,
+                   
+                   # fluidRow
+                   fluidRow(
+                     
+                     # left-hand column
+                     column(width = 8,
+                            
+                            div(style = "font-family: Merriweather; font-size: 18px;  padding-bottom: 25px;", includeMarkdown("text/MARINe.md"))
+                            
+                     ), # END left-hand column
+                     
+                     # right-hand column
+                     column(width = 4,
+                            
+                            div(style = "text-align: center; padding-bottom: 25px;",
+                                img(src = "logos/MARINe.png", width = 300, height = 325))
+                            
+                     ) # END right-hand column
+                     
+                   ) # END fluidRow
+                   
+            ), # END MARINe info
+            
+            # right buffer column
+            column(width = 1)
+            
+          ), # END second fluidRow
+          
+          # third fluidRow
+          fluidRow(
+            
+            # left buffer column
+            column(width = 1),
+            
+            # line column
+            column(width = 10,
+                   
+                   tags$hr(style = "border-top: 3px solid; color: #eae8f5; padding-bottom: 25px;")
+                   
+            ), # END line column
+            
+            # right buffer column
+            column(width = 1)
+            
+          ), # END third fluidRow
+          
+          # fourth fluidRow
+          fluidRow(
+            
+            # left buffer column
+            column(width = 1),
+            
+            # Bio-ORACLE info
+            column(width = 10,
+                   
+                   # fluidRow
+                   fluidRow(
+                     
+                     # left-hand column
+                     column(width = 8,
+                            
+                            div(style = "font-family: Merriweather; font-size: 18px; padding-bottom: 25px;",  includeMarkdown("text/Bio-ORACLE.md"))
+                            
+                     ), # END left-hand column
+                     
+                     # right-hand column
+                     column(width = 4,
+                            
+                            div(style = "text-align: center; padding-bottom: 25px;",
+                                img(src = "logos/Bio-ORACLE.png", width = 300, height = 325))
+                            
+                     ) # END right-hand column
+                     
+                   ) # END fluidRow
+                   
+            ), # END Bio-ORACLE info
+            
+            # right buffer column
+            column(width = 1)
+            
+          ), # END fourth fluidRow
+          
+          # fifth fluidRow
+          fluidRow(
+            
+            # left buffer column
+            column(width = 1),
+            
+            # line column
+            column(width = 10,
+                   
+                   tags$hr(style = "border-top: 3px solid; color: #eae8f5; padding-bottom: 25px;")
+                   
+            ), # END line column
+            
+            # right buffer column
+            column(width = 1)
+            
+          ), # END fifth fluidRow
+          
+          # sixth fluidRow
+          fluidRow(
+            
+            # left buffer column
+            column(width = 1),
+            
+            # title column
+            column(width = 10,
+                   
+                   tags$h1("Limitations",
+                           style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;")
+                   
+            ), # END title column
+            
+            # right buffer column
+            column(width = 1)
+            
+          ), # END sixth fluidRow
+          
+          # seventh fluidRow
+          fluidRow(
+            
+            # left buffer column
+            column(width = 1),
+            
+            # limitations info
+            column(width = 10,
+                   
+                   div(style = "font-family: Merriweather; font-size: 18px; padding-bottom: 25px;", includeMarkdown("text/limitations.md"))
+                   
+            ), # END limitations info
+            
+            # right buffer column
+            column(width = 1)
+            
+          ) # END seventh fluidRow
           
   ), # END data and limitations tabItem
   
   # acknowledgements tabItem ----
-  tabItem(tabName = "acknowledgments",
-          
-          # left buffer column
-          column(width = 1),
-          
-          # acknowledgements
-          column(width = 10,
-                 
-                 includeMarkdown("text/acknowledgements.md")
-                 
-          ), # END acknowledgements
-          
-          # right buffer column
-          column(width = 1)
-          
-  ) # END acknowledgements tabItem
+  tabItem(tabName = "acknowledgments") # END acknowledgements tabItem
   
 ) # END tabItems
 
