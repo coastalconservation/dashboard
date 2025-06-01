@@ -8,18 +8,20 @@ The interactive web application is a comprehensive assessment of rocky intertida
 dashboard
 ├── README.md
 ├── .gitignore
-└── shinydashboard
+└── crisp
     ├── global.R
     ├── server.R
     ├── ui.R
     ├── data
-    │   ├── biodiversity_data_processed.csv
-    │   ├── range_list.csv
-    │   └── dangermond.shp
+    │   ├── processed
+    │   ├── raw
     ├── text
     │   └── text.md files
     └── www
-        └── carousel_images
+        ├── carousel_images
+        ├── diagrams
+        ├── logos
+
 ```
 
 

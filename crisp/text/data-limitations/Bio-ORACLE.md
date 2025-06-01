@@ -1,6 +1,6 @@
 **Bio-ORACLE Environmental Variable Rasters**
 
-**Description:**
+**Description:** Environmental inputs for species distribution models.
 
 **Source:** [biooracler GitHub repository](https://github.com/bio-oracle/biooracler)
 
