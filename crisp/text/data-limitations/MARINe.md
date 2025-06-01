@@ -1,6 +1,6 @@
 **MARINe Coastal Biodiversity Surveys**
 
-**Description:**
+**Description:** Community-wide biodiversity data of intertidal species along the Western coast of North America from Alaska to Baja California.
 
 **Source:** [MARINe](https://marine.ucsc.edu/index.html)
 
