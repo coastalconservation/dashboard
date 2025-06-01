@@ -21,11 +21,11 @@ ca_segments <- st_read("data/processed/spatial_data/segments_shapefile/CA_segmen
 dangermond <- read_sf("data/raw/spatial_data/dangermond_shapefile/jldp_boundary.shp") %>%
   st_transform(crs = 4326)
 
-species_names <- read_csv("data/processed/species_names.csv") %>%
+species_names <- read_csv("data/processed/species_info/species_names.csv") %>%
   dplyr::select(species_lump, common_name, image_url)
 
 
-species_extent <- read_csv("data/processed/species_extent.csv") %>%
+species_extent <- read_csv("data/processed/species_info/species_extent.csv") %>%
   inner_join(species_names, by = "species_lump")
 
 

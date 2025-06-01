@@ -524,8 +524,8 @@ server <- function(input, output) {
     
     current_rast <- current_selected_raster()
     
-    stable_habitat_pal <- colorBin(palette = c("#E4E2F5", "#FFC700", "#49A842", "#00205B"),
-                                   bins = seq(0, 1, length.out = 5),
+    stable_habitat_pal <- colorBin(palette = c("#e1e7f5", "#a6bae0", "#6993c6", "#2aa5b0", "#027782", "black"),
+                                   bins = seq(0, 1, length.out = 7),
                                    na.color = "transparent",
                                    right = FALSE)
     
@@ -557,8 +557,8 @@ server <- function(input, output) {
     
     projected_rast <- projected_selected_raster()
     
-    stable_habitat_pal <- colorBin(palette = c("#E4E2F5", "#FFC700", "#49A842", "#00205B"),
-                                   bins = seq(0, 1, length.out = 5),
+    stable_habitat_pal <- colorBin(palette = c("#e1e7f5", "#a6bae0", "#6993c6", "#2aa5b0", "#027782", "black"),
+                                   bins = seq(0, 1, length.out = 7),
                                    na.color = "transparent",
                                    right = FALSE)
     

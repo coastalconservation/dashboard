@@ -867,11 +867,12 @@ body <- dashboardBody(
                        label = "Select a Priority Level:",
                        choices = c("high", "moderate", "minimal", "low"))
               ),
-              
-              
+                            column(width = 1),  # right buffer
+  
               column(width = 1)  # right buffer
               
             ),
+
             
             # third fluidRow: species table
             fluidRow(
