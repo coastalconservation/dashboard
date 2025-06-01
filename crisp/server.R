@@ -33,14 +33,14 @@ server <- function(input, output) {
                slidesToScroll = 1,
                arrows = TRUE,
                autoplay = TRUE,
-               autoplaySpeed = 3000)
+               autoplaySpeed = 5000)
     
   })
   
   # dangermond image
   output$dangermond <- renderImage({ 
     
-    list(src = "www/dangermond.jpg", contentType = "image/.jpg", width = "100%", height = "95%") 
+    list(src = "www/diagrams/dangermond.jpg", contentType = "image/.jpg", width = "100%", height = "95%") 
     
   }, 
   
@@ -63,7 +63,7 @@ server <- function(input, output) {
   # currents image
   output$cal_currents <- renderImage({ 
     
-    list(src = "www/cal-currents.jpg", contentType = "image/.jpg", width = "100%", height = "95%") 
+    list(src = "www/diagrams/cal-currents.jpg", contentType = "image/.jpg", width = "100%", height = "100%") 
     
   }, 
   
@@ -84,7 +84,7 @@ server <- function(input, output) {
   # range shift image
   output$range_shift <- renderImage({ 
     
-    list(src = "www/RANGESHIFT.png", contentType = "image/.jpg", width = "100%", height = "95%") 
+    list(src = "www/diagrams/RANGESHIFT.png", contentType = "image/.jpg", width = "100%", height = "100%") 
     
   }, 
   
@@ -228,7 +228,7 @@ server <- function(input, output) {
               escape = FALSE,
               class = "row-border",
               options = list(dom = "t", 
-                             scrollY = 375, 
+                             scrollY = 350, 
                              paging = FALSE,
                              columnDefs = list(list(className = "dt-center", targets = "_all"))))
     
@@ -359,7 +359,7 @@ server <- function(input, output) {
               escape = FALSE,
               class = "row-border",
               options = list(dom = "t", 
-                             scrollY = 375, 
+                             scrollY = 350, 
                              paging = FALSE, 
                              columnDefs = list(list(className = "dt-center", targets = "_all"))))
   })
@@ -367,7 +367,7 @@ server <- function(input, output) {
   # dangermond range edges image
   output$cal_ranges <- renderImage({ 
     
-    list(src = "www/cal-ranges.jpg", contentType = "image/.jpg", width = "100%", height = "95%") 
+    list(src = "www/diagrams/cal-ranges.jpg", contentType = "image/.jpg", width = "100%", height = "100%") 
     
   }, 
   
@@ -407,25 +407,25 @@ server <- function(input, output) {
   
   # plots
   output$species_plot <- renderPlotly({
-  
-    ggplotly(width = 500, height = 500,
+    
+    ggplotly(width = 450, height = 525,
       ggplot(range_shift()) +
         geom_segment(aes(x = year_bin, xend = year_bin, 
-                         y = south_boundary, yend = north_boundary), na.rm = TRUE) +
-        geom_point(aes(x = year_bin, y = north_boundary), color = "#49A842", na.rm = TRUE) +
-        geom_point(aes(x = year_bin, y = south_boundary), color = "#01c1e3", na.rm = TRUE) +
+                         y = south_boundary, yend = north_boundary), linewidth = 1, na.rm = TRUE) +
+        geom_point(aes(x = year_bin, y = north_boundary), color = "#49A842", size = 2, na.rm = TRUE) +
+        geom_point(aes(x = year_bin, y = south_boundary), color = "#01c1e3", size = 2, na.rm = TRUE) +
         geom_hline(yintercept = 520.8593, linetype = "dashed", color = "#ff004d") +
         geom_point(aes(x = 0, y = 520.8593, text = "Point Conception"), color = "#ff004d", alpha = 0) +
-        geom_point(aes(x = 0, y = 0, text = "CA/MX Border"), color = "#ff004d", alpha = 0) +
-        geom_point(aes(x = 0, y = 200, text = "Orange County"), color = "#ff004d", alpha = 0) +
-        geom_point(aes(x = 0, y = 400, text = "Ventura"), color = "#ff004d", alpha = 0) +
-        geom_point(aes(x = 0, y = 600, text = "Pismo Beach"), color = "#ff004d", alpha = 0) +
-        geom_point(aes(x = 0, y = 800, text = "Big Sur"), color = "#ff004d", alpha = 0) +
-        geom_point(aes(x = 0, y = 1000, text = "Half Moon Bay"), color = "#ff004d", alpha = 0) +
-        geom_point(aes(x = 0, y = 1200, text = "Point Reyes"), color = "#ff004d", alpha = 0) +
-        geom_point(aes(x = 0, y = 1400, text = "Mendocino"), color = "#ff004d", alpha = 0) +
-        geom_point(aes(x = 0, y = 1600, text = "Eureka"), color = "#ff004d", alpha = 0) +
-        geom_point(aes(x = 0, y = 1800, text = "US/CA Border"), color = "#ff004d", alpha = 0) +
+        geom_point(aes(x = 0, y = 0, text = "CA/MX Border"), color = "transparent") +
+        geom_point(aes(x = 0, y = 200, text = "Orange County"), color = "transparent") +
+        geom_point(aes(x = 0, y = 400, text = "Ventura"), color = "transparent") +
+        geom_point(aes(x = 0, y = 600, text = "Pismo Beach"), color = "transparent") +
+        geom_point(aes(x = 0, y = 800, text = "Big Sur"), color = "transparent") +
+        geom_point(aes(x = 0, y = 1000, text = "Half Moon Bay"), color = "transparent") +
+        geom_point(aes(x = 0, y = 1200, text = "Point Reyes"), color = "transparent") +
+        geom_point(aes(x = 0, y = 1400, text = "Mendocino"), color = "transparent") +
+        geom_point(aes(x = 0, y = 1600, text = "Eureka"), color = "transparent") +
+        geom_point(aes(x = 0, y = 1800, text = "US/CA Border"), color = "transparent") +
         scale_y_continuous(expand = c(0.02, 0), limits = c(0, 1800), breaks = seq(0, 1800, by = 200)) +
         labs(y = "Distance Along the CA Coastline (km)") +
         theme_bw() +
@@ -443,7 +443,7 @@ server <- function(input, output) {
   # coastline distance image
   output$coastline_distance <- renderImage({ 
     
-    list(src = "www/unnamed.png", contentType = "image/.jpg", width = 500, height = 500) 
+    list(src = "www/diagrams/unnamed.png", contentType = "image/.jpg", width = 500, height = 550) 
     
   }, 
   
