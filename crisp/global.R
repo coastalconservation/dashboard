@@ -16,18 +16,24 @@ library(shinydashboard)
 library(shinycssloaders)
 
 # read data ----
+
+# 100 km coastline segments shapefile
 ca_segments <- st_read("data/spatial_data/segments_shapefile/CA_segments.shp")
 
+# Dangermond Preserve shapefile
 dangermond <- read_sf("data/spatial_data/dangermond_shapefile/jldp_boundary.shp") %>%
   st_transform(crs = 4326)
 
-species_names <- read_csv("data/species_info/species_names.csv") %>%
-  dplyr::select(species_lump, common_name, image_url)
-
-
+# species range edges data
 species_extent <- read_csv("data/analyses_results/species_extent.csv") %>%
   inner_join(species_names, by = "species_lump")
 
+# species info
+species_names <- read_csv("data/species_info/species_names.csv") %>%
+  dplyr::select(species_lump, common_name, image_url)
+
+# contemporary range shift data
+target_boundaries <- read_rds("data/analyses_results/target_boundaries.rds")
 
 change_raster_files <- list.files("data/species_model_rasters/change_species_rasters",
                                   pattern = "^ESDM_.*_change\\.tif$",
@@ -45,10 +51,6 @@ nice_names <- str_replace_all(change_species_choices, "_", " ")
 named_choices <- setNames(change_species_choices, nice_names)
 
 cumulative_change <- raster("data/species_model_rasters/cumulative_species_rasters/cumulative_change.tif")
-
-target_boundaries <- read_rds("data/analyses_results/target_boundaries.rds")
-
-# Add in assessment information
 
 # Read priority and suitability results
 priority_scores <- read_csv("data/analyses_results/priority_species_scores.csv")
