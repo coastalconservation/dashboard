@@ -1,3 +1,9 @@
+<h2 align="center"> 
+  
+<img src="https://github.com/coastalconservation/.github/blob/main/photos/cc-hexlogo-lowquality.png?raw=true" alt="Coastal Conservation Capstone group logo: hex sticker with rocky coastline and lighthouse illustration" width="300">
+
+<h1 align="center">
+
 # California Ranges of Intertidal Species Portal (CRISP)
 
 ## Product Description
