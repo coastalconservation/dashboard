@@ -311,7 +311,6 @@ body <- dashboardBody(
     
     # range edges tabItem ----
     tabItem(tabName = "ranges",
-            style = "padding-bottom: 25px;",
             
             # first fluidRow
             fluidRow(
@@ -679,10 +678,101 @@ body <- dashboardBody(
             ), # END fourth fluidRow
             
             # fifth fluidRow
-            fluidRow(style = "background-color: #05641c; padding-bottom: 50px;"
+            fluidRow(style = "background-color: #05641c; padding-bottom: 50px;",
                      
+                     # left buffer column
+                     column(width = 1),
                      
-                     ) # END fifth fluidRow
+                     # stats column
+                     column(width = 10,
+                            
+                            # fluidRow
+                            fluidRow(
+                              
+                              # title
+                              tags$h2("Rocky Intertidal Species Contemporary Range Shifts Near Point Conception",
+                                      style = "font-family: Barlow; font-weight: bold; color: #ffffff; text-align: center; padding-bottom: 10px;"),
+                              
+                              # left-hand column
+                              column(width = 6,
+                                     
+                                     # first fluidRow
+                                     fluidRow(
+                                       
+                                       # value box column
+                                       column(width = 12,
+                                              
+                                              # range extensions value box
+                                              value_box(title = span("Range Extensions",
+                                                                     style = "font-family: Barlow; font-size: 22px; font-weight: bold; color: #ffffff;"),
+                                                        value = span("7 species",
+                                                                     style = "font-family: Barlow; font-size: 20px; font-weight: bold; color: #ffc700;"),
+                                                        showcase = span(bs_icon("arrow-up"),
+                                                                        style = "color: #ffc700;"),
+                                                        style = "background-color: #05641c;",
+                                                        height = "140px")
+                                              
+                                       ), # END value box column
+                                       
+                                     ), # END first fluidRow
+                                     
+                                     # second fluidRow
+                                     fluidRow(
+                                       
+                                       # value box column
+                                       column(width = 12,
+                                              
+                                              # range contraction value box
+                                              value_box(title = span("Range Contractions",
+                                                                     style = "font-family: Barlow; font-size: 22px; font-weight: bold; color: #ffffff;"),
+                                                        value = span("9 species",
+                                                                     style = "font-family: Barlow; font-size: 20px; font-weight: bold; color: #ffc700;"),
+                                                        showcase = span(bs_icon("arrow-down"),
+                                                                        style = "color: #ffc700;"),
+                                                        style = "background-color: #05641c;",
+                                                        height = "140px")  
+                                              
+                                       ), # END value box column
+                                       
+                                     ), # END second fluidRow
+                                     
+                                     # third fluidRow
+                                     fluidRow(
+                                       
+                                       # value box column
+                                       column(width = 12,
+                                              
+                                              # percent value box
+                                              value_box(title = span("Percent of Species ",
+                                                                     style = "font-family: Barlow; font-size: 22px; font-weight: bold; color: #ffffff;"),
+                                                        value = span("_ %",
+                                                                     style = "font-family: Barlow; font-size: 20px; font-weight: bold; color: #ffc700;"),
+                                                        showcase = span(bs_icon("arrows-vertical"),
+                                                                        style = "color: #ffc700;"),
+                                                        style = "background-color: #05641c;",
+                                                        height = "140px")
+                                              
+                                       ), # END value box column
+                                       
+                                     ), # END third fluidRow
+                                     
+                              ), # END left-hand column
+                              
+                              # right-hand column
+                              column(width = 6,
+                                     
+                                     "Insert Image/Artwork/or More Stats"
+                                     
+                              ) # END right-hand column
+                              
+                            ), # END fluidRow
+                            
+                     ), # END stats column
+                     
+                     # right buffer column
+                     column(width = 1)
+                     
+            ), # END fifth fluidRow
             
     ), # END historic range shifts tabItem
     
