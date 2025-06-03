@@ -514,7 +514,7 @@ server <- function(input, output) {
     
     req(input$change_selected_species)
     
-    current_file_path <- file.path("data/processed/species_model_rasters/current_species_rasters",
+    current_file_path <- file.path("data/species_model_rasters/current_species_rasters",
                                    paste0("current_", gsub(" ", "_", input$change_selected_species), ".tif"))
     raster(current_file_path)
     
@@ -546,7 +546,7 @@ server <- function(input, output) {
     
     req(input$change_selected_species)
     
-    projected_file_path <- file.path("data/processed/species_model_rasters/projected_species_rasters",
+    projected_file_path <- file.path("data/species_model_rasters/projected_species_rasters",
                                      paste0("projected_", gsub(" ", "_", input$change_selected_species), ".tif"))
     
     raster(projected_file_path)
@@ -579,7 +579,7 @@ server <- function(input, output) {
     
     req(input$change_selected_species)
     
-    change_file_path <- file.path("data/processed/species_model_rasters/change_species_rasters",
+    change_file_path <- file.path("data/species_model_rasters/change_species_rasters",
                                   paste0("ESDM_", gsub(" ", "_", input$change_selected_species), "_change.tif"))
     
     raster(change_file_path)
