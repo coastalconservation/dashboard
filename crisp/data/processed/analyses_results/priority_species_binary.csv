@@ -1,0 +1,62 @@
+species_lump,northern_range_edge,southern_range_edge,suitability_increase_dangermond,suitability_decrease_dangermond,northward_trend,species_expansion_score,species_contraction_score
+Acmaea mitra,0,1,0,1,0,0,2
+Acrosorium spp,1,0,1,0,0,2,0
+Ahnfeltiopsis linearis,0,1,0,1,0,0,2
+Amphissa columbiana,0,1,0,1,0,0,2
+Analipus japonicus,0,1,0,1,0,0,2
+Aplysia californica,1,0,0,1,1,2,2
+Bugula neritina,1,0,1,0,0,2,0
+Calliostoma canaliculatum,0,1,1,0,1,2,2
+Calliostoma ligatum,0,1,0,1,0,0,2
+Chondria arcuata,1,0,1,0,0,2,0
+Chondria dasyphylla,1,0,1,0,0,2,0
+Chone minuta,0,1,0,1,0,0,2
+Cirolana spp Gnorimosphaeroma oregonense,0,1,1,0,0,1,1
+Cryptochiton stelleri,0,1,0,1,0,0,2
+Cryptosiphonia woodii,0,1,0,1,0,0,2
+Derbesia marina,0,1,0,1,0,0,2
+Desmarestia ligulata,0,1,0,1,0,0,2
+Dictyota coriacea,1,0,1,0,0,2,0
+Dilsea californica,0,1,0,1,0,0,2
+Diodora aspera,0,1,1,0,1,2,2
+Fucus spp,0,1,0,1,0,0,2
+Gastroclonium parvum,1,0,1,0,0,2,0
+Halichondria spp,0,1,0,1,0,0,2
+Halosaccion glandiforme,0,1,0,1,0,0,2
+Halymenia Schizymenia spp,0,1,0,1,0,0,2
+Haminoea vesicula,1,0,1,0,1,3,1
+Haplogloia andersonii,0,1,0,1,0,0,2
+Henricia spp,0,1,0,1,1,1,3
+Jania rosea,1,0,1,0,0,2,0
+Laminaria setchellii,0,1,0,1,0,0,2
+Laminaria sinclairii,0,1,0,1,0,0,2
+Laurencia spp,1,0,1,0,0,2,0
+Lottia asmi,0,1,0,1,0,0,2
+Macron lividus,1,0,1,0,1,3,1
+Nemalion elminthoides,1,0,1,0,0,2,0
+Neoptilota Ptilota spp,0,1,1,0,0,1,1
+Neorhodomela larix,0,1,0,1,0,0,2
+Neorhodomela oregona,0,1,0,1,0,0,2
+Norrisia norrisii,1,0,1,0,1,3,1
+Onchidella carpenteri,0,1,0,1,1,1,3
+Paraxanthias taylori,1,0,0,1,1,2,2
+Pelvetiopsis arborescens limitata,0,1,1,0,0,1,1
+Pseudochama exogyra,1,0,1,0,0,2,0
+Roperia poulsoni,1,0,1,0,1,3,1
+Sargassum agardhianum,1,0,1,0,0,2,0
+Semibalanus cariosus,0,1,0,1,0,0,2
+Spirobranchus spinosus,0,1,1,0,0,1,1
+Styela montereyensis,0,1,1,0,0,1,1
+Taonia lennebackerae,1,0,1,0,0,2,0
+Tegula aureotincta,1,0,1,0,1,3,1
+Tegula brunnea,0,1,0,1,1,1,3
+Ulothrix spp,0,1,0,1,0,0,2
+Zonaria farlowii,1,0,1,0,0,2,0
+Acanthinucella paucilirata,1,0,NA,NA,0,1,0
+Opalia wroblewskyi,1,0,NA,NA,0,1,0
+Pseudomelatoma penicillata,1,0,NA,NA,0,1,0
+Aglaophenia spp,0,1,NA,NA,0,0,1
+Calliostoma annulatum,0,1,NA,NA,1,1,2
+Coryphella trilineata,0,1,NA,NA,0,0,1
+Opalia wroblewskyi,0,1,NA,NA,0,0,1
+Agathistoma eiseni,NA,NA,NA,NA,1,1,1

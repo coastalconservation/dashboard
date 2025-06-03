@@ -524,8 +524,8 @@ server <- function(input, output) {
     
     current_rast <- current_selected_raster()
     
-    stable_habitat_pal <- colorBin(palette = c("#e1e7f5", "#a6bae0", "#6993c6", "#2aa5b0", "#027782", "black"),
-                                   bins = seq(0, 1, length.out = 7),
+    stable_habitat_pal <- colorBin(palette = c("#E4E2F5", "#FFC700","#49A842", "#038C45", "#00205B"),
+                                   bins = seq(0, 1, length.out = 6),
                                    na.color = "transparent",
                                    right = FALSE)
     
@@ -557,8 +557,8 @@ server <- function(input, output) {
     
     projected_rast <- projected_selected_raster()
     
-    stable_habitat_pal <- colorBin(palette = c("#e1e7f5", "#a6bae0", "#6993c6", "#2aa5b0", "#027782", "black"),
-                                   bins = seq(0, 1, length.out = 7),
+    stable_habitat_pal <- colorBin(palette = c("#E4E2F5", "#FFC700","#49A842", "#038C45", "#00205B"),
+                                   bins = seq(0, 1, length.out = 6),
                                    na.color = "transparent",
                                    right = FALSE)
     
@@ -612,46 +612,64 @@ server <- function(input, output) {
     
   })
   
-  # cumulative change suitability map ----
-  output$cumulative_change_output <- renderLeaflet({
+  # contraction table output
+  output$species_contraction_output <- renderDT({
     
-    breaks_total <- c(-10, -7, -3, -1, 1, 3, 7, 10)
+    req(priority_species_joined)
     
-    # Color palettes
-    change_habitat <- colorBin(
-      palette = c("#00205B", # strong loss
-                           "#FF0049", # moderate loss 
-                           "#FFC700", # weak lost
-                           "#E4E2F5", # no change 
-                           "#00C2CB",  # weak gain 
-                           "#49A842",
-                           "#038C45"),
-                           domain = c(-14, 14),
-      bins = breaks_total,
-      na.color = "transparent",
-      right = FALSE)
+    contraction <- priority_species_joined %>%
+      filter(
+        if (input$range_edge_filter) southern_range_edge == 1 else TRUE,
+        if (input$north_trend_filter) northward_trend == 1 else TRUE,
+        if (input$percent_change_filter) suitability_decrease_dangermond == 1 else TRUE,
+        species_contraction_score %in% input$contraction  # <-- make sure you have input$contraction in your UI
+      ) %>%
+      mutate(
+        image_html = paste0(
+          '<div style="text-align: center;">',
+          '<img src="', image_url, '" height="80" width="80" ',
+          'style="object-fit: cover; display: block; margin: auto;" />',
+          '</div>'
+        )
+      ) %>%
+      
+      mutate(
+        percent_change_dangermond = paste0(round(percent_change_dangermond, 2), "%")
+      ) %>%
+      
+      dplyr::select(
+        "Common Name" = common_name,
+        "Scientific Name" = species_lump,
+        "Moving North" = northward_trend,
+        "Lower suitable habitat in Dangermond" = suitability_decrease_dangermond,
+        "Percentage change" = percent_change_dangermond,
+        "Southern Range Edge in Point Conception" = southern_range_edge,
+        "Total Score" = species_contraction_score,
+        "Image" = image_html
+      ) %>%
+      arrange(desc(`Total Score`))
     
-    leaflet() |>
-      addProviderTiles(provider = "Esri.WorldStreetMap") |>
-      addRasterImage(cumulative_change, colors = change_habitat) |>
-
-      addLegend(
-        pal = change_habitat,
-        values = values(cumulative_change),
-        title = "Cumulative Habitat Change<br> Across All Species",
-        position = "bottomright"
-      ) |>
-      setView(lng = -120, lat = 36.7, zoom = 5) |>
-      addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
-    
+    datatable(
+      data = contraction,
+      escape = FALSE,
+      rownames = FALSE,
+      options = list(dom = 'tp', pageLength = 10)
+    )
   })
   
-
-  output$species_priority_output <- renderDT({
-    req(input$species_priority_input)
+  
+  # expansion table output
+  output$species_expansion_output <- renderDT({
     
-    priority_species_joined %>%
-      filter(priority == input$species_priority_input) %>%
+    req(priority_species_joined)
+    
+    expansion <- priority_species_joined %>%
+      filter(
+        if (input$range_edge_filter) northern_range_edge == 1 else TRUE,
+        if (input$north_trend_filter) northward_trend == 1 else TRUE,
+        if (input$percent_change_filter) suitability_increase_dangermond == 1 else TRUE,
+        species_expansion_score %in% input$expansion
+      ) %>%
       mutate(
         image_html = paste0(
           '<div style="text-align: center;">',
@@ -663,15 +681,20 @@ server <- function(input, output) {
       dplyr::select(
         "Common Name" = common_name,
         "Scientific Name" = species_lump,
-        "Total Score" = total_score,
+        "Moving North" = northward_trend,
+        "Higher suitable habitat in Dangermond" = suitability_increase_dangermond,
+        "Northern Range Edge in Point Conception" = northern_range_edge,
+        "Total Score" = species_expansion_score,
         "Image" = image_html
       ) %>%
-      arrange(desc(`Total Score`)) %>%
-      datatable(
-        escape = FALSE,
-        rownames = FALSE,
-        options = list(dom = 'tp', pageLength = 10)
-      )
+      arrange(desc(`Total Score`))
+    
+    datatable(
+      data = expansion,
+      escape = FALSE,
+      rownames = FALSE,
+      options = list(dom = 'tp', pageLength = 10)
+    )
   })
   
   
