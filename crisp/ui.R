@@ -651,7 +651,7 @@ body <- dashboardBody(
                   
                   # dynamic title
                   tags$h4(textOutput("plotly_header"),
-                          style = "text-align: center; font-weight: bold; padding-bottom: 15px;"),
+                          style = "font-family: Barlow; font-weight: bold; text-align: center; padding-bottom: 15px;"),
                   
                   # plot output
                   plotlyOutput("species_plot") %>%
