@@ -524,8 +524,8 @@ server <- function(input, output) {
     
     current_rast <- current_selected_raster()
     
-    stable_habitat_pal <- colorBin(palette = c("#e1e7f5", "#a6bae0", "#6993c6", "#2aa5b0", "#027782", "black"),
-                                   bins = seq(0, 1, length.out = 7),
+    stable_habitat_pal <- colorBin(palette = c("#E4E2F5", "#FFC700","#49A842", "#038C45", "#00205B"),
+                                   bins = seq(0, 1, length.out = 6),
                                    na.color = "transparent",
                                    right = FALSE)
     
@@ -557,8 +557,8 @@ server <- function(input, output) {
     
     projected_rast <- projected_selected_raster()
     
-    stable_habitat_pal <- colorBin(palette = c("#e1e7f5", "#a6bae0", "#6993c6", "#2aa5b0", "#027782", "black"),
-                                   bins = seq(0, 1, length.out = 7),
+    stable_habitat_pal <- colorBin(palette = c("#E4E2F5", "#FFC700","#49A842", "#038C45", "#00205B"),
+                                   bins = seq(0, 1, length.out = 6),
                                    na.color = "transparent",
                                    right = FALSE)
     
@@ -612,18 +612,63 @@ server <- function(input, output) {
     
   })
   
-  output$species_priority_output <- renderDT({
+  # contraction table output
+  output$species_contraction_output <- renderDT({
     
-    # Ensure data loaded
     req(priority_species_joined)
     
-    # Apply filters based on checkbox inputs
-    filtered_data <- priority_species_joined %>%
+    contraction <- priority_species_joined %>%
       filter(
-        range_edge %in% as.numeric(input$range_edge_filter),
-        north_trend_positive %in% as.numeric(input$north_trend_filter),
-        percent_change_dangermond.x %in% as.numeric(input$percent_change_filter),
-        priority %in% input$priority_filter
+        if (input$range_edge_filter) southern_range_edge == 1 else TRUE,
+        if (input$north_trend_filter) northward_trend == 1 else TRUE,
+        if (input$percent_change_filter) suitability_decrease_dangermond == 1 else TRUE,
+        species_contraction_score %in% input$contraction  # <-- make sure you have input$contraction in your UI
+      ) %>%
+      mutate(
+        image_html = paste0(
+          '<div style="text-align: center;">',
+          '<img src="', image_url, '" height="80" width="80" ',
+          'style="object-fit: cover; display: block; margin: auto;" />',
+          '</div>'
+        )
+      ) %>%
+      
+      mutate(
+        percent_change_dangermond = paste0(round(percent_change_dangermond, 2), "%")
+      ) %>%
+      
+      dplyr::select(
+        "Common Name" = common_name,
+        "Scientific Name" = species_lump,
+        "Moving North" = northward_trend,
+        "Lower suitable habitat in Dangermond" = suitability_decrease_dangermond,
+        "Percentage change" = percent_change_dangermond,
+        "Southern Range Edge in Point Conception" = southern_range_edge,
+        "Total Score" = species_contraction_score,
+        "Image" = image_html
+      ) %>%
+      arrange(desc(`Total Score`))
+    
+    datatable(
+      data = contraction,
+      escape = FALSE,
+      rownames = FALSE,
+      options = list(dom = 'tp', pageLength = 10)
+    )
+  })
+  
+  
+  # expansion table output
+  output$species_expansion_output <- renderDT({
+    
+    req(priority_species_joined)
+    
+    expansion <- priority_species_joined %>%
+      filter(
+        if (input$range_edge_filter) northern_range_edge == 1 else TRUE,
+        if (input$north_trend_filter) northward_trend == 1 else TRUE,
+        if (input$percent_change_filter) suitability_increase_dangermond == 1 else TRUE,
+        species_expansion_score %in% input$expansion
       ) %>%
       mutate(
         image_html = paste0(
@@ -636,13 +681,16 @@ server <- function(input, output) {
       dplyr::select(
         "Common Name" = common_name,
         "Scientific Name" = species_lump,
-        "Total Score" = total_score,
+        "Moving North" = northward_trend,
+        "Higher suitable habitat in Dangermond" = suitability_increase_dangermond,
+        "Northern Range Edge in Point Conception" = northern_range_edge,
+        "Total Score" = species_expansion_score,
         "Image" = image_html
       ) %>%
       arrange(desc(`Total Score`))
     
     datatable(
-      filtered_data,
+      data = expansion,
       escape = FALSE,
       rownames = FALSE,
       options = list(dom = 'tp', pageLength = 10)

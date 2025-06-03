@@ -826,22 +826,23 @@ body <- dashboardBody(
               # start species choices column
               column(width = 3,
                      
-                     checkboxInput("range_edge_filter", "Has Range Edge", value = FALSE),
+                     checkboxInput("range_edge_filter", "Southern Range Edge in Point Conception", value = FALSE),
                      
-                     checkboxInput("north_trend_filter", "Has Northward Trend", value = FALSE),
+                     checkboxInput("north_trend_filter", "Northward Trend", value = FALSE),
                      
-                     checkboxInput("percent_change_filter", "Positive Change at Dangermond", value = FALSE),
+                     checkboxInput("percent_change_filter", "Higher Suitability at Dangermond", value = FALSE),
                      
-                     checkboxGroupInput("priority_filter",
-                                        "Priority Level:",
-                                        choices = c("high", "moderate", "minimal", "low"),
-                                        selected = c("high", "moderate", "minimal", "low"))
+                     checkboxGroupInput("contraction",
+                                        "Expansion Monitoring Priority:",
+                                        choices = c("High" = 3, "Medium" = 2, "Low" = 1, "None" = 0),
+                                        selected = c(3, 2, 1, 0)
+                                        )
               ), # End choices column
               
               
               column(width = 7,
                      
-                     DTOutput("species_priority_output") %>%
+                     DTOutput("species_contraction_output") %>%
                        withSpinner(color = "#05641C", type = 1, size = 1)
                      
               ), # END
@@ -871,8 +872,40 @@ body <- dashboardBody(
                        ) # End interior fluid row
               ) # end column
                      
+            ), # End third fluid row
+            
+            # Start species expansion fluid row
+            fluidRow(
+              column(width = 1),  # left buffer
               
-            ) # End third fluid row
+              # start expansion choices column
+              column(width = 3,
+                     
+                     checkboxInput("range_edge_filter", "Northern Range Edge in Point Conception", value = FALSE),
+                     
+                     checkboxInput("north_trend_filter", "Northward Trend", value = FALSE),
+                     
+                     checkboxInput("percent_change_filter", "Lower Suitability at Dangermond", value = FALSE),
+                     
+                     checkboxGroupInput("expansion",
+                                        "Expansion Monitoring Priority:",
+                                        choices = c("High" = 3, "Medium" = 2, "Low" = 1, "None" = 0),
+                                        selected = c(3, 2, 1, 0)
+                     )
+              ), # End choices column
+              
+              
+              column(width = 7,
+                     
+                     DTOutput("species_expansion_output") %>%
+                       withSpinner(color = "#05641C", type = 1, size = 1)
+                     
+              ), # END
+              
+              column(width = 1)  # right buffer
+              
+              
+            ) # End species expansion fluid row
             
     ), # END priority monitoring assessment tabItem
     
