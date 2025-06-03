@@ -54,8 +54,9 @@ cumulative_change <- raster("data/species_model_rasters/cumulative_species_raste
 
 # Read priority and suitability results
 
-priority_scores <- read_csv("data/processed/analyses_results/priority_species_binary.csv")
-suitability_changes <- read_csv("data/processed/analyses_results/species_suitability_change.csv")
+priority_scores <- read_csv("data/analyses_results/priority_species_binary.csv")
+
+suitability_changes <- read_csv("data/analyses_results/species_suitability_change.csv")
 
 priority_species_joined <- priority_scores %>%
   left_join(suitability_changes, by = c("species_lump" = "species_name")) %>%
