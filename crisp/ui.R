@@ -809,7 +809,7 @@ body <- dashboardBody(
                      fluidRow(
                        
                        # title
-                       tags$h2("Rocky Intertidal Species with Range contractions",
+                       tags$h2("Rocky Intertidal Species with Range contractions, DEFINITIONS AND INFO WILL GO UNDER HERE",
                                style = "font-family: Barlow; font-weight: bold; color: #ffffff; text-align: center; padding-bottom: 10px;")
                      ) # End interior fluid row
               ) # end column
@@ -866,7 +866,7 @@ body <- dashboardBody(
                      fluidRow(
                        
                        # title
-                       tags$h2("Rocky Intertidal Species with Range Expansions",
+                       tags$h2("Rocky Intertidal Species with Range Expansions DEFINITIONS AND INFO WILL GO UNDER HERE",
                                style = "font-family: Barlow; font-weight: bold; color: #ffffff; text-align: center; padding-bottom: 10px;")
                        ) # End interior fluid row
               ) # end column
