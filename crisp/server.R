@@ -612,46 +612,19 @@ server <- function(input, output) {
     
   })
   
-  # cumulative change suitability map ----
-  output$cumulative_change_output <- renderLeaflet({
-    
-    breaks_total <- c(-10, -7, -3, -1, 1, 3, 7, 10)
-    
-    # Color palettes
-    change_habitat <- colorBin(
-      palette = c("#00205B", # strong loss
-                           "#FF0049", # moderate loss 
-                           "#FFC700", # weak lost
-                           "#E4E2F5", # no change 
-                           "#00C2CB",  # weak gain 
-                           "#49A842",
-                           "#038C45"),
-                           domain = c(-14, 14),
-      bins = breaks_total,
-      na.color = "transparent",
-      right = FALSE)
-    
-    leaflet() |>
-      addProviderTiles(provider = "Esri.WorldStreetMap") |>
-      addRasterImage(cumulative_change, colors = change_habitat) |>
-
-      addLegend(
-        pal = change_habitat,
-        values = values(cumulative_change),
-        title = "Cumulative Habitat Change<br> Across All Species",
-        position = "bottomright"
-      ) |>
-      setView(lng = -120, lat = 36.7, zoom = 5) |>
-      addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
-    
-  })
-  
-
   output$species_priority_output <- renderDT({
-    req(input$species_priority_input)
     
-    priority_species_joined %>%
-      filter(priority == input$species_priority_input) %>%
+    # Ensure data loaded
+    req(priority_species_joined)
+    
+    # Apply filters based on checkbox inputs
+    filtered_data <- priority_species_joined %>%
+      filter(
+        range_edge %in% as.numeric(input$range_edge_filter),
+        north_trend_positive %in% as.numeric(input$north_trend_filter),
+        percent_change_dangermond.x %in% as.numeric(input$percent_change_filter),
+        priority %in% input$priority_filter
+      ) %>%
       mutate(
         image_html = paste0(
           '<div style="text-align: center;">',
@@ -666,12 +639,14 @@ server <- function(input, output) {
         "Total Score" = total_score,
         "Image" = image_html
       ) %>%
-      arrange(desc(`Total Score`)) %>%
-      datatable(
-        escape = FALSE,
-        rownames = FALSE,
-        options = list(dom = 'tp', pageLength = 10)
-      )
+      arrange(desc(`Total Score`))
+    
+    datatable(
+      filtered_data,
+      escape = FALSE,
+      rownames = FALSE,
+      options = list(dom = 'tp', pageLength = 10)
+    )
   })
   
   

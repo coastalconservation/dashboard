@@ -775,69 +775,6 @@ body <- dashboardBody(
               
             ), # End third fluid row
             
-            # fourth fluid row
-            fluidRow(
-              
-              column(width = 1),
-              
-              # Column 1
-              box(width = 10,
-                  includeMarkdown("text/cumulative_difference_intro.md")), # end column 1
-              
-              column(width = 1)
-              
-            ), # End fourth fluid row
-            
-            # Fifth fluid row
-            fluidRow(
-              
-              column(width = 1),
-              # Column 1: buffer column
-              column(width = 2,
-                     
-                     fluidRow(   # end column 1
-                       
-                       value_box(title = span("53 species",
-                                              style = "font-size: 22px; font-weight: bold;"),
-                                 value = span("identified as having",
-                                              style = "font-size: 20px;"),
-                                 p("range edges within California", style = "font-size: 15px;"),
-                                 style = "background-color: #01c1e3; border-radius: 10px; width: 300px; padding: 20px;",
-                                 height = "140px")
-                     ), # end first fluid row
-                     fluidRow(
-                       value_box(title = span("19 species", style = "font-size: 22px; font-weight: bold;"),
-                                 value = span("projected to gain habitat",
-                                              style = "font-size: 20px;"),
-                                 p("within California", style = "font-size: 15px;"),
-                                 style = "background-color: #eae8f5; border-radius: 10px; width: 300px; padding: 20px;",
-                                 height = "140px")
-                       
-                     ), # end second fluid row
-                     
-                     fluidRow(
-                       value_box(title = span("34 species", style = "font-size: 24px; font-weight: bold; color: #eae8f5;"),
-                                 value = span("projected to lose habitat", 
-                                              style = "font-size: 20px; color: #eae8f5;"),
-                                 p("within California", style = "font-size: 15px; color: #eae8f5;"),
-                                 style = "background-color: #49a842; border-radius: 10px; width: 300px; padding: 20px;",
-                                 height = "140px"),
-                       column(width = 1)) # end third fluid row
-                     
-              ),
-              
-              # Start of column
-              column(width = 1), # End of column
-              
-              # Column 2: Cumulative map
-              box(width = 7,
-                  leafletOutput(outputId = "cumulative_change_output") %>% 
-                    withSpinner(color = "#05641C", type = 1, size = 1)),
-              
-              column(width = 1)
-              
-            ) # End fifth fluid row
-            
     ), # END model tabItem
     
     # priority monitoring assessment tabItem ----
@@ -856,31 +793,53 @@ body <- dashboardBody(
               
             ),
             
-            # second fluidRow: dropdown
+            # Start third fluid row: color bar and text
             fluidRow(
               
-              column(width = 1),  # left buffer
+              # style fluid row
+              style = "background-color: #06063d; padding-bottom: 50px;",
               
+              # left buffer column
+              column(width = 1),
+              
+              # stats column
               column(width = 10,
-                     pickerInput(
-                       inputId = "species_priority_input",
-                       label = "Select a Priority Level:",
-                       choices = c("high", "moderate", "minimal", "low"))
-              ),
-                            column(width = 1),  # right buffer
-  
-              column(width = 1)  # right buffer
+                     
+                     # fluidRow
+                     fluidRow(
+                       
+                       # title
+                       tags$h2("Rocky Intertidal Species with Range contractions",
+                               style = "font-family: Barlow; font-weight: bold; color: #ffffff; text-align: center; padding-bottom: 10px;")
+                     ) # End interior fluid row
+              ) # end column
               
-            ),
+              
+            ), # End third contraction row
 
             
-            # third fluidRow: species table
+            # fluidRow: species table
             fluidRow(
               
               column(width = 1),  # left buffer
               
+              # start species choices column
+              column(width = 3,
+                     
+                     checkboxInput("range_edge_filter", "Has Range Edge", value = FALSE),
+                     
+                     checkboxInput("north_trend_filter", "Has Northward Trend", value = FALSE),
+                     
+                     checkboxInput("percent_change_filter", "Positive Change at Dangermond", value = FALSE),
+                     
+                     checkboxGroupInput("priority_filter",
+                                        "Priority Level:",
+                                        choices = c("high", "moderate", "minimal", "low"),
+                                        selected = c("high", "moderate", "minimal", "low"))
+              ), # End choices column
               
-              column(width = 10,
+              
+              column(width = 7,
                      
                      DTOutput("species_priority_output") %>%
                        withSpinner(color = "#05641C", type = 1, size = 1)
@@ -890,6 +849,30 @@ body <- dashboardBody(
               column(width = 1)  # right buffer
               
             ), # END first fluidRow ----
+            
+            # Start third fluid row: color bar and text
+            fluidRow(
+              
+              # style fluid row
+              style = "background-color: #06063d; padding-bottom: 50px;",
+              
+              # left buffer column
+              column(width = 1),
+              
+              # stats column
+              column(width = 10,
+                     
+                     # fluidRow
+                     fluidRow(
+                       
+                       # title
+                       tags$h2("Rocky Intertidal Species with Range Expansions",
+                               style = "font-family: Barlow; font-weight: bold; color: #ffffff; text-align: center; padding-bottom: 10px;")
+                       ) # End interior fluid row
+              ) # end column
+                     
+              
+            ) # End third fluid row
             
     ), # END priority monitoring assessment tabItem
     

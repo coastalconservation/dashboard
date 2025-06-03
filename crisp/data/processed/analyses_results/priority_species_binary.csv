@@ -1,0 +1,62 @@
+species_lump,northern_range_edge,southern_range_edge,suitability_increase_dangermond,suitability_decrease_dangermond,northward_trend
+Acmaea mitra,0,1,0,1,0
+Acrosorium spp,1,0,1,0,0
+Ahnfeltiopsis linearis,0,1,0,1,0
+Amphissa columbiana,0,1,0,1,0
+Analipus japonicus,0,1,0,1,0
+Aplysia californica,1,0,0,1,1
+Bugula neritina,1,0,1,0,0
+Calliostoma canaliculatum,0,1,1,0,1
+Calliostoma ligatum,0,1,0,1,0
+Chondria arcuata,1,0,1,0,0
+Chondria dasyphylla,1,0,1,0,0
+Chone minuta,0,1,0,1,0
+Cirolana spp Gnorimosphaeroma oregonense,0,1,1,0,0
+Cryptochiton stelleri,0,1,0,1,0
+Cryptosiphonia woodii,0,1,0,1,0
+Derbesia marina,0,1,0,1,0
+Desmarestia ligulata,0,1,0,1,0
+Dictyota coriacea,1,0,1,0,0
+Dilsea californica,0,1,0,1,0
+Diodora aspera,0,1,1,0,1
+Fucus spp,0,1,0,1,0
+Gastroclonium parvum,1,0,1,0,0
+Halichondria spp,0,1,0,1,0
+Halosaccion glandiforme,0,1,0,1,0
+Halymenia Schizymenia spp,0,1,0,1,0
+Haminoea vesicula,1,0,1,0,1
+Haplogloia andersonii,0,1,0,1,0
+Henricia spp,0,1,0,1,1
+Jania rosea,1,0,1,0,0
+Laminaria setchellii,0,1,0,1,0
+Laminaria sinclairii,0,1,0,1,0
+Laurencia spp,1,0,1,0,0
+Lottia asmi,0,1,0,1,0
+Macron lividus,1,0,1,0,1
+Nemalion elminthoides,1,0,1,0,0
+Neoptilota Ptilota spp,0,1,1,0,0
+Neorhodomela larix,0,1,0,1,0
+Neorhodomela oregona,0,1,0,1,0
+Norrisia norrisii,1,0,1,0,1
+Onchidella carpenteri,0,1,0,1,1
+Paraxanthias taylori,1,0,0,1,1
+Pelvetiopsis arborescens limitata,0,1,1,0,0
+Pseudochama exogyra,1,0,1,0,0
+Roperia poulsoni,1,0,1,0,1
+Sargassum agardhianum,1,0,1,0,0
+Semibalanus cariosus,0,1,0,1,0
+Spirobranchus spinosus,0,1,1,0,0
+Styela montereyensis,0,1,1,0,0
+Taonia lennebackerae,1,0,1,0,0
+Tegula aureotincta,1,0,1,0,1
+Tegula brunnea,0,1,0,1,1
+Ulothrix spp,0,1,0,1,0
+Zonaria farlowii,1,0,1,0,0
+Acanthinucella paucilirata,1,0,NA,NA,0
+Opalia wroblewskyi,1,0,NA,NA,0
+Pseudomelatoma penicillata,1,0,NA,NA,0
+Aglaophenia spp,0,1,NA,NA,0
+Calliostoma annulatum,0,1,NA,NA,1
+Coryphella trilineata,0,1,NA,NA,0
+Opalia wroblewskyi,0,1,NA,NA,0
+Agathistoma eiseni,NA,NA,NA,NA,1
