@@ -1,4 +1,4 @@
-The Nature Conservancy scales local conservation work up to a global level to help create a future with a livable climate, healthy communities and thriving nature.
+The mission of The Nature Conservancy is to conserve the lands and waters on which all life depends.
 
 <br>
 

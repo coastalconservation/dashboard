@@ -24,13 +24,13 @@ ca_segments <- st_read("data/spatial_data/segments_shapefile/CA_segments.shp")
 dangermond <- read_sf("data/spatial_data/dangermond_shapefile/jldp_boundary.shp") %>%
   st_transform(crs = 4326)
 
-# species range edges data
-species_extent <- read_csv("data/analyses_results/species_extent.csv") %>%
-  inner_join(species_names, by = "species_lump")
-
 # species info
 species_names <- read_csv("data/species_info/species_names.csv") %>%
   dplyr::select(species_lump, common_name, image_url)
+
+# species range edges data
+species_extent <- read_csv("data/analyses_results/species_extent.csv") %>%
+  inner_join(species_names, by = "species_lump")
 
 # contemporary range shift data
 target_boundaries <- read_rds("data/analyses_results/target_boundaries.rds")
