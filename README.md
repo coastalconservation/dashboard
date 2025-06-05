@@ -6,6 +6,22 @@
 
 California Ranges of Intertidal Species Portal (CRISP)
 
+## Table of Contents 
+[Product Description](#product-description)
+
+[Repository Structure](#repository-structure)
+
+[Usage](#usage)
+
+[Data](#data)
+
+[Performance and Limitations](#performance-and-limitations) 
+
+[Authors and Contributors](#authors-and-contributors) 
+
+
+
+
 ## Product Description
 The interactive web application is a comprehensive priority monitoring assessment of rocky intertidal species, with range edges near Point Conception, at risk of suitable habitat loss due to changing environmental conditions. The assessment compiles analyses of their habitat ranges, contemporary range shifts over time, and projected habitat suitability utilizing MARINe biodiversity survey data. The application is hosted on the Nature Conservancy's (TNC) Geospatial Hub and is intended to be primarily utilized by internal staff and partners, who may implement the product for priority monitoring, grant proposals, and public education purposes. It addresses the need for open-source, reproducible science that is user-friendly and accessible to a broad audience. Overall, the application provides a foundational framework for further analyses to investigate the ecological and biological factors that influence rocky intertidal species near the  Jack and Laura Dangermond Preserve.
 
