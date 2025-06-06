@@ -26,23 +26,27 @@ sidebar <- dashboardSidebar(
                       href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap")),
   
   # sidebar adjustments ----
-  tags$style(".left-side, .main-sidebar {padding-top: 100px; font-size: 14px; font-family: Barlow;}"),
+  tags$style(".left-side, .main-sidebar {padding-top: 100px; font-size: 15px; font-family: Barlow;}"),
   width = 300,
   
   # sidebarMenu ----
   sidebarMenu(
     
     # menuItems
-    menuItem(text = "Home", tabName = "home", icon = icon("house")),
-    menuItem(text = "Background", tabName = "background", icon = icon("circle-info")),
-    menuItem(text = "Range Edges", tabName = "ranges", icon = icon("location-dot")),
-    menuItem(text = "Contemporary Range Shifts", tabName = "trends", icon = icon("arrow-trend-up")),
-    menuItem(text = "Projected Shifts", tabName = "model", icon = icon("project-diagram")),
-    menuItem(text = "Priority Monitoring Assessment", tabName = "assessment", icon = icon("list-check")),
-    menuItem(text = "Data and Limitations", tabName = "data", icon = icon("database")),
-    menuItem(text = "Acknowledgements", tabName = "acknowledgments", icon = icon("star"))
+    menuItem(text = "Home", tabName = "home"),
+    menuItem(text = "Background", tabName = "background"),
+    menuItem(text = "Range Edges", tabName = "ranges"),
+    menuItem(text = "Contemporary Range Shifts", tabName = "trends"),
+    menuItem(text = "Projected Shifts", tabName = "model"),
+    menuItem(text = "Priority Monitoring Assessment", tabName = "assessment"),
+    menuItem(text = "Data and Limitations", tabName = "data"),
+    menuItem(text = "Acknowledgements", tabName = "acknowledgments")
     
-  ) # END sidebarMenu
+  ), # END sidebarMenu
+  
+  div(style = "position: absolute; bottom: 20px; width: 100%; text-align: center; font-size: 40px;",
+  HTML('<a href="https://github.com/coastalconservation" target="_blank" title="GitHub">
+        <i class="fa-brands fa-github-alt"></i> </a>') )
   
 ) # END dashboardSidebar
 
@@ -69,7 +73,7 @@ body <- dashboardBody(
               
               # welcome box
               box(width = 5,
-                  style = "height: 450px;",
+                  style = "height: 525px;",
                   
                   # title
                   tags$h1("Welcome",
@@ -83,7 +87,10 @@ body <- dashboardBody(
               
               # slickR box
               box(width = 5,
-                  style = "height: 450px;",
+                  style = "height: 525px;",
+                  
+                  tags$h3("The Jack and Laura Dangermond Preserve",
+                          style = "font-family: Barlow; font-weight: bold; padding-bottom: 10px;"),
                   
                   # slickR output
                   slickROutput(outputId = "carousel_images_output",
@@ -132,7 +139,7 @@ body <- dashboardBody(
                               style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;"),
                       
                       # intro
-                      p("The Jack and Laura Dangermond Preserve located near Lompoc, CA is an important site for conservation."),
+                      p("The Jack and Laura Dangermond Preserve located in Lompoc, CA is an important site for conservation."),
                       
                       # read more
                       actionLink("read_more_dangermond", "Read More", style = "color: #05641c; font-weight: bold; margin-bottom: 10px;"),
@@ -234,7 +241,7 @@ body <- dashboardBody(
                               style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;"),
                       
                       # intro
-                      p("Point Conception, located at the Jack and Laura Dangermond Reserve in California, is a significant biogeographic barrier for many rocky intertidal species."),
+                      p("Point Conception is a significant biogeographic barrier for many rocky intertidal species because of its unique topography and its location at the intersection of two ocean currents."),
                       
                       # read more
                       actionLink("read_more_biogeographic", "Read More", style = "color: #05641c; font-weight: bold; margin-bottom: 10px;"),
@@ -327,7 +334,7 @@ body <- dashboardBody(
                   
                   # markdown
                   div(style = "font-size: 18px; font-family: Merriweather;", 
-                      includeMarkdown("text/range-edges/range-edges.md"))
+                      includeMarkdown("text/analyses/range-edges.md"))
                   
               ), # END info column
               
@@ -569,7 +576,6 @@ body <- dashboardBody(
     
     # contemporary range shifts tabItem ----
     tabItem(tabName = "trends",
-            style = "padding-bottom: 25px;",
             
             # first fluidRow
             fluidRow(
@@ -586,7 +592,7 @@ body <- dashboardBody(
                      
                      # markdown
                      div(style = "font-size: 18px; font-family: Merriweather;", 
-                         includeMarkdown("text/range-shifts/range-shifts.md"))
+                         includeMarkdown("text/analyses/range-shifts.md"))
                      
               ), # END info column
               
@@ -615,43 +621,59 @@ body <- dashboardBody(
             ), # END second fluidRow
             
             # third fluidRow
-            fluidRow(
+            fluidRow(style = "padding-bottom: 10px;",
               
               # left buffer column
               column(width = 1),
               
-              # picker column
-              column(width = 3,
+              # species column
+              column(width = 5,
                      style = "padding-bottom: 25px;",
                      
-                     pickerInput(inputId = "species", 
+                     div(style = "font-family: Merriweather; font-size: 18; padding-bottom: 20px;",
+                         pickerInput(inputId = "species", 
                                  label = "Choose an intertidal species/species group:",
-                                 choices = unique(target_boundaries$species),
-                                 selected = unique(target_boundaries$species)[1],
+                                 choices = unique(target_boundaries$full_name),
+                                 selected = unique(target_boundaries$full_name)[1],
                                  multiple = FALSE,
-                                 options = pickerOptions(dropupAuto = FALSE,
-                                                         size = 3))
+                                 options = pickerOptions(dropupAuto = FALSE, size = 3),
+                                 width = "100%")),
                      
-              ), # END picker column
+                     div(style = "text-align: center; padding-bottom: 10px;",
+                         uiOutput("species_image") %>%
+                       withSpinner(color = "#05641C", type = 1, size = 1))
+                     
+              ), # END species column
+              
+              # diagram column
+              column(width = 5,
+                     style = "padding-bottom: 25px;",
+                     
+                     "insert diagram here"
+                     
+                     ), # END diagram column
               
               # right buffer column
-              column(width = 8),
+              column(width = 1),
               
             ), # END third fluidRow
             
             # fourth fluidRow
-            fluidRow(
+            fluidRow(style = "padding-bottom: 10px;",
               
               # left buffer column
               column(width = 1),
               
               # plot box
               box(width = 5,
-                  style = "height: 600px;",
+                  style = "height: 650px;",
                   
                   # dynamic title
                   tags$h4(textOutput("plotly_header"),
-                          style = "font-family: Barlow; font-weight: bold; text-align: center; padding-bottom: 15px;"),
+                          style = "font-family: Barlow; font-weight: bold; color: #05641C; text-align: center;"),
+                  
+                  tags$h4(style = "font-family: Barlow; font-weight: bold; text-align: center; padding-bottom: 10px;",
+                          "Range Distribution Every 5 Years"),
                   
                   # plot output
                   plotlyOutput("species_plot") %>%
@@ -661,7 +683,7 @@ body <- dashboardBody(
               
               # plot box
               box(width = 5,
-                  style = "height: 600px;",
+                  style = "height: 650px;",
                   
                   # image output
                   imageOutput("coastline_distance", click = "distance_click") %>%
@@ -779,45 +801,74 @@ body <- dashboardBody(
     # projected shifts tabItem ----
     tabItem(tabName = "model",
             
-            # First fluid row
+            # first fluidRow
             fluidRow(
               
-              # Buffer column one
-              column(width = 1), # end column one
-              
-              # Info box
-              box(width = 10,
-                  includeMarkdown("text/model-info.md")), # End species rasters info box
-              
-              # Buffer column two
-              column(width = 1) # End buffer column two
-              
-            ), # End first fluid row
-            
-            # Second fluid row 
-            fluidRow(
-              
+              # left buffer column
               column(width = 1),
               
-              # Column 1
-              column(width = 3,
+              # info column
+              column(width = 10,
                      
-                     # Species change map selector
-                     pickerInput(inputId = "change_selected_species", 
-                                 label = "Choose a Species:",
-                                 choices = named_choices,
-                                 multiple = FALSE,
-                                 options = pickerOptions(dropupAuto = FALSE,
-                                                         size = 7)
-                     ),
+                     # title
+                     tags$h1("Projected Shifts",
+                             style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;"),
                      
-                     # Species image and common name
-                     uiOutput("species_info_box")
+                     # markdown
+                     div(style = "font-size: 18px; font-family: Merriweather;", 
+                         includeMarkdown("text/analyses/model-info.md"))
+                         
+                     ), # END info column
                      
-              ), # end of column 1
+                     # right buffer column
+                     column(width = 1)
+                     
+              ), # END first fluidRow
+            
+            # second fluidRow
+            fluidRow(
+              
+              # left buffer column
+              column(width = 1),
+              
+              # line column
+              column(width = 10,
+                     
+                     # line
+                     tags$hr(style = "border-top: 3px solid; color: #eae8f5; padding-top: 10px; padding-bottom: 10px;")
+                     
+              ), # END line column
+              
+              # right buffer column
+              column(width = 1)
+              
+            ), # END second fluidRow
+            
+            # third fluidRow
+            fluidRow(
+              
+              # left buffer column
+              column(width = 1),
+              
+              # species column
+              column(width = 5,
+                     
+                     div(style = "font-family: Merriweather; font-size: 18; padding-bottom: 20px;",
+                         pickerInput(inputId = "change_selected_species",
+                                     label = "Choose an intertidal species/species group:",
+                                     choices = named_choices,
+                                     multiple = FALSE,
+                                     options = pickerOptions(dropupAuto = FALSE, size = 7),
+                                     width = "100%")),
+                     
+                     div(style = "text-align: center; padding-bottom: 10px;",
+                         uiOutput("species_info_box") %>%
+                       withSpinner(color = "#05641C", type = 1, size = 1))
+                     
+              ), # END species column
               
               # Leaflet box for change raster
-              box(width = 7,
+              box(width = 5,
                   
                   # Title for change map
                   tags$h4("Map of Habitat Change From 2025 to 2050",
@@ -1216,7 +1267,7 @@ body <- dashboardBody(
                        # right-hand column
                        column(width = 4,
                               
-                              div(style = "text-align: center; padding-bottom: 10px;",
+                              div(style = "display: flex; justify-content: center; align-items: center; height: 250px;",
                                   img(src = "logos/coastal_conservation_hex.png", width = "225px", height = "250px"))
                               
                        ) # END right-hand column
@@ -1271,8 +1322,8 @@ body <- dashboardBody(
                        # right-hand column
                        column(width = 4,
                               
-                              div(style = "text-align: center; padding-bottom: 10px;",
-                                  img(src = "logos/TNC_icon.png", width = "200px", height = "200px"))
+                              div(style = "display: flex; justify-content: center; align-items: center; height: 200px;",
+                                  img(src = "logos/TNCLogoIcon_RGB_PNG.png", width = "175px", height = "175px"))
                               
                        ) # END right-hand column
                        
@@ -1326,7 +1377,7 @@ body <- dashboardBody(
                        # right-hand column
                        column(width = 4,
                               
-                              div(style = "text-align: center; padding-bottom: 10px;",
+                              div(style = "display: flex; justify-content: center; align-items: center; height: 200px;",
                                   img(src = "logos/Bren-LeafArtOnly-FullColor-RGB-transparent.png", width = "200px", height = "200px"))
                               
                        ) # END right-hand column
@@ -1381,7 +1432,7 @@ body <- dashboardBody(
                        # right-hand column
                        column(width = 4,
                               
-                              div(style = "text-align: center; padding-bottom: 10px;",
+                              div(style = "display: flex; justify-content: center; align-items: center; height: 125px;",
                                   img(src = "logos/bird.png", width = "150px", height = "150px"))
                               
                        ) # END right-hand column
@@ -1436,8 +1487,8 @@ body <- dashboardBody(
                        # right-hand column
                        column(width = 4,
                               
-                              div(style = "display: flex; justify-content: center; align-items: center; height: 180px; padding-bottom: 10px;",
-                                  img(src = "logos/jcs_logo.png", width = "150px", height = "150px"))
+                              div(style = "display: flex; justify-content: center; align-items: center; height: 125px; padding-bottom: 10px;",
+                                  img(src = "logos/jcs_logo.png", width = "125px", height = "125px"))
                               
                               
                        ) # END right-hand column

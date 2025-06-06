@@ -52,7 +52,7 @@ server <- function(input, output) {
     
     req(input$dangermond_click)
     
-    showModal(modalDialog(tags$img(src = "dangermond.jpg", style = "width: 100%"),
+    showModal(modalDialog(tags$img(src = "diagrams/dangermond.jpg", style = "width: 100%"),
                           easyClose = TRUE,
                           size = "m"))
     
@@ -75,7 +75,7 @@ server <- function(input, output) {
     
     req(input$currents_click)
     
-    showModal(modalDialog(tags$img(src = "cal-currents.jpg", style = "width: 100%"),
+    showModal(modalDialog(tags$img(src = "diagrams/cal-currents.jpg", style = "width: 100%"),
                           easyClose = TRUE,
                           size = "m"))
     
@@ -96,7 +96,7 @@ server <- function(input, output) {
     
     req(input$shift_click)
     
-    showModal(modalDialog(tags$img(src = "RANGESHIFT.png", style = "width: 100%"),
+    showModal(modalDialog(tags$img(src = "diagrams/RANGESHIFT.png", style = "width: 100%"),
                           easyClose = TRUE,
                           size = "m"))
     
@@ -388,20 +388,28 @@ server <- function(input, output) {
   
   # contemporary range shift tab ----
   
-  # 
+  # filter target boundaries
   range_shift <- reactive({
     
     target_boundaries %>%
       mutate(north_boundary = north_boundary/1000,
              south_boundary = south_boundary/1000) %>%
-      filter(species == input$species)
+      filter(full_name == input$species)
+    
+  })
+  
+  # species images
+  output$species_image <- renderUI({
+    
+    tags$img(src = range_shift()$image_url[1], alt = input$species, 
+             style = "width: 350px; height: 350px; border-radius: 8px;")
     
   })
   
   # dynamic title
   output$plotly_header <- renderText({
     
-    paste(input$species, "Range Distribution Every 5 Years")
+    paste(input$species)
     
   })
   
@@ -411,9 +419,9 @@ server <- function(input, output) {
     ggplotly(width = 450, height = 525,
       ggplot(range_shift()) +
         geom_segment(aes(x = year_bin, xend = year_bin, 
-                         y = south_boundary, yend = north_boundary), linewidth = 1, na.rm = TRUE) +
-        geom_point(aes(x = year_bin, y = north_boundary), color = "#49A842", size = 2, na.rm = TRUE) +
-        geom_point(aes(x = year_bin, y = south_boundary), color = "#01c1e3", size = 2, na.rm = TRUE) +
+                         y = south_boundary, yend = north_boundary), linewidth = 1.5, na.rm = TRUE) +
+        geom_point(aes(x = year_bin, y = north_boundary), color = "#49A842", size = 3, na.rm = TRUE) +
+        geom_point(aes(x = year_bin, y = south_boundary), color = "#01c1e3", size = 3, na.rm = TRUE) +
         geom_hline(yintercept = 520.8593, linetype = "dashed", color = "#ff004d") +
         geom_point(aes(x = 0, y = 520.8593, text = "Point Conception"), color = "#ff004d", alpha = 0) +
         geom_point(aes(x = 0, y = 0, text = "CA/MX Border"), color = "transparent") +
@@ -443,7 +451,7 @@ server <- function(input, output) {
   # coastline distance image
   output$coastline_distance <- renderImage({ 
     
-    list(src = "www/diagrams/unnamed.png", contentType = "image/.jpg", width = 500, height = 550) 
+    list(src = "www/diagrams/unnamed.png", contentType = "image/.jpg", width = 450, height = 525) 
     
   }, 
   
@@ -463,9 +471,10 @@ server <- function(input, output) {
   
   # projected shifts tab ----
   
-  # species information box ----
+  # species info
   
   output$species_info_box <- renderUI({
+    
     req(input$change_selected_species)
     
     # Convert dash-format back to species name format
@@ -474,16 +483,12 @@ server <- function(input, output) {
     
     info <- species_names %>%
       filter(species_lump == species_lump_input)
-      
     
-    # Build box content
-    common_name <- info$common_name
     image_url <- info$image_url
+      
+      tags$img(src = info$image_url,
+               style = "width: 350px; height: 350px; border-radius: 8px;")
     
-    tagList(
-      tags$h4(info$common_name),
-      tags$img(src = info$image_url, width = "300px", style = "border-radius: 8px; margin-bottom: 10px;")
-    )
   })
 
   # current suitability map ----

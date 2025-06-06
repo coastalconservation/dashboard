@@ -33,24 +33,25 @@ species_extent <- read_csv("data/analyses_results/species_extent.csv") %>%
   inner_join(species_names, by = "species_lump")
 
 # contemporary range shift data
-target_boundaries <- read_rds("data/analyses_results/target_boundaries.rds")
+target_boundaries <- read_rds("data/analyses_results/target_boundaries.rds") %>%
+  rename(species_lump = species) %>%
+  inner_join(species_names, by = "species_lump") %>%
+  mutate(full_name = paste(species_lump, paste0("(", common_name, ")")))
 
-change_raster_files <- list.files("data/species_model_rasters/change_species_rasters",
-                                  pattern = "^ESDM_.*_change\\.tif$",
-                                  full.names = TRUE)
+# projected shifts picker widget (scientific/common name)
+common_filtered <- species_names %>%
+  filter(species_lump %in% target_boundaries$species_lump) %>%
+  filter(!species_lump %in% c("Acanthinucella paucilirata", "Aglaophenia spp", "Calliostoma annulatum",
+                              "Coryphella trilineata", "Opalia wroblewskyi", "Pseudomelatoma penicillata"))
 
-change_species_choices <- basename(change_raster_files) %>%
+named_choices <- list.files("data/species_model_rasters/change_species_rasters",
+                            pattern = "^ESDM_.*_change\\.tif$",
+                            full.names = TRUE) %>%
+  basename() %>%
   str_remove("^ESDM_") %>%
   str_remove("_change\\.tif$") %>%
-  sort()
-
-# Create a display-friendly version with spaces
-nice_names <- str_replace_all(change_species_choices, "_", " ")
-
-# Set names to display, values to keep original
-named_choices <- setNames(change_species_choices, nice_names)
-
-cumulative_change <- raster("data/species_model_rasters/cumulative_species_rasters/cumulative_change.tif")
+  sort() %>%
+  setNames(paste(str_replace_all(., "_", " "), paste0("(", common_filtered$common_name, ")")))
 
 # Read priority and suitability results
 
