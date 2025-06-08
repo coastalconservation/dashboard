@@ -647,8 +647,8 @@ server <- function(input, output) {
         "Common Name" = common_name,
         "Scientific Name" = species_lump,
         "Moving North" = northward_trend,
-        "Lower suitable habitat in Dangermond" = suitability_decrease,
-        "Southern Range Edge in Point Conception" = southern_range_edge,
+        "Habitat Loss In Dangermond" = suitability_decrease,
+        "Southern Range Edge in Dangermond" = southern_range_edge,
         "Priority" = priority,
         "Image" = image_html
       ) %>%
@@ -662,8 +662,18 @@ server <- function(input, output) {
                      pageLength = 10,
                      scrollY = 350, 
                      paging = FALSE,
-                     columnDefs = list(list(className = "dt-center", targets = "_all"))
-    ))
+                     columnDefs = list(
+                       list(
+                         targets = c(2, 3, 4),  # the columns where 1 should be replaced
+                         render = JS(
+                           "function(data, type, row, meta) {",
+                           "return data == 1 ? '✔' : '';",
+                           "}"
+                         )
+                       ),
+                       list(className = "dt-center", targets = "_all")
+                     )
+      ))
   })
   
   
@@ -692,8 +702,8 @@ server <- function(input, output) {
         "Common Name" = common_name,
         "Scientific Name" = species_lump,
         "Moving North" = northward_trend,
-        "Higher suitable habitat in Dangermond" = suitability_increase,
-        "Northern Range Edge in Point Conception" = northern_range_edge,
+        "Habitat Gain In Dangermond" = suitability_increase,
+        "Northern Range Edge In Dangermond" = northern_range_edge,
         "Priority" = priority,
         "Image" = image_html
       ) %>%
@@ -707,7 +717,17 @@ server <- function(input, output) {
                      pageLength = 10,
                      scrollY = 350, 
                      paging = FALSE,
-                     columnDefs = list(list(className = "dt-center", targets = "_all"))
+                     columnDefs = list(
+                       list(
+                         targets = c(2, 3, 4),  # the columns where 1 should be replaced
+                         render = JS(
+                           "function(data, type, row, meta) {",
+                           "return data == 1 ? '✔' : '';",
+                           "}"
+                         )
+                       ),
+                       list(className = "dt-center", targets = "_all")
+                     )
     )
     )
   })

@@ -918,151 +918,114 @@ body <- dashboardBody(
             
     ), # END model tabItem
     
-    # priority monitoring assessment tabItem ----
+   
+    # priority monitoring assessment tabItem
     tabItem(tabName = "assessment",
             
+            # Introduction row
             fluidRow(
-              
               column(width = 1),
-              
-              box(width = 10,
-                  div(style = "font-size: 16px;", includeMarkdown("text/assessment.md"))
-                  
+              column(width = 10,
+                     tags$h1("Priority Monitoring Assessment",
+                             style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px; text-align: center;"),
+                     div(style = "font-size: 16px; font-family: Merriweather;", 
+                         includeMarkdown("text/assessment.md")),
+                     tags$hr(style = "border-top: 3px solid #eae8f5; margin-top: 20px; margin-bottom: 20px;")
               ),
-              
               column(width = 1)
-              
-            ),
+            ), # End of introduction row
             
-            # Start third fluid row: color bar and text
+            # Range Contractions title row
             fluidRow(
-              
-              # style fluid row
-              style = "background-color: #06063d; padding-bottom: 50px;",
-              
-              # left buffer column
               column(width = 1),
-              
-              # stats column
               column(width = 10,
-                     
-                     # fluidRow
-                     fluidRow(
-                       
-                       # title
-                       tags$h2("Range Contractions",
-                               style = "font-family: Barlow; font-weight: bold; color: #ffffff; text-align: center; padding-bottom: 10px;")
-                     ) # End interior fluid row
-              ) # end column
-              
-              
-            ), # End third contraction row
-
-            
-            # fluidRow: contraction picker
-            fluidRow(
-              
-              column(width = 1),  # left buffer
-              
-              column(width = 2,
-                     checkboxGroupInput("contraction",
-                                        "Contraction Monitoring Priority:",
-                                        choices = c("High" = 3, "Medium" = 2, "Low" = 1),
-                                        selected = c(3, 2, 1)
-                     )),
-              
-              # start species choices column
-              column(width = 3,
-                     
-                     checkboxInput("range_edge_filter", "Southern range edge in Dangermond", value = FALSE)),
-                     
-              column(width = 2,
-                     checkboxInput("north_trend_filter", "Northward trend", value = FALSE)),
-                     
-              column(width = 3,
-                     
-                     checkboxInput("percent_change_filter", "Habitat loss at Dangermond", value = FALSE)),
-              
+                     tags$h2("Priority Monitoring For Range Contractions",
+                             style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px; text-align: center;")
+              ),
               column(width = 1)
-              
-            ), # end contraction picker row
+            ), # End of contractions title row
             
-        fluidRow(
-          
-          column(width = 1),
-              
+            # Range Contractions filters row
+            fluidRow(
+              column(width = 1),
               column(width = 10,
-                     
+                     fluidRow(
+                       column(width = 2,
+                              checkboxGroupInput("contraction",
+                                                 "Contraction Monitoring Priority:",
+                                                 choices = c("High" = 3, "Medium" = 2, "Low" = 1),
+                                                 selected = c(3, 2, 1))
+                       ),
+                       column(width = 3,
+                              checkboxInput("range_edge_filter", "Southern range edge in Dangermond", value = FALSE)
+                       ),
+                       column(width = 2,
+                              checkboxInput("north_trend_filter", "Northward trend", value = FALSE)
+                       ),
+                       column(width = 3,
+                              checkboxInput("percent_change_filter", "Habitat loss in Dangermond", value = FALSE)
+                       )
+                     )
+              ),
+              column(width = 1)
+            ), # End of contractions filters row
+            
+            # Range Contractions table row
+            fluidRow(
+              column(width = 1),
+              column(width = 10,
                      DTOutput("species_contraction_output") %>%
                        withSpinner(color = "#05641C", type = 1, size = 1)
-                     
-              ), # END
-              
-              column(width = 1)  # right buffer
-              
-            ), # END first fluidRow ----
+              ),
+              column(width = 1)
+            ), # End of contractions table row
             
-            # Start third fluid row: color bar and text
+            # Range Expansions title row
             fluidRow(
-              
-              # style fluid row
-              style = "background-color: #06063d; padding-bottom: 50px;",
-              
-              # left buffer column
               column(width = 1),
-              
-              # stats column
               column(width = 10,
-                     
-                     # fluidRow
-                     fluidRow(
-                       
-                       # title
-                       tags$h2("Rocky Intertidal Species with Range Expansions ",
-                               style = "font-family: Barlow; font-weight: bold; color: #ffffff; text-align: center; padding-bottom: 10px;")
-                       ) # End interior fluid row
-              ) # end column
-                     
-            ), # End contraction species row
+                     tags$h2("Priority Monitoring For Range Expansions",
+                             style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px; text-align: center;")
+              ),
+              column(width = 1)
+            ), # End of expansions title row
             
-            # Start species expansion fluid row
+            # Range Expansions filters row
             fluidRow(
-              column(width = 1),  # left buffer
-              
-              column(width = 2,
-              checkboxGroupInput("expansion",
-                                 "Expansion Monitoring Priority:",
-                                 choices = c("High" = 3, "Medium" = 2, "Low" = 1),
-                                 selected = c(3, 2, 1))),
-              
-              # start expansion choices column
-              column(width = 3,
-                     
-                     checkboxInput("range_edge_filter", "Northern range edge in Dangermond", value = FALSE)),
-              column(width = 2,
-                     checkboxInput("north_trend_filter", "Northward trend", value = FALSE)),
-              
-              column(width = 3,
-                     
-                     checkboxInput("percent_change_filter", "Habitat gain at Dangermond", value = FALSE)),
-      
-            ), # End species expansion choice row
-        
-        fluidRow(
-          
-          column(width = 1),
-          
-          column(width = 10,
-                 
-                 DTOutput("species_expansion_output") %>%
-                   withSpinner(color = "#05641C", type = 1, size = 1),
-          ), # End output column
-          
-          column(width = 1)  # right buffer
-          
-        ) # End expansion list fluid row
+              column(width = 1),
+              column(width = 10,
+                     fluidRow(
+                       column(width = 2,
+                              checkboxGroupInput("expansion",
+                                                 "Expansion Monitoring Priority:",
+                                                 choices = c("High" = 3, "Medium" = 2, "Low" = 1),
+                                                 selected = c(3, 2, 1))
+                       ),
+                       column(width = 3,
+                              checkboxInput("range_edge_filter", "Northern range edge in Dangermond", value = FALSE)
+                       ),
+                       column(width = 2,
+                              checkboxInput("north_trend_filter", "Northward trend", value = FALSE)
+                       ),
+                       column(width = 3,
+                              checkboxInput("percent_change_filter", "Habitat gain in Dangermond", value = FALSE)
+                       )
+                     )
+              ),
+              column(width = 1)
+            ), # End of expansions filters row
             
-    ), # END priority monitoring assessment tabItem
+            # Range Expansions table row
+            fluidRow(
+              column(width = 1),
+              column(width = 10,
+                     DTOutput("species_expansion_output") %>%
+                       withSpinner(color = "#05641C", type = 1, size = 1)
+              ),
+              column(width = 1)
+            ) # End of expansions table row
+            
+    ), # End of assessment tabItem
     
     # data and limitations tabItem ----
     tabItem(tabName = "data",
