@@ -956,14 +956,14 @@ body <- dashboardBody(
                                                  choices = c("High" = 3, "Medium" = 2, "Low" = 1),
                                                  selected = c(3, 2, 1))
                        ),
-                       column(width = 3,
-                              checkboxInput("range_edge_filter", "Southern range edge in Dangermond", value = FALSE)
-                       ),
                        column(width = 2,
                               checkboxInput("north_trend_filter", "Northward trend", value = FALSE)
                        ),
                        column(width = 3,
                               checkboxInput("percent_change_filter", "Habitat loss in Dangermond", value = FALSE)
+                       ),
+                       column(width = 3,
+                              checkboxInput("range_edge_filter", "Southern range edge in Dangermond", value = FALSE)
                        )
                      )
               ),
@@ -998,18 +998,20 @@ body <- dashboardBody(
                        column(width = 2,
                               checkboxGroupInput("expansion",
                                                  "Expansion Monitoring Priority:",
-                                                 choices = c("High" = 3, "Medium" = 2, "Low" = 1),
+                                                 choices = c("High" = 3, "Moderate" = 2, "Low" = 1),
                                                  selected = c(3, 2, 1))
-                       ),
-                       column(width = 3,
-                              checkboxInput("range_edge_filter", "Northern range edge in Dangermond", value = FALSE)
                        ),
                        column(width = 2,
                               checkboxInput("north_trend_filter", "Northward trend", value = FALSE)
                        ),
                        column(width = 3,
                               checkboxInput("percent_change_filter", "Habitat gain in Dangermond", value = FALSE)
+                       ),
+                       
+                       column(width = 3,
+                              checkboxInput("range_edge_filter", "Northern range edge in Dangermond", value = FALSE)
                        )
+                       
                      )
               ),
               column(width = 1)

@@ -627,7 +627,7 @@ server <- function(input, output) {
       filter(
         if (input$range_edge_filter) southern_range_edge == 1 else TRUE,
         if (input$north_trend_filter) northward_trend == 1 else TRUE,
-        if (input$percent_change_filter) suitability_decrease_dangermond == 1 else TRUE,
+        if (input$percent_change_filter) suitability_decrease == 1 else TRUE,
         species_contraction_score %in% input$contraction  
       ) %>%
       mutate(
@@ -687,7 +687,7 @@ server <- function(input, output) {
       filter(
         if (input$range_edge_filter) northern_range_edge == 1 else TRUE,
         if (input$north_trend_filter) northward_trend == 1 else TRUE,
-        if (input$percent_change_filter) suitability_increase_dangermond == 1 else TRUE,
+        if (input$percent_change_filter) suitability_increase == 1 else TRUE,
         species_expansion_score %in% input$expansion
       ) %>%
       mutate(
