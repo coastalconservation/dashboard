@@ -627,10 +627,13 @@ body <- dashboardBody(
               column(width = 1),
               
               # species column
-              column(width = 5,
+              column(width = 4,
                      style = "padding-bottom: 25px;",
                      
-                     div(style = "font-family: Merriweather; font-size: 18; padding-bottom: 20px;",
+                     tags$style(HTML(".bootstrap-select .dropdown-toggle {font-size: 11px; font-family: Merriweather;}")),
+                     tags$style(HTML(".bootstrap-select .dropdown-menu.inner > li > a {font-size: 11px; font-family: Merriweather;}")),
+                     
+                     div(style = "font-family: Merriweather; font-size: 11px; padding-bottom: 20px;",
                          pickerInput(inputId = "species", 
                                  label = "Choose an intertidal species/species group:",
                                  choices = unique(target_boundaries$full_name),
@@ -646,7 +649,7 @@ body <- dashboardBody(
               ), # END species column
               
               # diagram column
-              column(width = 5,
+              column(width = 6,
                      style = "padding-bottom: 25px;",
                      
                      "insert diagram here"
@@ -851,9 +854,9 @@ body <- dashboardBody(
               column(width = 1),
               
               # species column
-              column(width = 5,
+              column(width = 4,
                      
-                     div(style = "font-family: Merriweather; font-size: 18; padding-bottom: 20px;",
+                     div(style = "font-family: Merriweather; font-size: 12; padding-bottom: 20px;",
                          pickerInput(inputId = "change_selected_species",
                                      label = "Choose an intertidal species/species group:",
                                      choices = named_choices,
@@ -868,7 +871,7 @@ body <- dashboardBody(
               ), # END species column
               
               # Leaflet box for change raster
-              box(width = 5,
+              box(width = 6,
                   
                   # Title for change map
                   tags$h4("Map of Habitat Change From 2025 to 2050",
