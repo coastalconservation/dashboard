@@ -379,7 +379,7 @@ server <- function(input, output) {
     
     req(input$image_click)
     
-    showModal(modalDialog(tags$img(src = "cal-ranges.jpg", style = "width: 100%"),
+    showModal(modalDialog(tags$img(src = "diagrams/cal-ranges.jpg", style = "width: 100%"),
                           easyClose = TRUE,
                           size = "m"))
     
@@ -463,7 +463,7 @@ server <- function(input, output) {
     
     req(input$distance_click)
     
-    showModal(modalDialog(tags$img(src = "unnamed.png", style = "width: 100%"),
+    showModal(modalDialog(tags$img(src = "diagrams/unnamed.png", style = "width: 100%"),
                           easyClose = TRUE,
                           size = "m"))
     
