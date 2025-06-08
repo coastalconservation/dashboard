@@ -55,9 +55,10 @@ named_choices <- list.files("data/species_model_rasters/change_species_rasters",
 
 # Read priority and suitability results
 
-priority_scores <- read_csv("data/analyses_results/priority_species_binary.csv")
+priority_scores <- read_rds("data/analyses_results/priority_species_scores.rds")%>% 
+  select(-common_name)
 
-suitability_changes <- read_csv("data/analyses_results/species_suitability_change.csv")
+suitability_changes <- read_csv("data/analyses_results/species_suitability_change.csv") 
 
 priority_species_joined <- priority_scores %>%
   left_join(suitability_changes, by = c("species_lump" = "species_name")) %>%

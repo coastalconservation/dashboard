@@ -950,7 +950,7 @@ body <- dashboardBody(
                      fluidRow(
                        
                        # title
-                       tags$h2("Rocky Intertidal Species with Range contractions, DEFINITIONS AND INFO WILL GO UNDER HERE",
+                       tags$h2("Range Contractions",
                                style = "font-family: Barlow; font-weight: bold; color: #ffffff; text-align: center; padding-bottom: 10px;")
                      ) # End interior fluid row
               ) # end column
@@ -966,7 +966,7 @@ body <- dashboardBody(
               
               column(width = 2,
                      checkboxGroupInput("contraction",
-                                        "Expansion Monitoring Priority:",
+                                        "Contraction Monitoring Priority:",
                                         choices = c("High" = 3, "Medium" = 2, "Low" = 1),
                                         selected = c(3, 2, 1)
                      )),
@@ -974,14 +974,14 @@ body <- dashboardBody(
               # start species choices column
               column(width = 3,
                      
-                     checkboxInput("range_edge_filter", "Southern Range Edge in Point Conception", value = FALSE)),
+                     checkboxInput("range_edge_filter", "Southern range edge in Dangermond", value = FALSE)),
                      
               column(width = 2,
-                     checkboxInput("north_trend_filter", "Northward Trend", value = FALSE)),
+                     checkboxInput("north_trend_filter", "Northward trend", value = FALSE)),
                      
               column(width = 3,
                      
-                     checkboxInput("percent_change_filter", "Higher Suitability at Dangermond", value = FALSE)),
+                     checkboxInput("percent_change_filter", "Habitat loss at Dangermond", value = FALSE)),
               
               column(width = 1)
               
@@ -1018,7 +1018,7 @@ body <- dashboardBody(
                      fluidRow(
                        
                        # title
-                       tags$h2("Rocky Intertidal Species with Range Expansions DEFINITIONS AND INFO WILL GO UNDER HERE",
+                       tags$h2("Rocky Intertidal Species with Range Expansions ",
                                style = "font-family: Barlow; font-weight: bold; color: #ffffff; text-align: center; padding-bottom: 10px;")
                        ) # End interior fluid row
               ) # end column
@@ -1029,34 +1029,38 @@ body <- dashboardBody(
             fluidRow(
               column(width = 1),  # left buffer
               
+              column(width = 2,
+              checkboxGroupInput("expansion",
+                                 "Expansion Monitoring Priority:",
+                                 choices = c("High" = 3, "Medium" = 2, "Low" = 1),
+                                 selected = c(3, 2, 1))),
+              
               # start expansion choices column
               column(width = 3,
                      
-                     checkboxInput("range_edge_filter", "Northern Range Edge in Point Conception", value = FALSE),
-                     
-                     checkboxInput("north_trend_filter", "Northward Trend", value = FALSE),
-                     
-                     checkboxInput("percent_change_filter", "Lower Suitability at Dangermond", value = FALSE),
-                     
-                     checkboxGroupInput("expansion",
-                                        "Expansion Monitoring Priority:",
-                                        choices = c("High" = 3, "Medium" = 2, "Low" = 1),
-                                        selected = c(3, 2, 1)
-                     )
-              ), # End choices column
+                     checkboxInput("range_edge_filter", "Northern range edge in Dangermond", value = FALSE)),
+              column(width = 2,
+                     checkboxInput("north_trend_filter", "Northward trend", value = FALSE)),
               
-              
-              column(width = 7,
+              column(width = 3,
                      
-                     DTOutput("species_expansion_output") %>%
-                       withSpinner(color = "#05641C", type = 1, size = 1)
-                     
-              ), # END
-              
-              column(width = 1)  # right buffer
-              
-              
-            ) # End species expansion fluid row
+                     checkboxInput("percent_change_filter", "Habitat gain at Dangermond", value = FALSE)),
+      
+            ), # End species expansion choice row
+        
+        fluidRow(
+          
+          column(width = 1),
+          
+          column(width = 10,
+                 
+                 DTOutput("species_expansion_output") %>%
+                   withSpinner(color = "#05641C", type = 1, size = 1),
+          ), # End output column
+          
+          column(width = 1)  # right buffer
+          
+        ) # End expansion list fluid row
             
     ), # END priority monitoring assessment tabItem
     
