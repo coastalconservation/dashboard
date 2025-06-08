@@ -623,11 +623,12 @@ server <- function(input, output) {
     req(priority_species_joined)
     
     contraction <- priority_species_joined %>%
+      filter(eco_process == "contraction") %>% 
       filter(
         if (input$range_edge_filter) southern_range_edge == 1 else TRUE,
         if (input$north_trend_filter) northward_trend == 1 else TRUE,
-        if (input$percent_change_filter) suitability_decrease_dangermond == 1 else TRUE,
-        species_contraction_score %in% input$contraction  # <-- make sure you have input$contraction in your UI
+        if (input$percent_change_filter) suitability_decrease == 1 else TRUE,
+        species_contraction_score %in% input$contraction  
       ) %>%
       mutate(
         image_html = paste0(
@@ -646,13 +647,12 @@ server <- function(input, output) {
         "Common Name" = common_name,
         "Scientific Name" = species_lump,
         "Moving North" = northward_trend,
-        "Lower suitable habitat in Dangermond" = suitability_decrease_dangermond,
-        "Percentage change" = percent_change_dangermond,
-        "Southern Range Edge in Point Conception" = southern_range_edge,
-        "Total Score" = species_contraction_score,
+        "Habitat Loss In Dangermond" = suitability_decrease,
+        "Southern Range Edge in Dangermond" = southern_range_edge,
+        "Priority" = priority,
         "Image" = image_html
       ) %>%
-      arrange(desc(`Total Score`))
+      arrange(desc(`Priority`))
     
     datatable(
       data = contraction,
@@ -662,8 +662,18 @@ server <- function(input, output) {
                      pageLength = 10,
                      scrollY = 350, 
                      paging = FALSE,
-                     columnDefs = list(list(className = "dt-center", targets = "_all"))
-    ))
+                     columnDefs = list(
+                       list(
+                         targets = c(2, 3, 4),  # the columns where 1 should be replaced
+                         render = JS(
+                           "function(data, type, row, meta) {",
+                           "return data == 1 ? '✔' : '';",
+                           "}"
+                         )
+                       ),
+                       list(className = "dt-center", targets = "_all")
+                     )
+      ))
   })
   
   
@@ -672,11 +682,12 @@ server <- function(input, output) {
     
     req(priority_species_joined)
     
-    expansion <- priority_species_joined %>%
+      expansion <- priority_species_joined %>%
+      filter(eco_process == "expansion") %>% 
       filter(
         if (input$range_edge_filter) northern_range_edge == 1 else TRUE,
         if (input$north_trend_filter) northward_trend == 1 else TRUE,
-        if (input$percent_change_filter) suitability_increase_dangermond == 1 else TRUE,
+        if (input$percent_change_filter) suitability_increase == 1 else TRUE,
         species_expansion_score %in% input$expansion
       ) %>%
       mutate(
@@ -691,19 +702,33 @@ server <- function(input, output) {
         "Common Name" = common_name,
         "Scientific Name" = species_lump,
         "Moving North" = northward_trend,
-        "Higher suitable habitat in Dangermond" = suitability_increase_dangermond,
-        "Percentage change" = percent_change_dangermond,
-        "Northern Range Edge in Point Conception" = northern_range_edge,
-        "Total Score" = species_expansion_score,
+        "Habitat Gain In Dangermond" = suitability_increase,
+        "Northern Range Edge In Dangermond" = northern_range_edge,
+        "Priority" = priority,
         "Image" = image_html
       ) %>%
-      arrange(desc(`Total Score`))
+      arrange(desc(`Priority`))
     
     datatable(
       data = expansion,
       escape = FALSE,
       rownames = FALSE,
-      options = list(dom = 'tp', pageLength = 10)
+      options = list(dom = 'tp', 
+                     pageLength = 10,
+                     scrollY = 350, 
+                     paging = FALSE,
+                     columnDefs = list(
+                       list(
+                         targets = c(2, 3, 4),  # the columns where 1 should be replaced
+                         render = JS(
+                           "function(data, type, row, meta) {",
+                           "return data == 1 ? '✔' : '';",
+                           "}"
+                         )
+                       ),
+                       list(className = "dt-center", targets = "_all")
+                     )
+    )
     )
   })
   
