@@ -908,29 +908,39 @@ body <- dashboardBody(
             ), # End third contraction row
 
             
-            # fluidRow: species table
+            # fluidRow: contraction picker
             fluidRow(
               
               column(width = 1),  # left buffer
               
+              column(width = 2,
+                     checkboxGroupInput("contraction",
+                                        "Expansion Monitoring Priority:",
+                                        choices = c("High" = 3, "Medium" = 2, "Low" = 1),
+                                        selected = c(3, 2, 1)
+                     )),
+              
               # start species choices column
               column(width = 3,
                      
-                     checkboxInput("range_edge_filter", "Southern Range Edge in Point Conception", value = FALSE),
+                     checkboxInput("range_edge_filter", "Southern Range Edge in Point Conception", value = FALSE)),
                      
-                     checkboxInput("north_trend_filter", "Northward Trend", value = FALSE),
+              column(width = 2,
+                     checkboxInput("north_trend_filter", "Northward Trend", value = FALSE)),
                      
-                     checkboxInput("percent_change_filter", "Higher Suitability at Dangermond", value = FALSE),
+              column(width = 3,
                      
-                     checkboxGroupInput("contraction",
-                                        "Expansion Monitoring Priority:",
-                                        choices = c("High" = 3, "Medium" = 2, "Low" = 1, "None" = 0),
-                                        selected = c(3, 2, 1, 0)
-                                        )
-              ), # End choices column
+                     checkboxInput("percent_change_filter", "Higher Suitability at Dangermond", value = FALSE)),
               
+              column(width = 1)
               
-              column(width = 7,
+            ), # end contraction picker row
+            
+        fluidRow(
+          
+          column(width = 1),
+              
+              column(width = 10,
                      
                      DTOutput("species_contraction_output") %>%
                        withSpinner(color = "#05641C", type = 1, size = 1)
@@ -962,7 +972,7 @@ body <- dashboardBody(
                        ) # End interior fluid row
               ) # end column
                      
-            ), # End third fluid row
+            ), # End contraction species row
             
             # Start species expansion fluid row
             fluidRow(
@@ -979,8 +989,8 @@ body <- dashboardBody(
                      
                      checkboxGroupInput("expansion",
                                         "Expansion Monitoring Priority:",
-                                        choices = c("High" = 3, "Medium" = 2, "Low" = 1, "None" = 0),
-                                        selected = c(3, 2, 1, 0)
+                                        choices = c("High" = 3, "Medium" = 2, "Low" = 1),
+                                        selected = c(3, 2, 1)
                      )
               ), # End choices column
               
