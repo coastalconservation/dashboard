@@ -658,8 +658,12 @@ server <- function(input, output) {
       data = contraction,
       escape = FALSE,
       rownames = FALSE,
-      options = list(dom = 'tp', pageLength = 10)
-    )
+      options = list(dom = 'tp', 
+                     pageLength = 10,
+                     scrollY = 350, 
+                     paging = FALSE,
+                     columnDefs = list(list(className = "dt-center", targets = "_all"))
+    ))
   })
   
   
@@ -688,6 +692,7 @@ server <- function(input, output) {
         "Scientific Name" = species_lump,
         "Moving North" = northward_trend,
         "Higher suitable habitat in Dangermond" = suitability_increase_dangermond,
+        "Percentage change" = percent_change_dangermond,
         "Northern Range Edge in Point Conception" = northern_range_edge,
         "Total Score" = species_expansion_score,
         "Image" = image_html
