@@ -9,13 +9,6 @@ server <- function(input, output) {
     
   })
   
-  # slickR captions
-  captions <- reactive({
-    
-    c("Jordan", "Amanda", "Ian", "Matteo", "Bruce", "Erica", "Max")
-    
-  })
-  
   # slickR output
   output$carousel_images_output <- renderSlickR({
     
@@ -23,12 +16,7 @@ server <- function(input, output) {
            slideType = "img", 
            slideId = "Carousel",
            height = 400,
-           width = "100%") %synch%
-      (slickR(captions(), 
-              slideType = "p",
-              height = 25,
-              width = "100%") + 
-         settings(arrows = FALSE)) +
+           width = "100%") +
       settings(slidesToShow = 1,
                slidesToScroll = 1,
                arrows = TRUE,
@@ -402,7 +390,7 @@ server <- function(input, output) {
   output$species_image <- renderUI({
     
     tags$img(src = range_shift()$image_url[1], alt = input$species, 
-             style = "width: 350px; height: 350px; border-radius: 8px;")
+             style = "width: 375px; height: 325px; border-radius: 8px;")
     
   })
   
