@@ -58,6 +58,9 @@ body <- dashboardBody(
   tags$script(HTML("$(document).on('click', '#read_more_shift', function() {$('#more_text_shift').toggle();});")),
   tags$script(HTML("$(document).on('click', '#read_more_biogeographic', function() {$('#more_text_biogeographic').toggle();});")),
   tags$script(HTML("$(document).on('click', '#read_more_dangermond', function() {$('#more_text_dangermond').toggle();});")),
+  tags$script(HTML("$(document).on('click', '#read_more_kellet', function() {$('#more_text_kellet').toggle();});")),
+  tags$style(HTML(".bootstrap-select .dropdown-toggle {font-size: 11px; font-family: Merriweather;}")),
+  tags$style(HTML(".bootstrap-select .dropdown-menu.inner > li > a {font-size: 11px; font-family: Merriweather;}")),
   
   # tabItems
   tabItems(
@@ -73,7 +76,7 @@ body <- dashboardBody(
               
               # welcome box
               box(width = 5,
-                  style = "height: 525px;",
+                  style = "height: 500px;",
                   
                   # title
                   tags$h1("Welcome",
@@ -87,7 +90,7 @@ body <- dashboardBody(
               
               # slickR box
               box(width = 5,
-                  style = "height: 525px;",
+                  style = "height: 500px;",
                   
                   tags$h3("The Jack and Laura Dangermond Preserve",
                           style = "font-family: Barlow; font-weight: bold; padding-bottom: 10px;"),
@@ -169,66 +172,6 @@ body <- dashboardBody(
               # left buffer column
               column(width = 1),
               
-              # Kelley box
-              box(width = 10,
-                  
-                  # title
-                  tags$h1("Kelley the Kellet's Whelk",
-                          style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;"),
-                  
-                  # fluidRow
-                  fluidRow(
-                    
-                    # left-hand column
-                    column(width = 8,
-                           
-                           # Kelley markdown
-                           div(style = "font-size: 18px; font-family: Merriweather", 
-                               includeMarkdown("text/background/Kelley.md"))
-                           
-                    ), # END left-hand column
-                    
-                    # right-hand column
-                    column(width = 4,
-                           
-                           # Kelley image
-                           div(style = "text-align: center;",
-                               img(src = "Whelk.webp", width = 300, height = 300))
-                           
-                    ) # END right-hand column
-                    
-                  ) # END fluidRow
-                  
-              ), # END Kelley box
-              
-              # right buffer column
-              column(width = 1)
-              
-            ), # END first fluidRow
-            
-            # second fluidRow
-            fluidRow(
-              
-              # left buffer column
-              column(width = 1),
-              
-              # currents image box
-              box(width = 5,
-                  style = "height: 450px;",
-                  
-                  # image output
-                  imageOutput("cal_currents", click = "currents_click") %>%
-                    withSpinner(color = "#05641C", type = 1, size = 1),
-                  
-                  # zoom output
-                  uiOutput("zoom_currents"),
-                  
-                  # figure caption
-                  div(style = "font-size: 18px; font-family: Merriweather; padding-top: 5px;",
-                      "Figure 2. Insert Caption")
-                  
-              ), # END currents image box
-              
               # biogeographic box
               box(width = 5,
                   style = "height: 450px; overflow: hidden;",
@@ -255,16 +198,50 @@ body <- dashboardBody(
                   
               ), # END biogeogeaphic box
               
+              # currents image box
+              box(width = 5,
+                  style = "height: 450px;",
+                  
+                  # image output
+                  imageOutput("cal_currents", click = "currents_click") %>%
+                    withSpinner(color = "#05641C", type = 1, size = 1),
+                  
+                  # zoom output
+                  uiOutput("zoom_currents"),
+                  
+                  # figure caption
+                  div(style = "font-size: 18px; font-family: Merriweather; padding-top: 5px;",
+                      "Figure 2. Insert Caption")
+                  
+              ), # END currents image box
+              
               # right buffer column
               column(width = 1)
               
-            ), # END second fluidRow
+            ), # END first fluidRow
             
-            # third fluidRow
+            # second fluidRow
             fluidRow(
               
               # left buffer column
               column(width = 1),
+              
+              # range shift image box
+              box(width = 5,
+                  style = "height: 450px;",
+                  
+                  # range shift image
+                  imageOutput("range_shift", click = "shift_click") %>%
+                    withSpinner(color = "#05641C", type = 1, size = 1),
+                  
+                  # zoom output
+                  uiOutput("zoom_shift"),
+                  
+                  # figure caption
+                  div(style = "font-size: 18px; font-family: Merriweather; padding-top: 5px;",
+                      "Figure 3. Insert Caption")
+                  
+              ), # END range shift image box
               
               # range shift box
               box(width = 5,
@@ -292,22 +269,52 @@ body <- dashboardBody(
                   
               ), # END range shift box
               
-              # range shift image box
+              # right buffer column
+              column(width = 1)
+              
+            ), # END second fluidRow
+            
+            # third fluidRow
+            fluidRow(
+              
+              # left buffer column
+              column(width = 1),
+              
+              # kellet's whelk box
+              box(width = 5,
+                  style = "height: 450px; overflow: hidden;",
+                  
+                  # container
+                  div(style = "font-size: 18px; font-family: Merriweather; height: 100%; display: flex; flex-direction: column;",
+                      
+                      # title
+                      tags$h1("Real-World Example",
+                              style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;"),
+                      
+                      # intro
+                      p(HTML("One striking example of a climate-driven range shift is the northward expansion of <i>Kelletia kelletii</i>, commonly known as Kellet’s Whelk, a large marine snail native to Southern California.")),
+                      
+                      # read more
+                      actionLink("read_more_kellet", "Read More", style = "color: #05641c; font-weight: bold; margin-bottom: 10px;"),
+                      
+                      # markdown container
+                      div(id = "more_text_kellet",
+                          style = "display: none; overflow-y: auto; flex-grow: 1; padding-right: 10px;",
+                          includeMarkdown("text/background/kellet.md"))
+                      
+                  ) # END container
+                  
+                  ), # END kellet's whelk box
+              
+              # image box
               box(width = 5,
                   style = "height: 450px;",
                   
-                  # range shift image
-                  imageOutput("range_shift", click = "shift_click") %>%
-                    withSpinner(color = "#05641C", type = 1, size = 1),
-                  
-                  # zoom output
-                  uiOutput("zoom_shift"),
-                  
                   # figure caption
                   div(style = "font-size: 18px; font-family: Merriweather; padding-top: 5px;",
-                      "Figure 3. Insert Caption")
+                      "Figure 4. Insert Caption")
                   
-              ), # END range shift image box
+              ), # END image box
               
               # right buffer column
               column(width = 1)
@@ -630,10 +637,7 @@ body <- dashboardBody(
               column(width = 4,
                      style = "padding-bottom: 25px;",
                      
-                     tags$style(HTML(".bootstrap-select .dropdown-toggle {font-size: 11px; font-family: Merriweather;}")),
-                     tags$style(HTML(".bootstrap-select .dropdown-menu.inner > li > a {font-size: 11px; font-family: Merriweather;}")),
-                     
-                     div(style = "font-family: Merriweather; font-size: 11px; padding-bottom: 20px;",
+                     div(style = "font-family: Merriweather; font-size: 14px; padding-bottom: 30px;",
                          pickerInput(inputId = "species", 
                                  label = "Choose an intertidal species/species group:",
                                  choices = unique(target_boundaries$full_name),
@@ -856,12 +860,12 @@ body <- dashboardBody(
               # species column
               column(width = 4,
                      
-                     div(style = "font-family: Merriweather; font-size: 12; padding-bottom: 20px;",
+                     div(style = "font-family: Merriweather; font-size: 14px; padding-bottom: 30px;",
                          pickerInput(inputId = "change_selected_species",
                                      label = "Choose an intertidal species/species group:",
                                      choices = named_choices,
                                      multiple = FALSE,
-                                     options = pickerOptions(dropupAuto = FALSE, size = 7),
+                                     options = pickerOptions(dropupAuto = FALSE, size = 3),
                                      width = "100%")),
                      
                      div(style = "text-align: center; padding-bottom: 10px;",
@@ -870,58 +874,63 @@ body <- dashboardBody(
                      
               ), # END species column
               
-              # Leaflet box for change raster
+              # change detection map box
               box(width = 6,
                   
-                  # Title for change map
+                  # title
                   tags$h4("Map of Habitat Change From 2025 to 2050",
-                          style = "text-align: center; font-weight: bold"),
+                          style = "text-align: center; font-weight: bold; font-family: Barlow; padding-bottom: 10px;"),
                   
-                  # Leaflet output
+                  # change detection map
                   leafletOutput(outputId = "change_raster_output") %>% 
                     withSpinner(color = "#05641C", type = 1, size = 1)
-              ), # End leaflet box for change raster
+                  
+              ), # END change detection map box
               
+              # right buffer column
               column(width = 1)
               
-            ), # End second fluid row
+            ), # END third fluidRow
             
-            # Third fluid row
+            # fourth fluidRow
             fluidRow(
               
+              # left buffer column
               column(width = 1),
               
-              # Column 1 with current raster map
+              # current suitability map box
               box(width = 5,
                   
-                  # Title for current species map
+                  # title
                   tags$h4("Map of Species Habitat In 2025",
-                          style = "text-align: center; font-weight: bold"),
-                  # Leaflet output
+                          style = "text-align: center; font-weight: bold; font-family: Barlow; padding-bottom: 10px;"),
+                  
+                  # current suitability map
                   leafletOutput(outputId = "current_raster_output") %>% 
                     withSpinner(color = "#05641C", type = 1, size = 1)
-              ), # End of column 1 with current raster habitat
+                  
+              ), # END current suitability map box
               
-              
-              # Column 2: projected habitat map
+              # projected suitability map box
               box(width = 5,
                   
-                  # Title for Project Species map
+                  # title
                   tags$h4("Map of Forecasted Species Habitat For 2050",
-                          style = "text-align: center; font-weight: bold"),
+                          style = "text-align: center; font-weight: bold; font-family: Barlow; padding-bottom: 10px;"),
                   
+                  # projected suitability map
                   leafletOutput(outputId = "projected_raster_output") %>% 
                     withSpinner(color = "#05641C", type = 1, size = 1)
                   
-              ), # End of column 2: projected habitat raster
+              ), # END projected suitability map box
               
+              # right buffer column
               column(width = 1)
               
-            ), # End third fluid row
+            ), # END fourth fluidRow
             
     ), # END model tabItem
     
-   
     # priority monitoring assessment tabItem
     tabItem(tabName = "assessment",
             
