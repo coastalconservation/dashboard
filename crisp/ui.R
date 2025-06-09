@@ -255,7 +255,7 @@ body <- dashboardBody(
                               style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;"),
                       
                       # intro
-                      p("Many rocky intertidal species may respond to changing environmental conditions by shifting their geographic range to areas with more suitable habitats."),
+                      p("Many rocky intertidal species may respond to changing environmental conditions by shifting their geographic range to areas with more suitable habitat."),
                       
                       # read more
                       actionLink("read_more_shift", "Read More", style = "color: #05641c; font-weight: bold; margin-bottom: 10px;"),
@@ -577,7 +577,7 @@ body <- dashboardBody(
               # right buffer column
               column(width = 1)
               
-            ), # END fifth fluidRow
+            ) # END fifth fluidRow
             
     ), # END range edges tabItem
     
@@ -666,7 +666,7 @@ body <- dashboardBody(
             ), # END third fluidRow
             
             # fourth fluidRow
-            fluidRow(style = "padding-bottom: 10px;",
+            fluidRow(style = "padding-bottom: 20px;",
               
               # left buffer column
               column(width = 1),
@@ -801,7 +801,7 @@ body <- dashboardBody(
                      # right buffer column
                      column(width = 1)
                      
-            ), # END fifth fluidRow
+            ) # END fifth fluidRow
             
     ), # END historic range shifts tabItem
     
@@ -863,7 +863,7 @@ body <- dashboardBody(
                      div(style = "font-family: Merriweather; font-size: 14px; padding-bottom: 30px;",
                          pickerInput(inputId = "change_selected_species",
                                      label = "Choose an intertidal species/species group:",
-                                     choices = named_choices,
+                                     choices = raster_df$full_name,
                                      multiple = FALSE,
                                      options = pickerOptions(dropupAuto = FALSE, size = 3),
                                      width = "100%")),
@@ -881,6 +881,11 @@ body <- dashboardBody(
                   tags$h4("Map of Habitat Change From 2025 to 2050",
                           style = "text-align: center; font-weight: bold; font-family: Barlow; padding-bottom: 10px;"),
                   
+                  # refresh button
+                  actionButton(inputId = "refresh_change_detection", 
+                               label = "Refresh Map",
+                               icon = icon("rotate")),
+                  
                   # change detection map
                   leafletOutput(outputId = "change_raster_output") %>% 
                     withSpinner(color = "#05641C", type = 1, size = 1)
@@ -893,7 +898,7 @@ body <- dashboardBody(
             ), # END third fluidRow
             
             # fourth fluidRow
-            fluidRow(
+            fluidRow(style = "padding-bottom: 20px;",
               
               # left buffer column
               column(width = 1),
@@ -904,6 +909,11 @@ body <- dashboardBody(
                   # title
                   tags$h4("Map of Species Habitat In 2025",
                           style = "text-align: center; font-weight: bold; font-family: Barlow; padding-bottom: 10px;"),
+                  
+                  # refresh button
+                  actionButton(inputId = "refresh_current_suitability", 
+                               label = "Refresh Map",
+                               icon = icon("rotate")),
                   
                   # current suitability map
                   leafletOutput(outputId = "current_raster_output") %>% 
@@ -918,6 +928,11 @@ body <- dashboardBody(
                   tags$h4("Map of Forecasted Species Habitat For 2050",
                           style = "text-align: center; font-weight: bold; font-family: Barlow; padding-bottom: 10px;"),
                   
+                  # refresh button
+                  actionButton(inputId = "refresh_projected_suitability", 
+                               label = "Refresh Map",
+                               icon = icon("rotate")),
+                  
                   # projected suitability map
                   leafletOutput(outputId = "projected_raster_output") %>% 
                     withSpinner(color = "#05641C", type = 1, size = 1)
@@ -928,6 +943,103 @@ body <- dashboardBody(
               column(width = 1)
               
             ), # END fourth fluidRow
+            
+            # fifth fluidRow
+            fluidRow(style = "background-color: #05641c; padding-bottom: 50px;",
+                     
+                     # left buffer column
+                     column(width = 1),
+                     
+                     # stats column
+                     column(width = 10,
+                            
+                            # fluidRow
+                            fluidRow(
+                              
+                              # title
+                              tags$h2("Rocky Intertidal Species Habitat Suitability Near Point Conception",
+                                      style = "font-family: Barlow; font-weight: bold; color: #ffffff; text-align: center; padding-bottom: 10px;"),
+                              
+                              # left-hand column
+                              column(width = 6,
+                                     
+                                     # first fluidRow
+                                     fluidRow(
+                                       
+                                       # value box column
+                                       column(width = 12,
+                                              
+                                              # range extensions value box
+                                              value_box(title = span("Range Extensions",
+                                                                     style = "font-family: Barlow; font-size: 22px; font-weight: bold; color: #ffffff;"),
+                                                        value = span("7 species",
+                                                                     style = "font-family: Barlow; font-size: 20px; font-weight: bold; color: #ffc700;"),
+                                                        showcase = span(bs_icon("arrow-up"),
+                                                                        style = "color: #ffc700;"),
+                                                        style = "background-color: #05641c;",
+                                                        height = "140px")
+                                              
+                                       ), # END value box column
+                                       
+                                     ), # END first fluidRow
+                                     
+                                     # second fluidRow
+                                     fluidRow(
+                                       
+                                       # value box column
+                                       column(width = 12,
+                                              
+                                              # range contraction value box
+                                              value_box(title = span("Range Contractions",
+                                                                     style = "font-family: Barlow; font-size: 22px; font-weight: bold; color: #ffffff;"),
+                                                        value = span("9 species",
+                                                                     style = "font-family: Barlow; font-size: 20px; font-weight: bold; color: #ffc700;"),
+                                                        showcase = span(bs_icon("arrow-down"),
+                                                                        style = "color: #ffc700;"),
+                                                        style = "background-color: #05641c;",
+                                                        height = "140px")  
+                                              
+                                       ), # END value box column
+                                       
+                                     ), # END second fluidRow
+                                     
+                                     # third fluidRow
+                                     fluidRow(
+                                       
+                                       # value box column
+                                       column(width = 12,
+                                              
+                                              # percent value box
+                                              value_box(title = span("Percent of Species ",
+                                                                     style = "font-family: Barlow; font-size: 22px; font-weight: bold; color: #ffffff;"),
+                                                        value = span("_ %",
+                                                                     style = "font-family: Barlow; font-size: 20px; font-weight: bold; color: #ffc700;"),
+                                                        showcase = span(bs_icon("arrows-vertical"),
+                                                                        style = "color: #ffc700;"),
+                                                        style = "background-color: #05641c;",
+                                                        height = "140px")
+                                              
+                                       ), # END value box column
+                                       
+                                     ), # END third fluidRow
+                                     
+                              ), # END left-hand column
+                              
+                              # right-hand column
+                              column(width = 6,
+                                     
+                                     "Insert Image/Artwork/or More Stats"
+                                     
+                              ) # END right-hand column
+                              
+                            ), # END fluidRow
+                            
+                     ), # END stats column
+                     
+                     # right buffer column
+                     column(width = 1)
+                     
+            ) # END fifth fluidRow
             
     ), # END model tabItem
     

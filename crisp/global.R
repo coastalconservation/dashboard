@@ -38,20 +38,26 @@ target_boundaries <- read_rds("data/analyses_results/target_boundaries.rds") %>%
   inner_join(species_names, by = "species_lump") %>%
   mutate(full_name = paste(species_lump, paste0("(", common_name, ")")))
 
-# projected shifts picker widget (scientific/common name)
-common_filtered <- species_names %>%
+# filter species with habitat suitability rasters
+species_filtered <- species_names %>%
   filter(species_lump %in% target_boundaries$species_lump) %>%
   filter(!species_lump %in% c("Acanthinucella paucilirata", "Aglaophenia spp", "Calliostoma annulatum",
-                              "Coryphella trilineata", "Opalia wroblewskyi", "Pseudomelatoma penicillata"))
+                              "Coryphella trilineata", "Opalia wroblewskyi", "Pseudomelatoma penicillata")) %>%
+  mutate(index = seq_along(species_lump))
 
-named_choices <- list.files("data/species_model_rasters/change_species_rasters",
+# projected shifts df
+raster_df <- list.files("data/species_model_rasters/change_species_rasters",
                             pattern = "^ESDM_.*_change\\.tif$",
                             full.names = TRUE) %>%
   basename() %>%
   str_remove("^ESDM_") %>%
   str_remove("_change\\.tif$") %>%
   sort() %>%
-  setNames(paste(str_replace_all(., "_", " "), paste0("(", common_filtered$common_name, ")")))
+  tibble(raster_name = .,
+         full_name = paste(str_replace_all(., "_", " "),
+                      paste0("(", species_filtered$common_name, ")")),
+         index = seq_along(raster_name)) %>%
+  inner_join(species_filtered, by = "index")
 
 # Read priority and suitability results
 

@@ -390,7 +390,7 @@ server <- function(input, output) {
   output$species_image <- renderUI({
     
     tags$img(src = range_shift()$image_url[1], alt = input$species, 
-             style = "width: 375px; height: 325px; border-radius: 8px;")
+             style = "width: 375px; height: 375px; border-radius: 8px;")
     
   })
   
@@ -459,131 +459,45 @@ server <- function(input, output) {
   
   # projected shifts tab ----
   
-  # species info
+  # filter raster df
+  habitat_suitability <- reactive({
+    
+    raster_df %>%
+      filter(full_name == input$change_selected_species)
+    
+  })
   
+  # species images
   output$species_info_box <- renderUI({
-    
-    req(input$change_selected_species)
-    
-    # Convert dash-format back to species name format
-    species_lump_input <- input$change_selected_species %>% 
-      gsub("_", " ", .)
-    
-    info <- species_names %>%
-      filter(species_lump == species_lump_input)
-    
-    image_url <- info$image_url
       
-      tags$img(src = info$image_url,
-               style = "width: 350px; height: 350px; border-radius: 8px;")
-    
-  })
-
-  # current suitability map ----
-
-  output$change_raster_output <- renderLeaflet({
-    
-    change_rast <- change_selected_raster()
-    
-    leaflet() |>
-      addProviderTiles(provider = "Esri.WorldStreetMap") |>
-      addRasterImage(change_rast, colors = change_habitat_pal) |>
-      addLegend(
-        pal = change_habitat_pal,
-        values = c(-1, 1),
-        title = paste0("Change in Habitat Suitability"),
-        position = "bottomright"
-      ) |>
-      setView(lng = -120, lat = 36.7, zoom = 5) |>
-      addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
-  })
-  
-  # current habitat map ----
-  
-  
-  # current suitability habitat map ----
-
-  current_selected_raster <- reactive({
-    
-    req(input$change_selected_species)
-    
-    current_file_path <- file.path("data/species_model_rasters/current_species_rasters",
-                                   paste0("current_", gsub(" ", "_", input$change_selected_species), ".tif"))
-    raster(current_file_path)
+      tags$img(src = habitat_suitability()$image_url[1], alt = input$change_selected_species,
+               style = "width: 375px; height: 375px; border-radius: 8px;")
     
   })
   
-  output$current_raster_output <- renderLeaflet({
-    
-    current_rast <- current_selected_raster()
-    
-    stable_habitat_pal <- colorBin(palette = c("#E4E2F5", "#FFC700","#49A842", "#038C45", "#00205B"),
-                                   bins = seq(0, 1, length.out = 6),
-                                   na.color = "transparent",
-                                   right = FALSE)
-    
-    leaflet() |>
-      addProviderTiles(provider = "Esri.WorldStreetMap") |>
-      addRasterImage(current_rast, colors = stable_habitat_pal) |>
-      addLegend(pal = stable_habitat_pal,
-                values = c(-1, 1),
-                title = paste0("2025 Habitat <br>Suitability"),
-                position = "bottomright") |>
-      setView(lng = -120, lat = 36.7, zoom = 5) |>
-      addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
-    
-  })
-  
-  # projected suitability map ----
-  projected_selected_raster <- reactive({
-    
-    req(input$change_selected_species)
-    
-    projected_file_path <- file.path("data/species_model_rasters/projected_species_rasters",
-                                     paste0("projected_", gsub(" ", "_", input$change_selected_species), ".tif"))
-    
-    raster(projected_file_path)
-    
-  })
-  
-  output$projected_raster_output <- renderLeaflet({
-    
-    projected_rast <- projected_selected_raster()
-    
-    stable_habitat_pal <- colorBin(palette = c("#E4E2F5", "#FFC700","#49A842", "#038C45", "#00205B"),
-                                   bins = seq(0, 1, length.out = 6),
-                                   na.color = "transparent",
-                                   right = FALSE)
-    
-    leaflet() |>
-      addProviderTiles(provider = "Esri.WorldStreetMap") |>
-      addRasterImage(projected_rast, colors = stable_habitat_pal, opacity = 0.85) |>
-      addLegend(pal = stable_habitat_pal,
-                values = values(projected_rast),
-                title = paste0("Projected Habitat <br>Suitability"),
-                position = "bottomright") |>
-      setView(lng = -120, lat = 36.7, zoom = 5) |>
-      addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
-    
-  })
-  
-  # change suitability map ----
+  # load change detection rasters
   change_selected_raster <- reactive({
     
     req(input$change_selected_species)
     
-    change_file_path <- file.path("data/species_model_rasters/change_species_rasters",
-                                  paste0("ESDM_", gsub(" ", "_", input$change_selected_species), "_change.tif"))
+    # refresh button
+    input$refresh_change_detection
     
-    raster(change_file_path)
+    isolate({
+      
+      change_file_path <- file.path("data/species_model_rasters/change_species_rasters",
+                                    paste0("ESDM_", habitat_suitability()$raster_name, "_change.tif"))
+      
+      raster(change_file_path)
+      
+    })
     
   })
   
+  # change detection map ----
   output$change_raster_output <- renderLeaflet({
     
     change_rast <- change_selected_raster()
-    
-    # Editing this to check something
     
     breaks <- c(-1, -0.6, -0.3, -.1, .1, 0.3, 0.6, 1)
     
@@ -594,16 +508,99 @@ server <- function(input, output) {
                                    right = FALSE)
     
     leaflet() |>
-      addProviderTiles(provider = "Esri.WorldStreetMap") |>
+      addProviderTiles(provider = "Esri.NatGeoWorldMap") |>
       addRasterImage(change_rast, colors = change_habitat_pal) |>
       addLegend(pal = change_habitat_pal,
                 values = c(-1, 1),
                 title = paste0("Change in Habitat Suitability"),
-                position = "bottomright") |>
-      setView(lng = -120, lat = 36.7, zoom = 5) |>
+                position = "topright") |>
+      setView(lng = -118, lat = 37, zoom = 5) |>
       addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
     
   })
+  
+  # load current suitability rasters
+  current_selected_raster <- reactive({
+    
+    req(input$change_selected_species)
+    
+    # refresh button
+    input$refresh_current_suitability
+    
+    isolate({
+      
+      current_file_path <- file.path("data/species_model_rasters/current_species_rasters",
+                                     paste0("current_", habitat_suitability()$raster_name, ".tif"))
+      raster(current_file_path)
+      
+    })
+    
+  })
+  
+  # current suitability map ----
+  output$current_raster_output <- renderLeaflet({
+    
+    current_rast <- current_selected_raster()
+    
+    stable_habitat_pal <- colorBin(palette = c("#E4E2F5", "#FFC700","#49A842", "#038C45", "#00205B"),
+                                   bins = seq(0, 1, length.out = 6),
+                                   na.color = "transparent",
+                                   right = FALSE)
+    
+    leaflet() |>
+      addProviderTiles(provider = "Esri.NatGeoWorldMap") |>
+      addRasterImage(current_rast, colors = stable_habitat_pal) |>
+      addLegend(pal = stable_habitat_pal,
+                values = c(-1, 1),
+                title = paste0("2025 Habitat Suitability"),
+                position = "topright") |>
+      setView(lng = -118, lat = 37, zoom = 5) |>
+      addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
+    
+  })
+  
+  # load projected suitability rasters
+  projected_selected_raster <- reactive({
+    
+    req(input$change_selected_species)
+    
+    # refresh button
+    input$refresh_projected_suitability
+    
+    isolate({
+      
+      projected_file_path <- file.path("data/species_model_rasters/projected_species_rasters",
+                                       paste0("projected_", habitat_suitability()$raster_name, ".tif"))
+      
+      raster(projected_file_path)
+      
+    })
+    
+  })
+  
+  # projected suitability map ----
+  output$projected_raster_output <- renderLeaflet({
+    
+    projected_rast <- projected_selected_raster()
+    
+    stable_habitat_pal <- colorBin(palette = c("#E4E2F5", "#FFC700","#49A842", "#038C45", "#00205B"),
+                                   bins = seq(0, 1, length.out = 6),
+                                   na.color = "transparent",
+                                   right = FALSE)
+    
+    leaflet() |>
+      addProviderTiles(provider = "Esri.NatGeoWorldMap") |>
+      addRasterImage(projected_rast, colors = stable_habitat_pal, opacity = 0.85) |>
+      addLegend(pal = stable_habitat_pal,
+                values = values(projected_rast),
+                title = paste0("Projected Habitat Suitability"),
+                position = "topright") |>
+      setView(lng = -118, lat = 37, zoom = 5) |>
+      addMiniMap(toggleDisplay = TRUE, minimized = FALSE)
+    
+  })
+  
+  # priority monitoring assessment tab ----
   
   # contraction table output
   output$species_contraction_output <- renderDT({
@@ -720,7 +717,4 @@ server <- function(input, output) {
     )
   })
   
-  
-  
-  # acknowledgements tab ----
 }
