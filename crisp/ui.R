@@ -142,7 +142,7 @@ body <- dashboardBody(
                               style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;"),
                       
                       # intro
-                      p("The Jack and Laura Dangermond Preserve located in Lompoc, CA is an important site for conservation."),
+                      p("The Jack and Laura Dangermond Preserve, located in Lompoc, CA, is an important site for conservation."),
                       
                       # read more
                       actionLink("read_more_dangermond", "Read More", style = "color: #05641c; font-weight: bold; margin-bottom: 10px;"),
@@ -184,7 +184,7 @@ body <- dashboardBody(
                               style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;"),
                       
                       # intro
-                      p("Point Conception is a significant biogeographic barrier for many rocky intertidal species or species groups because of its unique topography and its location at the intersection of two ocean currents."),
+                      p("Point Conception is a significant biogeographic barrier for many rocky intertidal species because of its unique topography and its location at the intersection of two ocean currents."),
                       
                       # read more
                       actionLink("read_more_biogeographic", "Read More", style = "color: #05641c; font-weight: bold; margin-bottom: 10px;"),
@@ -255,7 +255,7 @@ body <- dashboardBody(
                               style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;"),
                       
                       # intro
-                      p("Many rocky intertidal species or species groups may respond to changing environmental conditions by shifting their geographic range to areas with more suitable habitats."),
+                      p("Many rocky intertidal species may respond to changing environmental conditions by shifting their geographic range to areas with more suitable habitats."),
                       
                       # read more
                       actionLink("read_more_shift", "Read More", style = "color: #05641c; font-weight: bold; margin-bottom: 10px;"),
@@ -1124,7 +1124,7 @@ body <- dashboardBody(
                        # column
                        column(width = 2,
                               
-                              # checkox widget
+                              # checkbox widget
                               checkboxInput("north_trend_filter", "Northward trend", value = FALSE)
                               
                        ), # END column
@@ -1141,7 +1141,7 @@ body <- dashboardBody(
                        column(width = 3,
                               
                               # checkbox widget
-                              checkboxInput("range_edge_filter", "Southern range edge in Dangermond", value = FALSE)
+                              checkboxInput("range_edge_filter", "Southern range edge in Dangermond", value = TRUE)
                               
                        ) # END column
                        
@@ -1238,7 +1238,7 @@ body <- dashboardBody(
                        column(width = 3,
                               
                               # checkbox widget
-                              checkboxInput("range_edge_filter", "Northern range edge in Dangermond", value = FALSE)
+                              checkboxInput("range_edge_filter", "Northern range edge in Dangermond", value = TRUE)
                               
                        ) # END column
                        
@@ -1733,4 +1733,4 @@ body <- dashboardBody(
 ) # END dashboardBody
 
 # combine all into dashboardPage ----
-dashboardPage(header, sidebar, body)
+dashboardPage(title = "CRISP", header, sidebar, body)
