@@ -28,7 +28,7 @@ server <- function(input, output) {
   # dangermond image
   output$dangermond <- renderImage({ 
     
-    list(src = "www/diagrams/dangermond.jpg", contentType = "image/.jpg", width = "100%", height = "95%") 
+    list(src = "www/diagrams/tnc-interactive-dangermond.jpg", contentType = "image/.jpg", width = "100%", height = "95%") 
     
   }, 
   
@@ -40,7 +40,7 @@ server <- function(input, output) {
     
     req(input$dangermond_click)
     
-    showModal(modalDialog(tags$img(src = "diagrams/dangermond.jpg", style = "width: 100%"),
+    showModal(modalDialog(tags$img(src = "diagrams/tnc-interactive-dangermond.jpg", style = "width: 100%"),
                           easyClose = TRUE,
                           size = "m"))
     
@@ -355,7 +355,7 @@ server <- function(input, output) {
   # dangermond range edges image
   output$cal_ranges <- renderImage({ 
     
-    list(src = "www/diagrams/cal-ranges.jpg", contentType = "image/.jpg", width = "100%", height = "100%") 
+    list(src = "www/diagrams/pointconception-segments.png", contentType = "image/.png", width = "100%", height = "100%") 
     
   }, 
   
@@ -363,11 +363,11 @@ server <- function(input, output) {
   
   )
   
-  output$zoom_modal <- renderUI({
+  output$zoom_ranges <- renderUI({
     
     req(input$image_click)
     
-    showModal(modalDialog(tags$img(src = "diagrams/cal-ranges.jpg", style = "width: 100%"),
+    showModal(modalDialog(tags$img(src = "diagrams/pointconception-segments.png", style = "width: 100%"),
                           easyClose = TRUE,
                           size = "m"))
     
@@ -375,6 +375,27 @@ server <- function(input, output) {
   
   
   # contemporary range shift tab ----
+  
+  # contemporary range shift diagram
+  output$contemp_shift <- renderImage({ 
+    
+    list(src = "www/diagrams/contemp-rangeshift.png", contentType = "image/.png", width = "100%", height = "100%") 
+    
+  }, 
+  
+  deleteFile = FALSE 
+  
+  )
+  
+  output$zoom_contemp <- renderUI({
+    
+    req(input$image_click)
+    
+    showModal(modalDialog(tags$img(src = "diagrams/contemp-rangeshift.png", style = "width: 100%"),
+                          easyClose = TRUE,
+                          size = "m"))
+    
+  })
   
   # filter target boundaries
   range_shift <- reactive({
@@ -439,7 +460,7 @@ server <- function(input, output) {
   # coastline distance image
   output$coastline_distance <- renderImage({ 
     
-    list(src = "www/diagrams/unnamed.png", contentType = "image/.jpg", width = 450, height = 525) 
+    list(src = "www/diagrams/coastline-key.png", contentType = "image/.png", width = 450, height = 525) 
     
   }, 
   
@@ -451,7 +472,7 @@ server <- function(input, output) {
     
     req(input$distance_click)
     
-    showModal(modalDialog(tags$img(src = "diagrams/unnamed.png", style = "width: 100%"),
+    showModal(modalDialog(tags$img(src = "diagrams/coastline-key.png", style = "width: 100%"),
                           easyClose = TRUE,
                           size = "m"))
     

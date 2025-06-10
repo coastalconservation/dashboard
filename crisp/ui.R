@@ -126,7 +126,7 @@ body <- dashboardBody(
                   uiOutput("zoom_dangermond"),
                   
                   # figure caption
-                  div(style = "font-size: 18px; font-family: Merriweather;", "Figure 1. Insert Caption")
+                  div(style = "font-size: 18px; font-family: Merriweather;", "Insert Photo Creds")
                   
               ), # END dangermond image box
               
@@ -184,7 +184,7 @@ body <- dashboardBody(
                               style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;"),
                       
                       # intro
-                      p("Point Conception is a significant biogeographic barrier for many rocky intertidal species because of its unique topography and its location at the intersection of two ocean currents."),
+                      p("Point Conception is a significant biogeographic barrier for many rocky intertidal species or species groups because of its unique topography and its location at the intersection of two ocean currents."),
                       
                       # read more
                       actionLink("read_more_biogeographic", "Read More", style = "color: #05641c; font-weight: bold; margin-bottom: 10px;"),
@@ -211,7 +211,7 @@ body <- dashboardBody(
                   
                   # figure caption
                   div(style = "font-size: 18px; font-family: Merriweather; padding-top: 5px;",
-                      "Figure 2. Insert Caption")
+                      "Figure 1. Insert Caption")
                   
               ), # END currents image box
               
@@ -239,7 +239,7 @@ body <- dashboardBody(
                   
                   # figure caption
                   div(style = "font-size: 18px; font-family: Merriweather; padding-top: 5px;",
-                      "Figure 3. Insert Caption")
+                      "Figure 2. Insert Caption")
                   
               ), # END range shift image box
               
@@ -255,7 +255,7 @@ body <- dashboardBody(
                               style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;"),
                       
                       # intro
-                      p("Many rocky intertidal species may respond to changing environmental conditions by shifting their geographic range to areas with more suitable habitat."),
+                      p("Many rocky intertidal species or species groups may respond to changing environmental conditions by shifting their geographic range to areas with more suitable habitats."),
                       
                       # read more
                       actionLink("read_more_shift", "Read More", style = "color: #05641c; font-weight: bold; margin-bottom: 10px;"),
@@ -312,7 +312,7 @@ body <- dashboardBody(
                   
                   # figure caption
                   div(style = "font-size: 18px; font-family: Merriweather; padding-top: 5px;",
-                      "Figure 4. Insert Caption")
+                      "Figure 3. Insert Caption")
                   
               ), # END image box
               
@@ -566,7 +566,7 @@ body <- dashboardBody(
                              withSpinner(color = "#ffc700", type = 1, size = 1),
                            
                            # zoom output
-                           uiOutput("zoom_modal")
+                           uiOutput("zoom_ranges")
                            
                     ) # END right-hand column
                     
@@ -652,13 +652,18 @@ body <- dashboardBody(
                      
               ), # END species column
               
-              # diagram column
+              # contemporary shift diagram column
               column(width = 6,
-                     style = "padding-bottom: 25px;",
+                     style = " padding-top: 85px; padding-bottom: 25px;",
                      
-                     "insert diagram here"
+                     # contemporary shift diagram
+                     imageOutput("contemp_shift", click = "image_click") %>%
+                       withSpinner(color = "#05641C", type = 1, size = 1),
                      
-                     ), # END diagram column
+                     # zoom output
+                     uiOutput("zoom_contemp")
+                     
+                     ), # END contemporary shift diagram column
               
               # right buffer column
               column(width = 1),
@@ -673,7 +678,7 @@ body <- dashboardBody(
               
               # plot box
               box(width = 5,
-                  style = "height: 650px;",
+                  style = "height: 625px;",
                   
                   # dynamic title
                   tags$h4(textOutput("plotly_header"),
@@ -690,7 +695,7 @@ body <- dashboardBody(
               
               # plot box
               box(width = 5,
-                  style = "height: 650px;",
+                  style = "height: 625px; padding-top: 40px",
                   
                   # image output
                   imageOutput("coastline_distance", click = "distance_click") %>%
@@ -1043,113 +1048,229 @@ body <- dashboardBody(
             
     ), # END model tabItem
     
-    # priority monitoring assessment tabItem
+    # priority monitoring assessment tabItem ----
     tabItem(tabName = "assessment",
             
-            # Introduction row
+            # first fluidRow
             fluidRow(
+              
+              # left buffer column
               column(width = 1),
+              
+              # info column
               column(width = 10,
+                     
+                     # title
                      tags$h1("Priority Monitoring Assessment",
                              style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px; text-align: center;"),
-                     div(style = "font-size: 16px; font-family: Merriweather;", 
-                         includeMarkdown("text/assessment.md")),
+                     
+                     # assessment info
+                     div(style = "font-size: 18px; font-family: Merriweather;", 
+                         includeMarkdown("text/analyses/assessment.md")),
+                     
+                     # line
                      tags$hr(style = "border-top: 3px solid #eae8f5; margin-top: 20px; margin-bottom: 20px;")
-              ),
+                     
+              ), # END info column
+              
+              # right buffer column
               column(width = 1)
-            ), # End of introduction row
+              
+            ), # END first fluidRow
             
-            # Range Contractions title row
+            # second fluidRow
             fluidRow(
+              
+              # left buffer column
               column(width = 1),
+              
+              # title column
               column(width = 10,
+                     
+                     # title
                      tags$h2("Priority Monitoring For Range Contractions",
                              style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px; text-align: center;")
-              ),
+                     
+              ), # END title column
+              
+              # right buffer column
               column(width = 1)
-            ), # End of contractions title row
+              
+            ), # END second fluidRow
             
-            # Range Contractions filters row
+            # third fluidRow
             fluidRow(
+              
+              # left buffer column
               column(width = 1),
+              
+              # column
               column(width = 10,
+                     
+                     # fluidRow
                      fluidRow(
+                       
+                       # column
                        column(width = 2,
+                              
+                              # checkbox widget
                               checkboxGroupInput("contraction",
                                                  "Contraction Monitoring Priority:",
                                                  choices = c("High" = 3, "Medium" = 2, "Low" = 1),
                                                  selected = c(3, 2, 1))
-                       ),
+                              
+                       ), # END column
+                       
+                       # column
                        column(width = 2,
+                              
+                              # checkox widget
                               checkboxInput("north_trend_filter", "Northward trend", value = FALSE)
-                       ),
+                              
+                       ), # END column
+                       
+                       # column
                        column(width = 3,
+                              
+                              # checkbox widget
                               checkboxInput("percent_change_filter", "Habitat loss in Dangermond", value = FALSE)
-                       ),
+                              
+                       ), # END column
+                       
+                       # column
                        column(width = 3,
+                              
+                              # checkbox widget
                               checkboxInput("range_edge_filter", "Southern range edge in Dangermond", value = FALSE)
-                       )
-                     )
-              ),
+                              
+                       ) # END column
+                       
+                     ) # END fluidRow
+                     
+              ), # END column
+              
+              # right buffer column
               column(width = 1)
-            ), # End of contractions filters row
+              
+            ), # END third fluidRow
             
-            # Range Contractions table row
+            # fourth fluidRow
             fluidRow(
+              
+              # left buffer column
               column(width = 1),
+              
+              # DT column
               column(width = 10,
+                     style = "padding-bottom: 50px;",
+                     
+                     # DT
                      DTOutput("species_contraction_output") %>%
                        withSpinner(color = "#05641C", type = 1, size = 1)
-              ),
+                     
+              ), # END DT column
+              
+              # right buffer column
               column(width = 1)
-            ), # End of contractions table row
+              
+            ), # END fourth fluidRow
             
-            # Range Expansions title row
+            # fifth fluidRow
             fluidRow(
+              
+              # left buffer column
               column(width = 1),
+              
+              # title column
               column(width = 10,
+                     
+                     # title
                      tags$h2("Priority Monitoring For Range Expansions",
                              style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px; text-align: center;")
-              ),
+                     
+              ), # END title column
+              
+              # right buffer column
               column(width = 1)
-            ), # End of expansions title row
+              
+            ), # END fifth fluidRow
             
-            # Range Expansions filters row
+            # sixth fluidRow
             fluidRow(
+              
+              # left buffer column 
               column(width = 1),
+              
+              # column
               column(width = 10,
+                     
+                     # fluidRow
                      fluidRow(
+                       
+                       # column
                        column(width = 2,
+                              
+                              # checkbox widget
                               checkboxGroupInput("expansion",
                                                  "Expansion Monitoring Priority:",
                                                  choices = c("High" = 3, "Moderate" = 2, "Low" = 1),
                                                  selected = c(3, 2, 1))
-                       ),
+                              
+                       ), # END column
+                       
+                       # column
                        column(width = 2,
+                              
+                              # checkbox widget
                               checkboxInput("north_trend_filter", "Northward trend", value = FALSE)
-                       ),
+                              
+                       ), # END column
+                       
+                       # column
                        column(width = 3,
+                              
+                              # checkbox widget
                               checkboxInput("percent_change_filter", "Habitat gain in Dangermond", value = FALSE)
-                       ),
+                              
+                       ), # END column
                        
+                       # column
                        column(width = 3,
+                              
+                              # checkbox widget
                               checkboxInput("range_edge_filter", "Northern range edge in Dangermond", value = FALSE)
-                       )
+                              
+                       ) # END column
                        
-                     )
-              ),
+                     ) # END fluidRow
+                     
+              ), # END column
+              
+              # right buffer column
               column(width = 1)
-            ), # End of expansions filters row
+              
+            ), # END sixth fluidRow
             
-            # Range Expansions table row
+            # seventh fluidRow
             fluidRow(
+              
+              # left buffer column
               column(width = 1),
+              
+              # DT column
               column(width = 10,
+                     style = "padding-bottom: 50px;",
+                     
+                     # DT
                      DTOutput("species_expansion_output") %>%
                        withSpinner(color = "#05641C", type = 1, size = 1)
-              ),
+                     
+              ), # END DT column
+              
+              # right buffer column
               column(width = 1)
-            ) # End of expansions table row
+              
+            ) # END seventh fluidRow
             
     ), # End of assessment tabItem
     
