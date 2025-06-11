@@ -126,7 +126,8 @@ body <- dashboardBody(
                   uiOutput("zoom_dangermond"),
                   
                   # figure caption
-                  div(style = "font-size: 18px; font-family: Merriweather;", "Insert Photo Creds")
+                  div(style = "font-size: 16px; font-family: Merriweather; text-align: center; padding-top 10px;",
+                      "Photo by The Nature Conservancy")
                   
               ), # END dangermond image box
               
@@ -174,7 +175,7 @@ body <- dashboardBody(
               
               # biogeographic box
               box(width = 5,
-                  style = "height: 450px; overflow: hidden;",
+                  style = "height: 500px; overflow: hidden;",
                   
                   # container
                   div(style = "font-size: 18px; font-family: Merriweather; height: 100%; display: flex; flex-direction: column;",
@@ -200,7 +201,7 @@ body <- dashboardBody(
               
               # currents image box
               box(width = 5,
-                  style = "height: 450px;",
+                  style = "height: 500px;",
                   
                   # image output
                   imageOutput("cal_currents", click = "currents_click") %>%
@@ -210,8 +211,8 @@ body <- dashboardBody(
                   uiOutput("zoom_currents"),
                   
                   # figure caption
-                  div(style = "font-size: 18px; font-family: Merriweather; padding-top: 5px;",
-                      "Figure 1. Insert Caption")
+                  div(style = "font-size: 16px; font-family: Merriweather; padding-top: 10px;",
+                      HTML("<strong>Figure 1.</strong> Eddy formation at the biogeographic break, resulting from the convergence of cooler northern currents and warmer southern counter currents."))
                   
               ), # END currents image box
               
@@ -228,7 +229,7 @@ body <- dashboardBody(
               
               # range shift image box
               box(width = 5,
-                  style = "height: 450px;",
+                  style = "height: 500px;",
                   
                   # range shift image
                   imageOutput("range_shift", click = "shift_click") %>%
@@ -238,14 +239,14 @@ body <- dashboardBody(
                   uiOutput("zoom_shift"),
                   
                   # figure caption
-                  div(style = "font-size: 18px; font-family: Merriweather; padding-top: 5px;",
-                      "Figure 2. Insert Caption")
+                  div(style = "font-size: 16px; font-family: Merriweather; padding-top: 10px;",
+                      HTML("<strong>Figure 2.</strong> An illustration depicting a potential habitat range shift for a species successfully adapting to environmental changes."))
                   
               ), # END range shift image box
               
               # range shift box
               box(width = 5,
-                  style = "height: 450px; overflow: hidden;",
+                  style = "height: 500px; overflow: hidden;",
                   
                   # container
                   div(style = "font-size: 18px; font-family: Merriweather; height: 100%; display: flex; flex-direction: column;",
@@ -282,7 +283,7 @@ body <- dashboardBody(
               
               # kellet's whelk box
               box(width = 5,
-                  style = "height: 450px; overflow: hidden;",
+                  style = "height: 455px; overflow: hidden;",
                   
                   # container
                   div(style = "font-size: 18px; font-family: Merriweather; height: 100%; display: flex; flex-direction: column;",
@@ -308,11 +309,18 @@ body <- dashboardBody(
               
               # image box
               box(width = 5,
-                  style = "height: 450px;",
+                  style = "height: 455px;",
+                  
+                  # image output
+                  imageOutput("kellet", click = "kellet_click") %>%
+                    withSpinner(color = "#05641C", type = 1, size = 1),
+                  
+                  # zoom output
+                  uiOutput("zoom_kellet"),
                   
                   # figure caption
-                  div(style = "font-size: 18px; font-family: Merriweather; padding-top: 5px;",
-                      "Figure 3. Insert Caption")
+                  div(style = "font-size: 16px; font-family: Merriweather; text-align: center; padding-top: 10px;",
+                      HTML("Photo of Kellet's Whelk (<i>Kelletia kelletii</i>) by iNaturalist"))
                   
               ), # END image box
               
@@ -377,16 +385,23 @@ body <- dashboardBody(
               
               # northern range edge map box
               box(width = 5,
-                  style = "height: 500px;",
+                  style = "height: 525px;",
                   
                   # title
                   tags$h4("Northern Range Edges of Rocky Intertidal Species in CA",
                           style = "text-align: center; font-weight: bold; font-family: Barlow; padding-bottom: 10px;"),
                   
-                  # refresh button
-                  actionButton(inputId = "refresh_northern_map", 
-                               label = "Refresh Map",
-                               icon = icon("rotate")),
+                  # row
+                  div(style = "display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px;",
+                      
+                      # instructions
+                      div(style = "font-family: Merriweather; font-size: 14px;",
+                          "Click on a coastline segment:"),
+                      
+                      # refresh button
+                      actionButton(inputId = "refresh_northern_map", 
+                                   label = "Refresh Map",
+                                   icon = icon("rotate"))),
                   
                   # northern range edge map
                   leafletOutput(outputId = "northern_range_output",
@@ -397,7 +412,7 @@ body <- dashboardBody(
               
               # northern range edge DT box
               box(width = 5,
-                  style = "height: 500px;",
+                  style = "height: 525px;",
                   
                   # title
                   tags$h4("Rocky Intertidal Species with Northern Range Edges at",
@@ -426,16 +441,23 @@ body <- dashboardBody(
               
               # southern range edge map box
               box(width = 5,
-                  style = "height: 500px;",
+                  style = "height: 525px;",
                   
                   # title
                   tags$h4("Southern Range Edges of Rocky Intertidal Species in CA",
                           style = "text-align: center; font-weight: bold; font-family: Barlow; padding-bottom: 10px;"),
                   
-                  # refresh button
-                  actionButton(inputId = "refresh_southern_map", 
-                               label = "Refresh Map",
-                               icon = icon("rotate")),
+                  # row
+                  div(style = "display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px;",
+                      
+                      # instructions
+                      div(style = "font-family: Merriweather; font-size: 14px;",
+                          "Click on a coastline segment:"),
+                      
+                      # refresh button
+                      actionButton(inputId = "refresh_southern_map", 
+                                   label = "Refresh Map",
+                                   icon = icon("rotate"))),
                   
                   # southern range edge map
                   leafletOutput(outputId = "southern_range_output",
@@ -446,7 +468,7 @@ body <- dashboardBody(
               
               # southern range edge DT box
               box(width = 5,
-                  style = "height: 500px;",
+                  style = "height: 525px;",
                   
                   # title
                   tags$h4("Rocky Intertidal Species with Southern Range Edges at",
@@ -1713,7 +1735,6 @@ body <- dashboardBody(
                               
                               div(style = "display: flex; justify-content: center; align-items: center; height: 125px; padding-bottom: 10px;",
                                   img(src = "logos/jcs_logo.png", width = "125px", height = "125px"))
-                              
                               
                        ) # END right-hand column
                        

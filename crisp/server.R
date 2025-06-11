@@ -90,6 +90,27 @@ server <- function(input, output) {
     
   })
   
+  # kellet's whelk image
+  output$kellet <- renderImage({ 
+    
+    list(src = "www/kellet.jpeg", contentType = "image/.jpeg", width = "100%", height = "100%") 
+    
+  }, 
+  
+  deleteFile = FALSE 
+  
+  )
+  
+  output$zoom_kellet <- renderUI({
+    
+    req(input$kellet_click)
+    
+    showModal(modalDialog(tags$img(src = "kellet.jpeg", style = "width: 100%"),
+                          easyClose = TRUE,
+                          size = "m"))
+    
+  })
+  
   # range edges tab ----
   
   # filter northern species extent data
@@ -216,9 +237,10 @@ server <- function(input, output) {
               escape = FALSE,
               class = "row-border",
               options = list(dom = "t", 
-                             scrollY = 350, 
+                             scrollY = 375, 
                              paging = FALSE,
-                             columnDefs = list(list(className = "dt-center", targets = "_all"))))
+                             columnDefs = list(list(className = "dt-center", targets = "_all"))), 
+              selection = "none")
     
   })
   
@@ -347,9 +369,10 @@ server <- function(input, output) {
               escape = FALSE,
               class = "row-border",
               options = list(dom = "t", 
-                             scrollY = 350, 
+                             scrollY = 375, 
                              paging = FALSE, 
-                             columnDefs = list(list(className = "dt-center", targets = "_all"))))
+                             columnDefs = list(list(className = "dt-center", targets = "_all"))),
+              selection = "none")
   })
   
   # dangermond range edges image
