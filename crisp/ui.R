@@ -45,7 +45,7 @@ sidebar <- dashboardSidebar(
   ), # END sidebarMenu
   
   div(style = "position: absolute; bottom: 20px; width: 100%; text-align: center; font-size: 40px;",
-  HTML('<a href="https://github.com/coastalconservation" target="_blank" title="GitHub">
+      HTML('<a href="https://github.com/coastalconservation" target="_blank" title="GitHub">
         <i class="fa-brands fa-github-alt"></i> </a>') )
   
 ) # END dashboardSidebar
@@ -305,7 +305,7 @@ body <- dashboardBody(
                       
                   ) # END container
                   
-                  ), # END kellet's whelk box
+              ), # END kellet's whelk box
               
               # image box
               box(width = 5,
@@ -342,15 +342,15 @@ body <- dashboardBody(
               
               # info column
               column(width = 10,
-                  
-                  # title
-                  tags$h1("Range Edges",
-                          style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;"),
-                  
-                  # markdown
-                  div(style = "font-size: 18px; font-family: Merriweather;", 
-                      includeMarkdown("text/analyses/range-edges.md"))
-                  
+                     
+                     # title
+                     tags$h1("Range Edges",
+                             style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;"),
+                     
+                     # markdown
+                     div(style = "font-size: 18px; font-family: Merriweather;", 
+                         includeMarkdown("text/analyses/range-edges.md"))
+                     
               ), # END info column
               
               # right buffer column
@@ -435,170 +435,174 @@ body <- dashboardBody(
             
             # fourth fluidRow
             fluidRow(style = "padding-bottom: 20px;",
-              
-              # left buffer column
-              column(width = 1),
-              
-              # southern range edge map box
-              box(width = 5,
-                  style = "height: 525px;",
-                  
-                  # title
-                  tags$h4("Southern Range Edges of Rocky Intertidal Species in CA",
-                          style = "text-align: center; font-weight: bold; font-family: Barlow; padding-bottom: 10px;"),
-                  
-                  # row
-                  div(style = "display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px;",
-                      
-                      # instructions
-                      div(style = "font-family: Merriweather; font-size: 14px;",
-                          "Click on a coastline segment:"),
-                      
-                      # refresh button
-                      actionButton(inputId = "refresh_southern_map", 
-                                   label = "Refresh Map",
-                                   icon = icon("rotate"))),
-                  
-                  # southern range edge map
-                  leafletOutput(outputId = "southern_range_output",
-                                width = "100%") %>%
-                    withSpinner(color = "#05641C", type = 1, size = 1)
-                  
-              ), # END southern range edge map box
-              
-              # southern range edge DT box
-              box(width = 5,
-                  style = "height: 525px;",
-                  
-                  # title
-                  tags$h4("Rocky Intertidal Species with Southern Range Edges at",
-                          style = "text-align: center; font-weight: bold; font-family: Barlow;"),
-                  
-                  # dynamic title
-                  tags$h4(textOutput("table_header_south"),
-                          style = "text-align: center; font-weight: bold; color:#05641c; font-family: Barlow;"),
-                  
-                  # southern range edge DT
-                  div(style = "font-family: Merriweather;", DTOutput("southern_edge_table") %>%
-                        withSpinner(color = "#05641C", type = 1, size = 1))
-                  
-              ), # END southern range edge DT box
-              
-              # right buffer column
-              column(width = 1)
-              
+                     
+                     # left buffer column
+                     column(width = 1),
+                     
+                     # southern range edge map box
+                     box(width = 5,
+                         style = "height: 525px;",
+                         
+                         # title
+                         tags$h4("Southern Range Edges of Rocky Intertidal Species in CA",
+                                 style = "text-align: center; font-weight: bold; font-family: Barlow; padding-bottom: 10px;"),
+                         
+                         # row
+                         div(style = "display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px;",
+                             
+                             # instructions
+                             div(style = "font-family: Merriweather; font-size: 14px;",
+                                 "Click on a coastline segment:"),
+                             
+                             # refresh button
+                             actionButton(inputId = "refresh_southern_map", 
+                                          label = "Refresh Map",
+                                          icon = icon("rotate"))),
+                         
+                         # southern range edge map
+                         leafletOutput(outputId = "southern_range_output",
+                                       width = "100%") %>%
+                           withSpinner(color = "#05641C", type = 1, size = 1)
+                         
+                     ), # END southern range edge map box
+                     
+                     # southern range edge DT box
+                     box(width = 5,
+                         style = "height: 525px;",
+                         
+                         # title
+                         tags$h4("Rocky Intertidal Species with Southern Range Edges at",
+                                 style = "text-align: center; font-weight: bold; font-family: Barlow;"),
+                         
+                         # dynamic title
+                         tags$h4(textOutput("table_header_south"),
+                                 style = "text-align: center; font-weight: bold; color:#05641c; font-family: Barlow;"),
+                         
+                         # southern range edge DT
+                         div(style = "font-family: Merriweather;", DTOutput("southern_edge_table") %>%
+                               withSpinner(color = "#05641C", type = 1, size = 1))
+                         
+                     ), # END southern range edge DT box
+                     
+                     # right buffer column
+                     column(width = 1)
+                     
             ), # END fourth fluidRow
             
             # fifth fluidRow
             fluidRow(style = "background-color: #05641c; padding-bottom: 50px;",
-              
-              # left buffer column
-              column(width = 1),
-              
-              # stats column
-              column(width = 10,
-                  
-                  # fluidRow
-                  fluidRow(
-                    
-                     # title
-                    tags$h2("Rocky Intertidal Species with Range Edges Near Point Conception",
-                            style = "font-family: Barlow; font-weight: bold; color: #ffffff; text-align: center; padding-bottom: 10px;"),
-                    
-                    # left-hand column
-                    column(width = 6,
-                           
-                           # first fluidRow
-                           fluidRow(
-                             
-                             # value box column
-                             column(width = 12,
-                                    
-                                    #  northern range edges value box
-                                    value_box(title = span("Northern Range Edges",
-                                                           style = "font-family: Barlow; font-size: 22px; font-weight: bold; color: #ffffff;"),
-                                              value = span("23 species",
-                                                           style = "font-family: Barlow; font-size: 20px; font-weight: bold; color: #ffc700;"),
-                                              showcase = span(bs_icon("arrow-up"),
-                                                              style = "color: #ffc700;"),
-                                              p("11 in Northern Point Conception", 
-                                                style = "font-family: Merriweather; font-size: 18px; color: #ffffff;"),
-                                              p("12 in Southern Point Conception", 
-                                                style = "font-family: Merriweather; font-size: 18px;color: #ffffff;"),
-                                              style = "background-color: #05641c;",
-                                              height = "140px")
-                                    
-                             ), # END value box column
-                             
-                           ), # END first fluidRow
-                           
-                           # second fluidRow
-                           fluidRow(
-                             
-                             # value box column
-                             column(width = 12,
-                                    
-                                    # southern range edges value box
-                                    value_box(title = span("Southern Range Edges",
-                                                           style = "font-family: Barlow; font-size: 22px; font-weight: bold; color: #ffffff;"),
-                                              value = span("37 species",
-                                                           style = "font-family: Barlow; font-size: 20px; font-weight: bold; color: #ffc700;"),
-                                              showcase = span(bs_icon("arrow-down"),
-                                                              style = "color: #ffc700;"),
-                                              p("17 in Northern Point Conception", 
-                                                style = "font-family: Merriweather; font-size: 18px; color: #ffffff;"),
-                                              p("20 in Southern Point Conception", 
-                                                style = "font-family: Merriweather; font-size: 18px; color: #ffffff;"),
-                                              style = "background-color: #05641c;",
-                                              height = "140px")  
-                                    
-                             ), # END value box column
-                             
-                           ), # END second fluidRow
-                           
-                           # third fluidRow
-                           fluidRow(
-                             
-                             # value box column
-                             column(width = 12,
-                                    
-                                    # total range edges value box
-                                    value_box(title = span("Total Range Edges",
-                                                           style = "font-family: Barlow; font-size: 22px; font-weight: bold; color: #ffffff;"),
-                                              value = span("59 species",
-                                                           style = "font-family: Barlow; font-size: 20px; font-weight: bold; color: #ffc700;"),
-                                              showcase = span(bs_icon("arrows-vertical"),
-                                                              style = "color: #ffc700;"),
-                                              p("1 with a northern and southern range edge at Point Conception", 
-                                                style = "font-family: Merriweather; font-size: 18px;  color: #ffffff;"),
-                                              style = "background-color: #05641c;",
-                                              height = "140px")
-                                    
-                             ), # END value box column
-                             
-                           ), # END third fluidRow
-                           
-                    ), # END left-hand column
-                    
-                    # right-hand column
-                    column(width = 6,
-                           
-                           # point conception image
-                           imageOutput("cal_ranges", click = "image_click") %>%
-                             withSpinner(color = "#ffc700", type = 1, size = 1),
-                           
-                           # zoom output
-                           uiOutput("zoom_ranges")
-                           
-                    ) # END right-hand column
-                    
-                  ), # END fluidRow
-                  
-              ), # END stats column
-              
-              # right buffer column
-              column(width = 1)
-              
+                     
+                     # left buffer column
+                     column(width = 1),
+                     
+                     # stats column
+                     column(width = 10,
+                            
+                            # fluidRow
+                            fluidRow(
+                              
+                              # title
+                              tags$h2("Rocky Intertidal Species with Range Edges Near Point Conception",
+                                      style = "font-family: Barlow; font-weight: bold; color: #ffffff; text-align: center; padding-bottom: 10px;"),
+                              
+                              # left-hand column
+                              column(width = 6,
+                                     
+                                     # first fluidRow
+                                     fluidRow(
+                                       
+                                       # value box column
+                                       column(width = 12,
+                                              
+                                              #  northern range edges value box
+                                              value_box(title = span("Northern Range Edges",
+                                                                     style = "font-family: Barlow; font-size: 22px; font-weight: bold; color: #ffffff;"),
+                                                        value = span("23 taxa",
+                                                                     style = "font-family: Barlow; font-size: 20px; font-weight: bold; color: #ffc700;"),
+                                                        showcase = span(bs_icon("arrow-up"),
+                                                                        style = "color: #ffc700;"),
+                                                        p("11 in Northern Point Conception", 
+                                                          style = "font-family: Merriweather; font-size: 18px; color: #ffffff;"),
+                                                        p("12 in Southern Point Conception", 
+                                                          style = "font-family: Merriweather; font-size: 18px;color: #ffffff;"),
+                                                        style = "background-color: #05641c;",
+                                                        height = "140px")
+                                              
+                                       ), # END value box column
+                                       
+                                     ), # END first fluidRow
+                                     
+                                     # second fluidRow
+                                     fluidRow(
+                                       
+                                       # value box column
+                                       column(width = 12,
+                                              
+                                              # southern range edges value box
+                                              value_box(title = span("Southern Range Edges",
+                                                                     style = "font-family: Barlow; font-size: 22px; font-weight: bold; color: #ffffff;"),
+                                                        value = span("37 taxa",
+                                                                     style = "font-family: Barlow; font-size: 20px; font-weight: bold; color: #ffc700;"),
+                                                        showcase = span(bs_icon("arrow-down"),
+                                                                        style = "color: #ffc700;"),
+                                                        p("17 in Northern Point Conception", 
+                                                          style = "font-family: Merriweather; font-size: 18px; color: #ffffff;"),
+                                                        p("20 in Southern Point Conception", 
+                                                          style = "font-family: Merriweather; font-size: 18px; color: #ffffff;"),
+                                                        style = "background-color: #05641c;",
+                                                        height = "140px")  
+                                              
+                                       ), # END value box column
+                                       
+                                     ), # END second fluidRow
+                                     
+                                     # third fluidRow
+                                     fluidRow(
+                                       
+                                       # value box column
+                                       column(width = 12,
+                                              
+                                              # total range edges value box
+                                              value_box(title = span("Total Range Edges",
+                                                                     style = "font-family: Barlow; font-size: 22px; font-weight: bold; color: #ffffff;"),
+                                                        value = span("~ 25%",
+                                                                     style = "font-family: Barlow; font-size: 20px; font-weight: bold; color: #ffc700;"),
+                                                        showcase = div(
+                                                          style = "position: relative; width: 36px; height: 36px;",
+                                                          div(style = "position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%; background-color: #ffc700;"),
+                                                          div(style = "position: absolute; top: 2px; left: 2px; width: 32px; height: 32px; border-radius: 50%;  background-color: #05641c;"),
+                                                          div(style = "position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; background-color: #ffc700; border-top-left-radius: 100%;")),
+                                                        p("of California species range’s end near Point Conception", 
+                                                          style = "font-family: Merriweather; font-size: 18px;  color: #ffffff;"),
+                                                        style = "background-color: #05641c;",
+                                                        height = "140px")
+                                              
+                                       ), # END value box column
+                                       
+                                     ), # END third fluidRow
+                                     
+                              ), # END left-hand column
+                              
+                              # right-hand column
+                              column(width = 6,
+                                     
+                                     # point conception image
+                                     div(style = "padding-top: 15px;",
+                                         imageOutput("range_edges", click = "edges_click") %>%
+                                           withSpinner(color = "#ffc700", type = 1, size = 1)),
+                                     
+                                     # zoom output
+                                     uiOutput("zoom_edges")
+                                     
+                              ) # END right-hand column
+                              
+                            ), # END fluidRow
+                            
+                     ), # END stats column
+                     
+                     # right buffer column
+                     column(width = 1)
+                     
             ) # END fifth fluidRow
             
     ), # END range edges tabItem
@@ -651,86 +655,86 @@ body <- dashboardBody(
             
             # third fluidRow
             fluidRow(style = "padding-bottom: 10px;",
-              
-              # left buffer column
-              column(width = 1),
-              
-              # species column
-              column(width = 4,
-                     style = "padding-bottom: 25px;",
                      
-                     div(style = "font-family: Merriweather; font-size: 14px; padding-bottom: 30px;",
-                         pickerInput(inputId = "species", 
-                                 label = "Choose an intertidal species/species group:",
-                                 choices = unique(target_boundaries$full_name),
-                                 selected = unique(target_boundaries$full_name)[1],
-                                 multiple = FALSE,
-                                 options = pickerOptions(dropupAuto = FALSE, size = 3),
-                                 width = "100%")),
+                     # left buffer column
+                     column(width = 1),
                      
-                     div(style = "text-align: center; padding-bottom: 10px;",
-                         uiOutput("species_image") %>%
-                       withSpinner(color = "#05641C", type = 1, size = 1))
+                     # species column
+                     column(width = 4,
+                            style = "padding-bottom: 25px;",
+                            
+                            div(style = "font-family: Merriweather; font-size: 14px; padding-bottom: 30px;",
+                                pickerInput(inputId = "species", 
+                                            label = "Choose an intertidal species/species group:",
+                                            choices = unique(target_boundaries$full_name),
+                                            selected = unique(target_boundaries$full_name)[1],
+                                            multiple = FALSE,
+                                            options = pickerOptions(dropupAuto = FALSE, size = 3),
+                                            width = "100%")),
+                            
+                            div(style = "text-align: center; padding-bottom: 10px;",
+                                uiOutput("species_image") %>%
+                                  withSpinner(color = "#05641C", type = 1, size = 1))
+                            
+                     ), # END species column
                      
-              ), # END species column
-              
-              # contemporary shift diagram column
-              column(width = 6,
-                     style = " padding-top: 85px; padding-bottom: 25px;",
-                     
-                     # contemporary shift diagram
-                     imageOutput("contemp_shift", click = "image_click") %>%
-                       withSpinner(color = "#05641C", type = 1, size = 1),
-                     
-                     # zoom output
-                     uiOutput("zoom_contemp")
-                     
+                     # contemporary shift diagram column
+                     column(width = 6,
+                            style = " padding-top: 85px; padding-bottom: 25px;",
+                            
+                            # contemporary shift diagram
+                            imageOutput("contemp_shift", click = "image_click") %>%
+                              withSpinner(color = "#05641C", type = 1, size = 1),
+                            
+                            # zoom output
+                            uiOutput("zoom_contemp")
+                            
                      ), # END contemporary shift diagram column
-              
-              # right buffer column
-              column(width = 1),
-              
+                     
+                     # right buffer column
+                     column(width = 1),
+                     
             ), # END third fluidRow
             
             # fourth fluidRow
             fluidRow(style = "padding-bottom: 20px;",
-              
-              # left buffer column
-              column(width = 1),
-              
-              # plot box
-              box(width = 5,
-                  style = "height: 625px;",
-                  
-                  # dynamic title
-                  tags$h4(textOutput("plotly_header"),
-                          style = "font-family: Barlow; font-weight: bold; color: #05641C; text-align: center;"),
-                  
-                  tags$h4(style = "font-family: Barlow; font-weight: bold; text-align: center; padding-bottom: 10px;",
-                          "Range Distribution Every 5 Years"),
-                  
-                  # plot output
-                  plotlyOutput("species_plot") %>%
-                    withSpinner(color = "#05641C", type = 1, size = 1)
-                  
-              ), # END plot box
-              
-              # plot box
-              box(width = 5,
-                  style = "height: 625px; padding-top: 40px",
-                  
-                  # image output
-                  imageOutput("coastline_distance", click = "distance_click") %>%
-                    withSpinner(color = "#05641C", type = 1, size = 1),
-                  
-                  # zoom output
-                  uiOutput("zoom_coastline")
-                  
-              ), # END plot box
-              
-              # right buffer column
-              column(width = 1)
-              
+                     
+                     # left buffer column
+                     column(width = 1),
+                     
+                     # plot box
+                     box(width = 5,
+                         style = "height: 625px;",
+                         
+                         # dynamic title
+                         tags$h4(textOutput("plotly_header"),
+                                 style = "font-family: Barlow; font-weight: bold; color: #05641C; text-align: center;"),
+                         
+                         tags$h4(style = "font-family: Barlow; font-weight: bold; text-align: center; padding-bottom: 10px;",
+                                 "Range Distribution Every 5 Years"),
+                         
+                         # plot output
+                         plotlyOutput("species_plot") %>%
+                           withSpinner(color = "#05641C", type = 1, size = 1)
+                         
+                     ), # END plot box
+                     
+                     # plot box
+                     box(width = 5,
+                         style = "height: 625px; padding-top: 40px",
+                         
+                         # image output
+                         imageOutput("coastline_distance", click = "distance_click") %>%
+                           withSpinner(color = "#05641C", type = 1, size = 1),
+                         
+                         # zoom output
+                         uiOutput("zoom_coastline")
+                         
+                     ), # END plot box
+                     
+                     # right buffer column
+                     column(width = 1)
+                     
             ), # END fourth fluidRow
             
             # fifth fluidRow
@@ -758,13 +762,15 @@ body <- dashboardBody(
                                        # value box column
                                        column(width = 12,
                                               
-                                              # range extensions value box
-                                              value_box(title = span("Range Extensions",
-                                                                     style = "font-family: Barlow; font-size: 22px; font-weight: bold; color: #ffffff;"),
-                                                        value = span("7 species",
+                                              # northern edge box
+                                              value_box(title = span("Northward Trend in NorthernEdge",
+                                                                     style = "font-family: Barlow; font-size: 20px; font-weight: bold; color: #ffffff;"),
+                                                        value = span("14",
                                                                      style = "font-family: Barlow; font-size: 20px; font-weight: bold; color: #ffc700;"),
-                                                        showcase = span(bs_icon("arrow-up"),
+                                                        showcase = span(bs_icon("box-arrow-in-up-right"),
                                                                         style = "color: #ffc700;"),
+                                                        p("Taxa moving into Point Conception", 
+                                                          style = "font-family: Merriweather; font-size: 16px;  color: #ffffff;"),
                                                         style = "background-color: #05641c;",
                                                         height = "140px")
                                               
@@ -778,13 +784,15 @@ body <- dashboardBody(
                                        # value box column
                                        column(width = 12,
                                               
-                                              # range contraction value box
-                                              value_box(title = span("Range Contractions",
-                                                                     style = "font-family: Barlow; font-size: 22px; font-weight: bold; color: #ffffff;"),
-                                                        value = span("9 species",
+                                              # southern edge box
+                                              value_box(title = span("Northward Trend in Southern Edge",
+                                                                     style = "font-family: Barlow; font-size: 20px; font-weight: bold; color: #ffffff;"),
+                                                        value = span("18",
                                                                      style = "font-family: Barlow; font-size: 20px; font-weight: bold; color: #ffc700;"),
-                                                        showcase = span(bs_icon("arrow-down"),
+                                                        showcase = span(bs_icon("box-arrow-down-left"),
                                                                         style = "color: #ffc700;"),
+                                                        p("Taxa moving out of Point Conception", 
+                                                          style = "font-family: Merriweather; font-size: 16px;  color: #ffffff;"),
                                                         style = "background-color: #05641c;",
                                                         height = "140px")  
                                               
@@ -798,13 +806,15 @@ body <- dashboardBody(
                                        # value box column
                                        column(width = 12,
                                               
-                                              # percent value box
-                                              value_box(title = span("Percent of Species ",
-                                                                     style = "font-family: Barlow; font-size: 22px; font-weight: bold; color: #ffffff;"),
-                                                        value = span("_ %",
+                                              # percent box
+                                              value_box(title = span("Northward Trend",
+                                                                     style = "font-family: Barlow; font-size: 20px; font-weight: bold; color: #ffffff;"),
+                                                        value = span("~ 54%",
                                                                      style = "font-family: Barlow; font-size: 20px; font-weight: bold; color: #ffc700;"),
-                                                        showcase = span(bs_icon("arrows-vertical"),
+                                                        showcase = span(bs_icon("circle-half"),
                                                                         style = "color: #ffc700;"),
+                                                        p("of species with range edges at Point Conception have experienced a northward range shift", 
+                                                          style = "font-family: Merriweather; font-size: 16px;  color: #ffffff;"),
                                                         style = "background-color: #05641c;",
                                                         height = "140px")
                                               
@@ -817,7 +827,13 @@ body <- dashboardBody(
                               # right-hand column
                               column(width = 6,
                                      
-                                     "Insert Image/Artwork/or More Stats"
+                                     # point conception image
+                                     div(style = "padding-top: 15px;",
+                                         imageOutput("range_edges2", click = "edges2_click") %>%
+                                           withSpinner(color = "#ffc700", type = 1, size = 1)),
+                                     
+                                     # zoom output
+                                     uiOutput("zoom_edges2")
                                      
                               ) # END right-hand column
                               
@@ -851,13 +867,13 @@ body <- dashboardBody(
                      # markdown
                      div(style = "font-size: 18px; font-family: Merriweather;", 
                          includeMarkdown("text/analyses/model-info.md"))
-                         
-                     ), # END info column
                      
-                     # right buffer column
-                     column(width = 1)
-                     
-              ), # END first fluidRow
+              ), # END info column
+              
+              # right buffer column
+              column(width = 1)
+              
+            ), # END first fluidRow
             
             # second fluidRow
             fluidRow(
@@ -897,7 +913,7 @@ body <- dashboardBody(
                      
                      div(style = "text-align: center; padding-bottom: 10px;",
                          uiOutput("species_info_box") %>%
-                       withSpinner(color = "#05641C", type = 1, size = 1))
+                           withSpinner(color = "#05641C", type = 1, size = 1))
                      
               ), # END species column
               
@@ -926,49 +942,49 @@ body <- dashboardBody(
             
             # fourth fluidRow
             fluidRow(style = "padding-bottom: 20px;",
-              
-              # left buffer column
-              column(width = 1),
-              
-              # current suitability map box
-              box(width = 5,
-                  
-                  # title
-                  tags$h4("Map of Species Habitat In 2025",
-                          style = "text-align: center; font-weight: bold; font-family: Barlow; padding-bottom: 10px;"),
-                  
-                  # refresh button
-                  actionButton(inputId = "refresh_current_suitability", 
-                               label = "Refresh Map",
-                               icon = icon("rotate")),
-                  
-                  # current suitability map
-                  leafletOutput(outputId = "current_raster_output") %>% 
-                    withSpinner(color = "#05641C", type = 1, size = 1)
-                  
-              ), # END current suitability map box
-              
-              # projected suitability map box
-              box(width = 5,
-                  
-                  # title
-                  tags$h4("Map of Forecasted Species Habitat For 2050",
-                          style = "text-align: center; font-weight: bold; font-family: Barlow; padding-bottom: 10px;"),
-                  
-                  # refresh button
-                  actionButton(inputId = "refresh_projected_suitability", 
-                               label = "Refresh Map",
-                               icon = icon("rotate")),
-                  
-                  # projected suitability map
-                  leafletOutput(outputId = "projected_raster_output") %>% 
-                    withSpinner(color = "#05641C", type = 1, size = 1)
-                  
-              ), # END projected suitability map box
-              
-              # right buffer column
-              column(width = 1)
-              
+                     
+                     # left buffer column
+                     column(width = 1),
+                     
+                     # current suitability map box
+                     box(width = 5,
+                         
+                         # title
+                         tags$h4("Map of Species Habitat In 2025",
+                                 style = "text-align: center; font-weight: bold; font-family: Barlow; padding-bottom: 10px;"),
+                         
+                         # refresh button
+                         actionButton(inputId = "refresh_current_suitability", 
+                                      label = "Refresh Map",
+                                      icon = icon("rotate")),
+                         
+                         # current suitability map
+                         leafletOutput(outputId = "current_raster_output") %>% 
+                           withSpinner(color = "#05641C", type = 1, size = 1)
+                         
+                     ), # END current suitability map box
+                     
+                     # projected suitability map box
+                     box(width = 5,
+                         
+                         # title
+                         tags$h4("Map of Forecasted Species Habitat For 2050",
+                                 style = "text-align: center; font-weight: bold; font-family: Barlow; padding-bottom: 10px;"),
+                         
+                         # refresh button
+                         actionButton(inputId = "refresh_projected_suitability", 
+                                      label = "Refresh Map",
+                                      icon = icon("rotate")),
+                         
+                         # projected suitability map
+                         leafletOutput(outputId = "projected_raster_output") %>% 
+                           withSpinner(color = "#05641C", type = 1, size = 1)
+                         
+                     ), # END projected suitability map box
+                     
+                     # right buffer column
+                     column(width = 1)
+                     
             ), # END fourth fluidRow
             
             # fifth fluidRow
@@ -996,13 +1012,15 @@ body <- dashboardBody(
                                        # value box column
                                        column(width = 12,
                                               
-                                              # range extensions value box
-                                              value_box(title = span("Range Extensions",
+                                              #  suitability increase box
+                                              value_box(title = span("Suitability Increase",
                                                                      style = "font-family: Barlow; font-size: 22px; font-weight: bold; color: #ffffff;"),
-                                                        value = span("7 species",
+                                                        value = span("22",
                                                                      style = "font-family: Barlow; font-size: 20px; font-weight: bold; color: #ffc700;"),
-                                                        showcase = span(bs_icon("arrow-up"),
+                                                        showcase = span(bs_icon("graph-up-arrow"),
                                                                         style = "color: #ffc700;"),
+                                                        p("Taxa with increased habitat suitability in our projected 2050 models", 
+                                                          style = "font-family: Merriweather; font-size: 16px; color: #ffffff;"),
                                                         style = "background-color: #05641c;",
                                                         height = "140px")
                                               
@@ -1016,13 +1034,16 @@ body <- dashboardBody(
                                        # value box column
                                        column(width = 12,
                                               
-                                              # range contraction value box
-                                              value_box(title = span("Range Contractions",
+                                              # suitability decrease box
+                                              value_box(title = span("Suitability Decrease",
                                                                      style = "font-family: Barlow; font-size: 22px; font-weight: bold; color: #ffffff;"),
-                                                        value = span("9 species",
+                                                        value = span("27",
                                                                      style = "font-family: Barlow; font-size: 20px; font-weight: bold; color: #ffc700;"),
-                                                        showcase = span(bs_icon("arrow-down"),
+                                                        
+                                                        showcase = span(bs_icon("graph-down-arrow"),
                                                                         style = "color: #ffc700;"),
+                                                        p("Taxa with decreased habitat suitability in our projected 2050 models", 
+                                                          style = "font-family: Merriweather; font-size: 16px; color: #ffffff;"),
                                                         style = "background-color: #05641c;",
                                                         height = "140px")  
                                               
@@ -1037,12 +1058,17 @@ body <- dashboardBody(
                                        column(width = 12,
                                               
                                               # percent value box
-                                              value_box(title = span("Percent of Species ",
+                                              value_box(title = span("Northward Trend",
                                                                      style = "font-family: Barlow; font-size: 22px; font-weight: bold; color: #ffffff;"),
-                                                        value = span("_ %",
+                                                        value = span("~ 83%",
                                                                      style = "font-family: Barlow; font-size: 20px; font-weight: bold; color: #ffc700;"),
-                                                        showcase = span(bs_icon("arrows-vertical"),
-                                                                        style = "color: #ffc700;"),
+                                                        showcase = div(style = "position: relative; width: 36px; height: 36px;",
+                                                                       div(style = "position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 50%; background-color: #ffc700;"),
+                                                                       div(style = "position: absolute; top: 2px; left: 2px; width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(30deg, #05641c 50%, #ffc700 50%);"),
+                                                                       div(style = "position: absolute; top: 2px; left: 2px; width: 32px; height: 16px; background-color: #ffc700; border-top-left-radius: 16px; border-top-right-radius: 16px;"),
+                                                                       div(style = "position: absolute; top: 18px; left: 2px; width: 16px; height: 16px; background-color: #ffc700; border-bottom-left-radius: 16px;")),
+                                                        p("of the species with Range Edges in Point Conception have projected suitability changes", 
+                                                          style = "font-family: Merriweather; font-size: 16px; color: #ffffff;"),
                                                         style = "background-color: #05641c;",
                                                         height = "140px")
                                               
@@ -1055,7 +1081,13 @@ body <- dashboardBody(
                               # right-hand column
                               column(width = 6,
                                      
-                                     "Insert Image/Artwork/or More Stats"
+                                     # point conception image
+                                     div(style = "padding-top: 15px;",
+                                         imageOutput("range_edges3", click = "edges3_click") %>%
+                                           withSpinner(color = "#ffc700", type = 1, size = 1)),
+                                     
+                                     # zoom output
+                                     uiOutput("zoom_edges3")
                                      
                               ) # END right-hand column
                               
@@ -1084,7 +1116,7 @@ body <- dashboardBody(
                      
                      # title
                      tags$h1("Priority Monitoring Assessment",
-                             style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px; text-align: center;"),
+                             style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px;"),
                      
                      # assessment info
                      div(style = "font-size: 18px; font-family: Merriweather;", 
@@ -1100,121 +1132,235 @@ body <- dashboardBody(
               
             ), # END first fluidRow
             
-            # second fluidRow: selector
+            # second fluidRow
             fluidRow(
+              
+              # left buffer column
               column(width = 1),
-              column(width = 10, align = "center",
-                     radioButtons("range_type", label = NULL,
-                                  choices = c("Range Contractions" = "contractions", "Range Expansions" = "expansions"),
-                                  selected = "contractions", inline = TRUE)
-              ),
+              
+              # radioButtons column
+              column(width = 10,
+                     
+                     div(style = "text-align: center; font-family: Merriweather; font-size: 16px; font-weight: bold;",
+                         radioButtons("range_type", 
+                                      label = NULL,
+                                      choices = c("Range Contractions" = "contractions", "Range Expansions" = "expansions"),
+                                      selected = "contractions", 
+                                      inline = TRUE))
+                     
+              ), # END radioButtons column
+              
+              # left buffer column
               column(width = 1)
-            ),
+              
+            ), # END second fluidRow
             
-            # third fluidRow: contractions UI
-            conditionalPanel(
-              condition = "input.range_type == 'contractions'",
-              fluidRow(
-                column(width = 1),
-                column(width = 10,
-                       tags$h2("Priority Monitoring For Range Contractions",
-                               style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px; text-align: center;")
-                ),
-                column(width = 1)
-              ),
-              fluidRow(
-                #column(width = 1),
-                column(width = 12,
-                       fluidRow(
-                         column(width = 3,
-                                checkboxGroupInput("contraction", "Contraction Monitoring Priority:",
-                                                   choices = c("High" = 3, "Medium" = 2, "Low" = 1),
-                                                   selected = c(3, 2, 1))
-                         ),
-                         column(width = 3,
-                                tags$div(
-                                  tags$label("Southern range edge in Dangermond"),
-                                  tags$input(type = "checkbox", checked = "checked", disabled = "disabled")
-                                )
-                         ),
-                         column(width = 2,
-                                tags$div(
-                                  tags$label("Northward trend", `for` = "north_trend_filter_con"),
-                                  tags$input(id = "north_trend_filter_con", type = "checkbox")
-                                )
-                         ),
-                         column(width = 3,
-                                tags$div(
-                                  tags$label("Habitat loss in Dangermond", `for` = "percent_change_filter_con"),
-                                  tags$input(id = "percent_change_filter_con", type = "checkbox")
-                                )
-                         ),
-                       )
-                ),
-                column(width = 1)
-              ),
-              fluidRow(
-                column(width = 1),
-                column(width = 10, style = "padding-bottom: 50px;",
-                       DTOutput("species_contraction_output") %>%
-                         withSpinner(color = "#05641C", type = 1, size = 1)
-                ),
-                column(width = 1)
-              )
-            ),
+            # conditionalPanel
+            conditionalPanel(condition = "input.range_type == 'contractions'",
+                             
+                             # third fluidRow
+                             fluidRow(
+                               
+                               # left buffer column
+                               column(width = 1),
+                               
+                               # title column
+                               column(width = 10,
+                                      
+                                      # title
+                                      tags$h2("Priority Monitoring For Range Contractions",
+                                              style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px; text-align: center;")
+                                      
+                               ), # END title column
+                               
+                               # right buffer column
+                               column(width = 1)
+                               
+                             ), # END third fluidRow
+                             
+                             # fourth fluidRow
+                             fluidRow(
+                               
+                               # left buffer column
+                               column(width = 1),
+                               
+                               # checkbox column
+                               column(width = 10,
+                                      
+                                      # fluidRow
+                                      fluidRow(
+                                        
+                                        # checkbox
+                                        column(width = 3,
+                                               
+                                               div(style = "font-family: Merriweather;",
+                                                   checkboxGroupInput("contraction", "Contraction Monitoring Priority:",
+                                                                      choices = c("High" = 3, "Medium" = 2, "Low" = 1),
+                                                                      selected = c(3, 2, 1)))
+                                               
+                                        ), # END checkbox
+                                        
+                                        # checkbox
+                                        column(width = 4,
+                                               
+                                               div(style = "font-family: Merriweather; text-align: center;",
+                                                   tags$div(tags$label("Southern range edge in Dangermond"),
+                                                            tags$input(type = "checkbox", checked = "checked", disabled = "disabled")))
+                                               
+                                        ), # END checkbox
+                                        
+                                        # checkbox
+                                        column(width = 2,
+                                               
+                                               div(style = "font-family: Merriweather; text-align: center;",
+                                                   tags$div(tags$label("Northward trend", `for` = "north_trend_filter_con"),
+                                                            tags$input(id = "north_trend_filter_con", type = "checkbox")))
+                                               
+                                        ), # END checkbox
+                                        
+                                        # checkbox
+                                        column(width = 3,
+                                               
+                                               div(style = "font-family: Merriweather; text-align: center;",
+                                                   tags$div(tags$label("Habitat loss in Dangermond", `for` = "percent_change_filter_con"),
+                                                            tags$input(id = "percent_change_filter_con", type = "checkbox")))
+                                               
+                                        ), # END checkbox
+                                        
+                                      ) # END fluidRow
+                                      
+                               ), # END checkbox column
+                               
+                               # right buffer column
+                               column(width = 1)
+                               
+                             ), # END fourth fluidRow
+                             
+                             # fifth fluidRow
+                             fluidRow(
+                               
+                               # left buffer column
+                               column(width = 1),
+                               
+                               # DT column
+                               column(width = 10, 
+                                      style = "padding-bottom: 50px;",
+                                      
+                                      # DT
+                                      div(style = "font-family: Merriweather;",
+                                          DTOutput("species_contraction_output") %>%
+                                            withSpinner(color = "#05641C", type = 1, size = 1))
+                                      
+                               ), # END DT column
+                               column(width = 1)
+                               
+                             ) # fifth fluidRow
+                             
+            ), # END conditionalPanel
             
-            # fourth fluidRow: expansions UI
-            conditionalPanel(
-              condition = "input.range_type == 'expansions'",
-              fluidRow(
-                column(width = 1),
-                column(width = 10,
-                       tags$h2("Priority Monitoring For Range Expansions",
-                               style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px; text-align: center;")
-                ),
-                column(width = 1)
-              ),
-              fluidRow(
-                #column(width = 0),
-                column(width = 12,
-                       fluidRow(
-                         column(width = 3,
-                                checkboxGroupInput("expansion", "Expansion Monitoring Priority:",
-                                                   choices = c("High" = 3, "Moderate" = 2, "Low" = 1),
-                                                   selected = c(3, 2, 1))
-                         ),
-                         column(width = 3,
-                                  tags$div(
-                                    tags$label("Northern range edge in Dangermond"),
-                                    tags$input(type = "checkbox", checked = "checked", disabled = "disabled")
-                                  )
-                         ),
-                         column(width = 2,
-                                tags$div(
-                                  tags$label("Northward trend", `for` = "north_trend_filter_exp"),
-                                  tags$input(id = "north_trend_filter_exp", type = "checkbox")
-                                )
-                         ),
-                         column(width = 3,
-                                tags$div(
-                                  tags$label("Habitat gain in Dangermond", `for` = "percent_change_filter_exp"),
-                                  tags$input(id = "percent_change_filter_exp", type = "checkbox")
-                                )
-                         ),
-                       )
-                ),
-                column(width = 1)
-              ),
-              fluidRow(
-                column(width = 1),
-                column(width = 10, style = "padding-bottom: 50px;",
-                       DTOutput("species_expansion_output") %>%
-                         withSpinner(color = "#05641C", type = 1, size = 1)
-                ),
-                column(width = 1)
-              )
-            )
-            
+            # conditionalPanel
+            conditionalPanel(condition = "input.range_type == 'expansions'",
+                             
+                             # sixth fluidRow
+                             fluidRow(
+                               
+                               # left buffer column
+                               column(width = 1),
+                               
+                               # title column
+                               column(width = 10,
+                                      
+                                      # title
+                                      tags$h2("Priority Monitoring For Range Expansions",
+                                              style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px; text-align: center;")
+                                      
+                               ), # END title column
+                               
+                               # right buffer column
+                               column(width = 1)
+                               
+                             ), # END sixth fluidRow
+                             
+                             # seventh fluidRow
+                             fluidRow(
+                               
+                               # left buffer column
+                               column(width = 1),
+                               
+                               # column
+                               column(width = 10,
+                                      
+                                      # fluidRow
+                                      fluidRow(
+                                        
+                                        # checkbox column
+                                        column(width = 3,
+                                               
+                                               div(style = "font-family: Merriweather;",
+                                                   checkboxGroupInput("expansion", "Expansion Monitoring Priority:",
+                                                                      choices = c("High" = 3, "Moderate" = 2, "Low" = 1),
+                                                                      selected = c(3, 2, 1)))
+                                               
+                                        ), # END checkbox column
+                                        
+                                        # checkbox column
+                                        column(width = 4,
+                                               
+                                               div(style = "font-family: Merriweather; text-align: center;",
+                                                   tags$div(tags$label("Northern range edge in Dangermond"),
+                                                            tags$input(type = "checkbox", checked = "checked", disabled = "disabled")))
+                                               
+                                        ), # END checkbox column
+                                        
+                                        # checkbox column
+                                        column(width = 2,
+                                               
+                                               div(style = "font-family: Merriweather; text-align: center;",
+                                                   tags$div(tags$label("Northward trend", `for` = "north_trend_filter_exp"),
+                                                            tags$input(id = "north_trend_filter_exp", type = "checkbox")))
+                                               
+                                        ), # END checkbox column
+                                        
+                                        # checkbox column
+                                        column(width = 3,
+                                               
+                                               div(style = "font-family: Merriweather; text-align: center;",
+                                                   tags$div(tags$label("Habitat gain in Dangermond", `for` = "percent_change_filter_exp"),
+                                                            tags$input(id = "percent_change_filter_exp", type = "checkbox")))
+                                               
+                                        ), # END checkbox column
+                                        
+                                      ) # END fluidRow
+                                      
+                               ), # END column
+                               
+                               # right buffer column
+                               column(width = 1)
+                               
+                             ), # END seventh fluidRow
+                             
+                             # eighth fluidRow
+                             fluidRow(
+                               
+                               # left buffer column
+                               column(width = 1),
+                               
+                               # DT column
+                               column(width = 10, 
+                                      style = "padding-bottom: 50px;",
+                                      
+                                      div(style = "font-family: Merriweather;",
+                                          DTOutput("species_expansion_output") %>%
+                                            withSpinner(color = "#05641C", type = 1, size = 1))
+                                      
+                               ), # END DT column
+                               
+                               # right buffer column
+                               column(width = 1)
+                               
+                             ) # END eighth fluidRow
+                             
+            ) # END conditionalPanel
             
     ), # End of assessment tabItem
     
@@ -1676,14 +1822,6 @@ body <- dashboardBody(
 ) # END dashboardBody
 
 # combine all into dashboardPage ----
-dashboardPage(
-  title = "CRISP",
-  header,
-  sidebar,
-  body
-  
-  # # Add favicon link to <head>
-  # tags$head(
-  #   tags$link(rel = "shortcut icon", href = "logos/coastal_conservation_hex.ico")
-  # )
-)
+dashboardPage(header, sidebar, body,
+              tags$head(tags$title("CRISP"),
+                        tags$link(rel = "shortcut icon", href = "logos/coastal_conservation_hex.ico")))
