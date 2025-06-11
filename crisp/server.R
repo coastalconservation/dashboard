@@ -206,7 +206,7 @@ server <- function(input, output) {
                   weight = 4, 
                   dashArray = "3")
   })
-    
+  
   # northern range edge DT ----
   north_dt <- reactive({
     
@@ -376,7 +376,7 @@ server <- function(input, output) {
   })
   
   # dangermond range edges image
-  output$cal_ranges <- renderImage({ 
+  output$range_edges <- renderImage({ 
     
     list(src = "www/diagrams/pointconception-segments.png", contentType = "image/.png", width = "100%", height = "100%") 
     
@@ -386,16 +386,15 @@ server <- function(input, output) {
   
   )
   
-  output$zoom_ranges <- renderUI({
+  output$zoom_edges <- renderUI({
     
-    req(input$image_click)
+    req(input$edges_click)
     
     showModal(modalDialog(tags$img(src = "diagrams/pointconception-segments.png", style = "width: 100%"),
                           easyClose = TRUE,
                           size = "m"))
     
   })
-  
   
   # contemporary range shift tab ----
   
@@ -449,37 +448,37 @@ server <- function(input, output) {
   output$species_plot <- renderPlotly({
     
     ggplotly(width = 450, height = 525,
-      ggplot(range_shift()) +
-        geom_segment(aes(x = year_bin, xend = year_bin, 
-                         y = south_boundary, yend = north_boundary), linewidth = 1.5, na.rm = TRUE) +
-        geom_point(aes(x = year_bin, y = north_boundary), color = "#49A842", size = 3, na.rm = TRUE) +
-        geom_point(aes(x = year_bin, y = south_boundary), color = "#01c1e3", size = 3, na.rm = TRUE) +
-        geom_hline(yintercept = 520.8593, linetype = "dashed", color = "#ff004d") +
-        geom_point(aes(x = 0, y = 520.8593, text = "Point Conception"), color = "#ff004d", alpha = 0) +
-        geom_point(aes(x = 0, y = 0, text = "CA/MX Border"), color = "transparent") +
-        geom_point(aes(x = 0, y = 200, text = "Orange County"), color = "transparent") +
-        geom_point(aes(x = 0, y = 400, text = "Ventura"), color = "transparent") +
-        geom_point(aes(x = 0, y = 600, text = "Pismo Beach"), color = "transparent") +
-        geom_point(aes(x = 0, y = 800, text = "Big Sur"), color = "transparent") +
-        geom_point(aes(x = 0, y = 1000, text = "Half Moon Bay"), color = "transparent") +
-        geom_point(aes(x = 0, y = 1200, text = "Point Reyes"), color = "transparent") +
-        geom_point(aes(x = 0, y = 1400, text = "Mendocino"), color = "transparent") +
-        geom_point(aes(x = 0, y = 1600, text = "Eureka"), color = "transparent") +
-        geom_point(aes(x = 0, y = 1800, text = "US/CA Border"), color = "transparent") +
-        scale_y_continuous(expand = c(0.02, 0), limits = c(0, 1800), breaks = seq(0, 1800, by = 200)) +
-        labs(y = "Distance Along the CA Coastline (km)") +
-        theme_bw() +
-        theme(axis.title.x = element_blank(),
-              axis.ticks = element_blank(),
-              panel.grid = element_line(color = "#eae8f5"),
-              panel.grid.major.x = element_blank(),
-              panel.grid.minor.y = element_blank(),
-              panel.border = element_blank()),
-      tooltip = "text") %>%
+             ggplot(range_shift()) +
+               geom_segment(aes(x = year_bin, xend = year_bin, 
+                                y = south_boundary, yend = north_boundary), linewidth = 1.5, na.rm = TRUE) +
+               geom_point(aes(x = year_bin, y = north_boundary), color = "#49A842", size = 3, na.rm = TRUE) +
+               geom_point(aes(x = year_bin, y = south_boundary), color = "#01c1e3", size = 3, na.rm = TRUE) +
+               geom_hline(yintercept = 520.8593, linetype = "dashed", color = "#ff004d") +
+               geom_point(aes(x = 0, y = 520.8593, text = "Point Conception"), color = "#ff004d", alpha = 0) +
+               geom_point(aes(x = 0, y = 0, text = "CA/MX Border"), color = "transparent") +
+               geom_point(aes(x = 0, y = 200, text = "Orange County"), color = "transparent") +
+               geom_point(aes(x = 0, y = 400, text = "Ventura"), color = "transparent") +
+               geom_point(aes(x = 0, y = 600, text = "Pismo Beach"), color = "transparent") +
+               geom_point(aes(x = 0, y = 800, text = "Big Sur"), color = "transparent") +
+               geom_point(aes(x = 0, y = 1000, text = "Half Moon Bay"), color = "transparent") +
+               geom_point(aes(x = 0, y = 1200, text = "Point Reyes"), color = "transparent") +
+               geom_point(aes(x = 0, y = 1400, text = "Mendocino"), color = "transparent") +
+               geom_point(aes(x = 0, y = 1600, text = "Eureka"), color = "transparent") +
+               geom_point(aes(x = 0, y = 1800, text = "US/CA Border"), color = "transparent") +
+               scale_y_continuous(expand = c(0.02, 0), limits = c(0, 1800), breaks = seq(0, 1800, by = 200)) +
+               labs(y = "Distance Along the CA Coastline (km)") +
+               theme_bw() +
+               theme(axis.title.x = element_blank(),
+                     axis.ticks = element_blank(),
+                     panel.grid = element_line(color = "#eae8f5"),
+                     panel.grid.major.x = element_blank(),
+                     panel.grid.minor.y = element_blank(),
+                     panel.border = element_blank()),
+             tooltip = "text") %>%
       config(displayModeBar = FALSE)
     
   })
- 
+  
   # coastline distance image
   output$coastline_distance <- renderImage({ 
     
@@ -501,6 +500,27 @@ server <- function(input, output) {
     
   })
   
+  # dangermond range edges image
+  output$range_edges2 <- renderImage({ 
+    
+    list(src = "www/diagrams/pointconception-segments.png", contentType = "image/.png", width = "100%", height = "100%") 
+    
+  }, 
+  
+  deleteFile = FALSE 
+  
+  )
+  
+  output$zoom_edges2 <- renderUI({
+    
+    req(input$edges2_click)
+    
+    showModal(modalDialog(tags$img(src = "diagrams/pointconception-segments.png", style = "width: 100%"),
+                          easyClose = TRUE,
+                          size = "m"))
+    
+  })
+  
   # projected shifts tab ----
   
   # filter raster df
@@ -513,9 +533,9 @@ server <- function(input, output) {
   
   # species images
   output$species_info_box <- renderUI({
-      
-      tags$img(src = habitat_suitability()$image_url[1], alt = input$change_selected_species,
-               style = "width: 375px; height: 375px; border-radius: 8px;")
+    
+    tags$img(src = habitat_suitability()$image_url[1], alt = input$change_selected_species,
+             style = "width: 375px; height: 375px; border-radius: 8px;")
     
   })
   
@@ -644,9 +664,29 @@ server <- function(input, output) {
     
   })
   
+  # dangermond range edges image
+  output$range_edges3 <- renderImage({ 
+    
+    list(src = "www/diagrams/pointconception-segments.png", contentType = "image/.png", width = "100%", height = "100%") 
+    
+  }, 
+  
+  deleteFile = FALSE 
+  
+  )
+  
+  output$zoom_edges3 <- renderUI({
+    
+    req(input$edges3_click)
+    
+    showModal(modalDialog(tags$img(src = "diagrams/pointconception-segments.png", style = "width: 100%"),
+                          easyClose = TRUE,
+                          size = "m"))
+    
+  })
+  
   # priority monitoring assessment tab ----
   
-  # contraction table output
   # contraction table output
   output$species_contraction_output <- renderDT({
     
@@ -700,7 +740,7 @@ server <- function(input, output) {
           ),
           list(className = "dt-center", targets = "_all")
         )
-      )
+      ), selection = "none"
     )
   })
   
@@ -757,7 +797,8 @@ server <- function(input, output) {
           ),
           list(className = "dt-center", targets = "_all")
         )
-      )
+      ), selection = "none"
     )
   })
+  
 }  

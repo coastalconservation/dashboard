@@ -59,13 +59,14 @@ raster_df <- list.files("data/species_model_rasters/change_species_rasters",
          index = seq_along(raster_name)) %>%
   inner_join(species_filtered, by = "index")
 
-# Read priority and suitability results
-
+# priority and suitability results
 priority_scores <- read_rds("data/analyses_results/priority_species_scores.rds")%>% 
   select(-common_name)
 
+# suitability changes
 suitability_changes <- read_csv("data/analyses_results/species_suitability_change.csv") 
 
+# join
 priority_species_joined <- priority_scores %>%
   left_join(suitability_changes, by = c("species_lump" = "species_name")) %>%
   left_join(species_names, by = "species_lump")
