@@ -1100,199 +1100,121 @@ body <- dashboardBody(
               
             ), # END first fluidRow
             
-            # second fluidRow
+            # second fluidRow: selector
             fluidRow(
-              
-              # left buffer column
               column(width = 1),
-              
-              # title column
-              column(width = 10,
-                     
-                     # title
-                     tags$h2("Priority Monitoring For Range Contractions",
-                             style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px; text-align: center;")
-                     
-              ), # END title column
-              
-              # right buffer column
+              column(width = 10, align = "center",
+                     radioButtons("range_type", label = NULL,
+                                  choices = c("Range Contractions" = "contractions", "Range Expansions" = "expansions"),
+                                  selected = "contractions", inline = TRUE)
+              ),
               column(width = 1)
-              
-            ), # END second fluidRow
+            ),
             
-            # third fluidRow
-            fluidRow(
-              
-              # left buffer column
-              column(width = 1),
-              
-              # column
-              column(width = 10,
-                     
-                     # fluidRow
-                     fluidRow(
-                       
-                       # column
-                       column(width = 2,
-                              
-                              # checkbox widget
-                              checkboxGroupInput("contraction",
-                                                 "Contraction Monitoring Priority:",
-                                                 choices = c("High" = 3, "Medium" = 2, "Low" = 1),
-                                                 selected = c(3, 2, 1))
-                              
-                       ), # END column
-                       
-                       # column
-                       column(width = 2,
-                              
-                              # checkbox widget
-                              checkboxInput("north_trend_filter", "Northward trend", value = FALSE)
-                              
-                       ), # END column
-                       
-                       # column
-                       column(width = 3,
-                              
-                              # checkbox widget
-                              checkboxInput("percent_change_filter", "Habitat loss in Dangermond", value = FALSE)
-                              
-                       ), # END column
-                       
-                       # column
-                       column(width = 3,
-                              
-                              # checkbox widget
-                              checkboxInput("range_edge_filter", "Southern range edge in Dangermond", value = TRUE)
-                              
-                       ) # END column
-                       
-                     ) # END fluidRow
-                     
-              ), # END column
-              
-              # right buffer column
-              column(width = 1)
-              
-            ), # END third fluidRow
+            # third fluidRow: contractions UI
+            conditionalPanel(
+              condition = "input.range_type == 'contractions'",
+              fluidRow(
+                column(width = 1),
+                column(width = 10,
+                       tags$h2("Priority Monitoring For Range Contractions",
+                               style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px; text-align: center;")
+                ),
+                column(width = 1)
+              ),
+              fluidRow(
+                #column(width = 1),
+                column(width = 12,
+                       fluidRow(
+                         column(width = 3,
+                                checkboxGroupInput("contraction", "Contraction Monitoring Priority:",
+                                                   choices = c("High" = 3, "Medium" = 2, "Low" = 1),
+                                                   selected = c(3, 2, 1))
+                         ),
+                         column(width = 3,
+                                tags$div(
+                                  tags$label("Southern range edge in Dangermond"),
+                                  tags$input(type = "checkbox", checked = "checked", disabled = "disabled")
+                                )
+                         ),
+                         column(width = 2,
+                                tags$div(
+                                  tags$label("Northward trend", `for` = "north_trend_filter_con"),
+                                  tags$input(id = "north_trend_filter_con", type = "checkbox")
+                                )
+                         ),
+                         column(width = 3,
+                                tags$div(
+                                  tags$label("Habitat loss in Dangermond", `for` = "percent_change_filter_con"),
+                                  tags$input(id = "percent_change_filter_con", type = "checkbox")
+                                )
+                         ),
+                       )
+                ),
+                column(width = 1)
+              ),
+              fluidRow(
+                column(width = 1),
+                column(width = 10, style = "padding-bottom: 50px;",
+                       DTOutput("species_contraction_output") %>%
+                         withSpinner(color = "#05641C", type = 1, size = 1)
+                ),
+                column(width = 1)
+              )
+            ),
             
-            # fourth fluidRow
-            fluidRow(
-              
-              # left buffer column
-              column(width = 1),
-              
-              # DT column
-              column(width = 10,
-                     style = "padding-bottom: 50px;",
-                     
-                     # DT
-                     DTOutput("species_contraction_output") %>%
-                       withSpinner(color = "#05641C", type = 1, size = 1)
-                     
-              ), # END DT column
-              
-              # right buffer column
-              column(width = 1)
-              
-            ), # END fourth fluidRow
+            # fourth fluidRow: expansions UI
+            conditionalPanel(
+              condition = "input.range_type == 'expansions'",
+              fluidRow(
+                column(width = 1),
+                column(width = 10,
+                       tags$h2("Priority Monitoring For Range Expansions",
+                               style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px; text-align: center;")
+                ),
+                column(width = 1)
+              ),
+              fluidRow(
+                #column(width = 0),
+                column(width = 12,
+                       fluidRow(
+                         column(width = 3,
+                                checkboxGroupInput("expansion", "Expansion Monitoring Priority:",
+                                                   choices = c("High" = 3, "Moderate" = 2, "Low" = 1),
+                                                   selected = c(3, 2, 1))
+                         ),
+                         column(width = 3,
+                                  tags$div(
+                                    tags$label("Northern range edge in Dangermond"),
+                                    tags$input(type = "checkbox", checked = "checked", disabled = "disabled")
+                                  )
+                         ),
+                         column(width = 2,
+                                tags$div(
+                                  tags$label("Northward trend", `for` = "north_trend_filter_exp"),
+                                  tags$input(id = "north_trend_filter_exp", type = "checkbox")
+                                )
+                         ),
+                         column(width = 3,
+                                tags$div(
+                                  tags$label("Habitat gain in Dangermond", `for` = "percent_change_filter_exp"),
+                                  tags$input(id = "percent_change_filter_exp", type = "checkbox")
+                                )
+                         ),
+                       )
+                ),
+                column(width = 1)
+              ),
+              fluidRow(
+                column(width = 1),
+                column(width = 10, style = "padding-bottom: 50px;",
+                       DTOutput("species_expansion_output") %>%
+                         withSpinner(color = "#05641C", type = 1, size = 1)
+                ),
+                column(width = 1)
+              )
+            )
             
-            # fifth fluidRow
-            fluidRow(
-              
-              # left buffer column
-              column(width = 1),
-              
-              # title column
-              column(width = 10,
-                     
-                     # title
-                     tags$h2("Priority Monitoring For Range Expansions",
-                             style = "font-family: Barlow; font-weight: bold; color: #05641c; padding-bottom: 10px; text-align: center;")
-                     
-              ), # END title column
-              
-              # right buffer column
-              column(width = 1)
-              
-            ), # END fifth fluidRow
-            
-            # sixth fluidRow
-            fluidRow(
-              
-              # left buffer column 
-              column(width = 1),
-              
-              # column
-              column(width = 10,
-                     
-                     # fluidRow
-                     fluidRow(
-                       
-                       # column
-                       column(width = 2,
-                              
-                              # checkbox widget
-                              checkboxGroupInput("expansion",
-                                                 "Expansion Monitoring Priority:",
-                                                 choices = c("High" = 3, "Moderate" = 2, "Low" = 1),
-                                                 selected = c(3, 2, 1))
-                              
-                       ), # END column
-                       
-                       # column
-                       column(width = 2,
-                              
-                              # checkbox widget
-                              checkboxInput("north_trend_filter", "Northward trend", value = FALSE)
-                              
-                       ), # END column
-                       
-                       # column
-                       column(width = 3,
-                              
-                              # checkbox widget
-                              checkboxInput("percent_change_filter", "Habitat gain in Dangermond", value = FALSE)
-                              
-                       ), # END column
-                       
-                       # column
-                       column(width = 3,
-                              
-                              # checkbox widget
-                              checkboxInput("range_edge_filter", "Northern range edge in Dangermond", value = TRUE)
-                              
-                       ) # END column
-                       
-                     ) # END fluidRow
-                     
-              ), # END column
-              
-              # right buffer column
-              column(width = 1)
-              
-            ), # END sixth fluidRow
-            
-            # seventh fluidRow
-            fluidRow(
-              
-              # left buffer column
-              column(width = 1),
-              
-              # DT column
-              column(width = 10,
-                     style = "padding-bottom: 50px;",
-                     
-                     # DT
-                     DTOutput("species_expansion_output") %>%
-                       withSpinner(color = "#05641C", type = 1, size = 1)
-                     
-              ), # END DT column
-              
-              # right buffer column
-              column(width = 1)
-              
-            ) # END seventh fluidRow
             
     ), # End of assessment tabItem
     
@@ -1754,4 +1676,14 @@ body <- dashboardBody(
 ) # END dashboardBody
 
 # combine all into dashboardPage ----
-dashboardPage(title = "CRISP", header, sidebar, body)
+dashboardPage(
+  title = "CRISP",
+  header,
+  sidebar,
+  body
+  
+  # # Add favicon link to <head>
+  # tags$head(
+  #   tags$link(rel = "shortcut icon", href = "logos/coastal_conservation_hex.ico")
+  # )
+)

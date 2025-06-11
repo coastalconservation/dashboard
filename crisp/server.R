@@ -647,6 +647,7 @@ server <- function(input, output) {
   # priority monitoring assessment tab ----
   
   # contraction table output
+  # contraction table output
   output$species_contraction_output <- renderDT({
     
     req(priority_species_joined)
@@ -654,9 +655,9 @@ server <- function(input, output) {
     contraction <- priority_species_joined %>%
       filter(eco_process == "contraction") %>% 
       filter(
-        if (input$range_edge_filter) southern_range_edge == 1 else TRUE,
-        if (input$north_trend_filter) northward_trend == 1 else TRUE,
-        if (input$percent_change_filter) suitability_decrease == 1 else TRUE,
+        #if (input$range_edge_filter_con) southern_range_edge == 1 else TRUE,
+        if (input$north_trend_filter_con) northward_trend == 1 else TRUE,
+        if (input$percent_change_filter_con) suitability_decrease == 1 else TRUE,
         species_contraction_score %in% input$contraction  
       ) %>%
       mutate(
@@ -665,19 +666,15 @@ server <- function(input, output) {
           '<img src="', image_url, '" height="80" width="80" ',
           'style="object-fit: cover; display: block; margin: auto;" />',
           '</div>'
-        )
-      ) %>%
-      
-      mutate(
+        ),
         percent_change_dangermond = paste0(round(percent_change_dangermond, 2), "%")
       ) %>%
-      
       dplyr::select(
         "Common Name" = common_name,
         "Scientific Name" = species_lump,
+        "Southern Range Edge in Dangermond" = southern_range_edge,
         "Moving North" = northward_trend,
         "Habitat Loss In Dangermond" = suitability_decrease,
-        "Southern Range Edge in Dangermond" = southern_range_edge,
         "Priority" = priority,
         "Image" = image_html
       ) %>%
@@ -687,22 +684,24 @@ server <- function(input, output) {
       data = contraction,
       escape = FALSE,
       rownames = FALSE,
-      options = list(dom = 'tp', 
-                     pageLength = 10,
-                     scrollY = 350, 
-                     paging = FALSE,
-                     columnDefs = list(
-                       list(
-                         targets = c(2, 3, 4),  # the columns where 1 should be replaced
-                         render = JS(
-                           "function(data, type, row, meta) {",
-                           "return data == 1 ? '✔' : '';",
-                           "}"
-                         )
-                       ),
-                       list(className = "dt-center", targets = "_all")
-                     )
-      ))
+      options = list(
+        dom = 'tp', 
+        pageLength = 10,
+        scrollY = 350, 
+        paging = FALSE,
+        columnDefs = list(
+          list(
+            targets = c(2, 3, 4),
+            render = JS(
+              "function(data, type, row, meta) {",
+              "return data == 1 ? '✔' : '';",
+              "}"
+            )
+          ),
+          list(className = "dt-center", targets = "_all")
+        )
+      )
+    )
   })
   
   
@@ -711,12 +710,12 @@ server <- function(input, output) {
     
     req(priority_species_joined)
     
-      expansion <- priority_species_joined %>%
+    expansion <- priority_species_joined %>%
       filter(eco_process == "expansion") %>% 
       filter(
-        if (input$range_edge_filter) northern_range_edge == 1 else TRUE,
-        if (input$north_trend_filter) northward_trend == 1 else TRUE,
-        if (input$percent_change_filter) suitability_increase == 1 else TRUE,
+        #if (input$range_edge_filter_exp) northern_range_edge == 1 else TRUE,
+        if (input$north_trend_filter_exp) northward_trend == 1 else TRUE,
+        if (input$percent_change_filter_exp) suitability_increase == 1 else TRUE,
         species_expansion_score %in% input$expansion
       ) %>%
       mutate(
@@ -730,9 +729,9 @@ server <- function(input, output) {
       dplyr::select(
         "Common Name" = common_name,
         "Scientific Name" = species_lump,
+        "Northern Range Edge In Dangermond" = northern_range_edge,
         "Moving North" = northward_trend,
         "Habitat Gain In Dangermond" = suitability_increase,
-        "Northern Range Edge In Dangermond" = northern_range_edge,
         "Priority" = priority,
         "Image" = image_html
       ) %>%
@@ -742,23 +741,23 @@ server <- function(input, output) {
       data = expansion,
       escape = FALSE,
       rownames = FALSE,
-      options = list(dom = 'tp', 
-                     pageLength = 10,
-                     scrollY = 350, 
-                     paging = FALSE,
-                     columnDefs = list(
-                       list(
-                         targets = c(2, 3, 4),  # the columns where 1 should be replaced
-                         render = JS(
-                           "function(data, type, row, meta) {",
-                           "return data == 1 ? '✔' : '';",
-                           "}"
-                         )
-                       ),
-                       list(className = "dt-center", targets = "_all")
-                     )
-    )
+      options = list(
+        dom = 'tp', 
+        pageLength = 10,
+        scrollY = 350, 
+        paging = FALSE,
+        columnDefs = list(
+          list(
+            targets = c(2, 3, 4),
+            render = JS(
+              "function(data, type, row, meta) {",
+              "return data == 1 ? '✔' : '';",
+              "}"
+            )
+          ),
+          list(className = "dt-center", targets = "_all")
+        )
+      )
     )
   })
-  
-}
+}  
