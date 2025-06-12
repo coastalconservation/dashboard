@@ -1,4 +1,4 @@
-The projected shifts analysis maps the distribution of rocky intertidal species at Northern Point Conception and Southern Point Conception, focusing on their current habitat suitability, projected habitat suitability for 2050, and changes in habitat suitability under varying environmental conditions. 
+The projected shifts analysis maps the distribution of rocky intertidal species with range edges at Northern Point Conception and Southern Point Conception, focusing on their current habitat suitability, projected habitat suitability for 2050, and changes in habitat suitability under varying environmental conditions. 
 
 - Ocean temperature (°Celcius)
 - Mixed layer depth (Meters)
